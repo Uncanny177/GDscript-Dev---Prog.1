@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://c3test001"]
+
+[ext_resource type="PackedScene" uid="uid://c3player001" path="res://scenes/player/player.tscn" id="1_player"]
+[ext_resource type="Script" path="res://scenes/test_room_generator.gd" id="2_room"]
+
+[node name="TestMovement" type="Node2D"]
+
+[node name="Room" type="Node2D" parent="."]
+script = ExtResource("2_room")
+room_width = 15
+room_height = 11
+tile_size = 32
+
+[node name="Player" parent="." instance=ExtResource("1_player")]
+position = Vector2(160, 160)
