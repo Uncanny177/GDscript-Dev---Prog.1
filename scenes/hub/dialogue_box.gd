@@ -20,11 +20,11 @@ extends CanvasLayer
 ## Other scripts connect to this to know when dialogue is done.
 signal dialogue_finished
 
-## UI node references — found via @onready when the scene loads
-@onready var panel: PanelContainer = $PanelContainer
-@onready var name_label: Label = $PanelContainer/MarginContainer/VBoxContainer/NameLabel
-@onready var text_label: Label = $PanelContainer/MarginContainer/VBoxContainer/TextLabel
-@onready var continue_label: Label = $PanelContainer/MarginContainer/VBoxContainer/ContinueLabel
+## UI node references — set in _build_ui() since we construct programmatically
+var panel: PanelContainer = null
+var name_label: Label = null
+var text_label: Label = null
+var continue_label: Label = null
 
 ## The lines of dialogue to display
 var lines: Array = []
@@ -37,11 +37,9 @@ var is_active: bool = false
 
 
 func _ready() -> void:
-	## Hide the dialogue box on startup. It only appears when triggered.
-	panel.hide()
-	
-	# Build the UI programmatically since we can't use the editor yet
+	## Build the UI first, then hide it. It only appears when triggered.
 	_build_ui()
+	panel.hide()
 
 
 func _build_ui() -> void:
@@ -56,10 +54,6 @@ func _build_ui() -> void:
 	##                       ├── NameLabel ("Shopkeeper")
 	##                       ├── TextLabel ("Welcome to my shop!")
 	##                       └── ContinueLabel ("[SPACE to continue]")
-	
-	# If nodes already exist from the scene file, skip building
-	if panel:
-		return
 	
 	# Create panel
 	panel = PanelContainer.new()
@@ -110,8 +104,6 @@ func _build_ui() -> void:
 	continue_label.add_theme_color_override("font_color", Color(0.6, 0.6, 0.6))
 	continue_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	vbox.add_child(continue_label)
-	
-	panel.hide()
 
 
 func start_dialogue(npc_name: String, dialogue_lines: Array) -> void:
