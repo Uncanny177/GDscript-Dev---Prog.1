@@ -38,7 +38,11 @@ var enemy_combatants: Array[Combatant] = []
 ## State for player input
 var awaiting_player_input: bool = false
 var target_select_mode: bool = false
+var skill_select_mode: bool = false
+var ally_target_mode: bool = false
 var selected_target_index: int = 0
+var selected_skill_index: int = 0
+var pending_skill: SkillData = null  # Skill chosen, waiting for target
 
 ## Combat log (last N messages shown on screen)
 var combat_log: Array[String] = []
@@ -142,7 +146,7 @@ func _show_player_menu(combatant: Combatant) -> void:
 		battle_renderer.refresh()
 	
 	if info_label:
-		info_label.text = "%s's turn!\n\n[1] Attack\n[2] Defend\n[3] Flee" % combatant.display_name
+		info_label.text = "%s's turn!  (MP: %d/%d)\n\n[1] Attack\n[2] Skill\n[3] Defend\n[4] Flee" % [combatant.display_name, combatant.current_mp, combatant.get_max_mp()]
 
 
 func _show_target_select() -> void:
@@ -185,25 +189,33 @@ func _unhandled_input(event: InputEvent) -> void:
 	
 	if target_select_mode:
 		_handle_target_input(event)
+	elif skill_select_mode:
+		_handle_skill_input(event)
+	elif ally_target_mode:
+		_handle_ally_target_input(event)
 	else:
 		_handle_menu_input(event)
 
 
 func _handle_menu_input(event: InputEventKey) -> void:
-	## Handle action menu input (1=Attack, 2=Defend, 3=Flee).
+	## Handle action menu input (1=Attack, 2=Skill, 3=Defend, 4=Flee).
 	
 	match event.keycode:
 		KEY_1:
 			# Attack — go to target selection
+			pending_skill = null
 			_show_target_select()
 		KEY_2:
+			# Skill — show skill submenu
+			_show_skill_menu()
+		KEY_3:
 			# Defend
 			awaiting_player_input = false
 			turn_manager.execute_defend(turn_manager.current_combatant)
 			_add_log("%s defends!" % turn_manager.current_combatant.display_name)
 			_update_ui()
 			_continue_after_action()
-		KEY_3:
+		KEY_4:
 			# Flee
 			awaiting_player_input = false
 			_add_log("Fled from battle!")
@@ -231,16 +243,20 @@ func _handle_target_input(event: InputEventKey) -> void:
 				selected_target_index = 0
 			_show_target_select()
 		KEY_ENTER, KEY_SPACE:
-			# Confirm attack on selected target
+			# Confirm attack/skill on selected target
 			target_select_mode = false
 			awaiting_player_input = false
 			var target: Combatant = enemies[selected_target_index]
-			turn_manager.execute_attack(turn_manager.current_combatant, target)
+			if pending_skill:
+				_execute_skill_on_target(target)
+			else:
+				turn_manager.execute_attack(turn_manager.current_combatant, target)
 			_update_ui()
 			_continue_after_action()
 		KEY_ESCAPE:
 			# Go back to action menu
 			target_select_mode = false
+			pending_skill = null
 			_show_player_menu(turn_manager.current_combatant)
 		_:
 			# Number keys for direct target selection
@@ -248,10 +264,286 @@ func _handle_target_input(event: InputEventKey) -> void:
 			if num >= 0 and num < enemies.size():
 				target_select_mode = false
 				awaiting_player_input = false
-				var target: Combatant = enemies[num]
-				turn_manager.execute_attack(turn_manager.current_combatant, target)
+				var target2: Combatant = enemies[num]
+				if pending_skill:
+					_execute_skill_on_target(target2)
+				else:
+					turn_manager.execute_attack(turn_manager.current_combatant, target2)
 				_update_ui()
 				_continue_after_action()
+
+
+func _show_skill_menu() -> void:
+	## Display the skill submenu listing all available skills.
+	var combatant: Combatant = turn_manager.current_combatant
+	var skills: Array = _get_combatant_skills(combatant)
+	
+	if skills.is_empty():
+		if info_label:
+			info_label.text = "No skills available!\n\n[ESC] Back"
+		skill_select_mode = true
+		return
+	
+	skill_select_mode = true
+	selected_skill_index = 0
+	
+	var text: String = "SKILLS (MP: %d/%d):\n\n" % [combatant.current_mp, combatant.get_max_mp()]
+	for i in range(skills.size()):
+		var skill: SkillData = skills[i]
+		var can_use: String = "" if skill.can_afford(combatant.current_mp) else " (no MP)"
+		text += "[%d] %s  MP:%d%s\n" % [i + 1, skill.skill_name, skill.mp_cost, can_use]
+	text += "\n[ESC] Back"
+	
+	if info_label:
+		info_label.text = text
+
+
+func _handle_skill_input(event: InputEventKey) -> void:
+	## Handle input in the skill submenu.
+	var combatant: Combatant = turn_manager.current_combatant
+	var skills: Array = _get_combatant_skills(combatant)
+	
+	if event.keycode == KEY_ESCAPE:
+		skill_select_mode = false
+		_show_player_menu(combatant)
+		return
+	
+	# Number key selects a skill
+	var num: int = event.keycode - KEY_1
+	if num >= 0 and num < skills.size():
+		var skill: SkillData = skills[num]
+		
+		# Check MP
+		if not skill.can_afford(combatant.current_mp):
+			_add_log("Not enough MP!")
+			return
+		
+		pending_skill = skill
+		skill_select_mode = false
+		
+		# Determine what targeting to show based on skill target type
+		match skill.target_type:
+			SkillData.TargetType.SINGLE_ENEMY:
+				_show_target_select()
+			SkillData.TargetType.ALL_ENEMIES:
+				# No target selection needed — hits all
+				_execute_skill_aoe_enemies()
+			SkillData.TargetType.SINGLE_ALLY:
+				_show_ally_target_select()
+			SkillData.TargetType.ALL_ALLIES:
+				_execute_skill_aoe_allies()
+			SkillData.TargetType.SELF:
+				_execute_skill_on_self()
+
+
+func _show_ally_target_select() -> void:
+	## Show target selection for ally-targeting skills (heals, buffs).
+	var allies: Array[Combatant] = turn_manager.get_alive_players()
+	if allies.is_empty():
+		return
+	
+	ally_target_mode = true
+	selected_target_index = 0
+	
+	var text: String = "Select ally (%s):\n\n" % pending_skill.skill_name
+	for i in range(allies.size()):
+		var marker: String = "> " if i == selected_target_index else "  "
+		text += "%s[%d] %s (HP: %d/%d)\n" % [marker, i + 1, allies[i].display_name, allies[i].current_hp, allies[i].get_max_hp()]
+	text += "\n[ENTER] Confirm  [ESC] Back"
+	
+	if info_label:
+		info_label.text = text
+
+
+func _handle_ally_target_input(event: InputEventKey) -> void:
+	## Handle input when selecting an ally target for heal/buff skills.
+	var allies: Array[Combatant] = turn_manager.get_alive_players()
+	if allies.is_empty():
+		ally_target_mode = false
+		_show_player_menu(turn_manager.current_combatant)
+		return
+	
+	match event.keycode:
+		KEY_UP, KEY_W:
+			selected_target_index -= 1
+			if selected_target_index < 0:
+				selected_target_index = allies.size() - 1
+			_show_ally_target_select()
+		KEY_DOWN, KEY_S:
+			selected_target_index += 1
+			if selected_target_index >= allies.size():
+				selected_target_index = 0
+			_show_ally_target_select()
+		KEY_ENTER, KEY_SPACE:
+			ally_target_mode = false
+			awaiting_player_input = false
+			var target: Combatant = allies[selected_target_index]
+			_execute_skill_on_ally(target)
+			_update_ui()
+			_continue_after_action()
+		KEY_ESCAPE:
+			ally_target_mode = false
+			pending_skill = null
+			_show_player_menu(turn_manager.current_combatant)
+		_:
+			var num: int = event.keycode - KEY_1
+			if num >= 0 and num < allies.size():
+				ally_target_mode = false
+				awaiting_player_input = false
+				var target: Combatant = allies[num]
+				_execute_skill_on_ally(target)
+				_update_ui()
+				_continue_after_action()
+
+
+func _execute_skill_on_target(target: Combatant) -> void:
+	## Execute the pending skill on a single enemy target.
+	var caster: Combatant = turn_manager.current_combatant
+	if not pending_skill:
+		return
+	
+	# Spend MP
+	caster.current_mp -= pending_skill.mp_cost
+	if caster.is_player and caster.character_data:
+		caster.character_data.current_mp = caster.current_mp
+	
+	# Calculate and apply damage
+	var damage: int = DamageCalculator.calculate_skill_damage(caster, target, pending_skill)
+	var actual: int = target.take_damage(damage)
+	
+	_add_log("%s uses %s → %s: %d dmg" % [caster.display_name, pending_skill.skill_name, target.display_name, actual])
+	
+	if battle_renderer:
+		var idx: int = enemy_combatants.find(target)
+		battle_renderer.show_damage_on_enemy(idx, actual)
+	
+	if not target.is_alive:
+		turn_manager.combatant_died.emit(target)
+	
+	turn_manager._check_battle_end()
+	if turn_manager.is_battle_active:
+		turn_manager._advance_index()
+	
+	pending_skill = null
+
+
+func _execute_skill_aoe_enemies() -> void:
+	## Execute the pending skill on ALL alive enemies.
+	var caster: Combatant = turn_manager.current_combatant
+	if not pending_skill:
+		return
+	
+	awaiting_player_input = false
+	
+	# Spend MP
+	caster.current_mp -= pending_skill.mp_cost
+	if caster.is_player and caster.character_data:
+		caster.character_data.current_mp = caster.current_mp
+	
+	var enemies: Array[Combatant] = turn_manager.get_alive_enemies()
+	_add_log("%s uses %s on all enemies!" % [caster.display_name, pending_skill.skill_name])
+	
+	for enemy in enemies:
+		var damage: int = DamageCalculator.calculate_skill_damage(caster, enemy, pending_skill)
+		var actual: int = enemy.take_damage(damage)
+		
+		if battle_renderer:
+			var idx: int = enemy_combatants.find(enemy)
+			battle_renderer.show_damage_on_enemy(idx, actual)
+		
+		if not enemy.is_alive:
+			turn_manager.combatant_died.emit(enemy)
+	
+	turn_manager._check_battle_end()
+	if turn_manager.is_battle_active:
+		turn_manager._advance_index()
+	
+	pending_skill = null
+	_update_ui()
+	_continue_after_action()
+
+
+func _execute_skill_on_ally(target: Combatant) -> void:
+	## Execute a healing/buff skill on an ally.
+	var caster: Combatant = turn_manager.current_combatant
+	if not pending_skill:
+		return
+	
+	# Spend MP
+	caster.current_mp -= pending_skill.mp_cost
+	if caster.is_player and caster.character_data:
+		caster.character_data.current_mp = caster.current_mp
+	
+	# Calculate heal amount
+	var heal_amount: int = DamageCalculator.calculate_healing(caster, pending_skill.power_multiplier)
+	
+	# Apply heal (cap at max HP)
+	var old_hp: int = target.current_hp
+	target.current_hp = mini(target.current_hp + heal_amount, target.get_max_hp())
+	var actual_heal: int = target.current_hp - old_hp
+	
+	# Sync to character data
+	if target.is_player and target.character_data:
+		target.character_data.current_hp = target.current_hp
+	
+	_add_log("%s uses %s → %s: +%d HP" % [caster.display_name, pending_skill.skill_name, target.display_name, actual_heal])
+	
+	if battle_renderer:
+		var idx: int = player_combatants.find(target)
+		battle_renderer.show_heal_on_player(idx, actual_heal)
+	
+	turn_manager._advance_index()
+	pending_skill = null
+
+
+func _execute_skill_aoe_allies() -> void:
+	## Execute a healing/buff skill on ALL alive allies.
+	var caster: Combatant = turn_manager.current_combatant
+	if not pending_skill:
+		return
+	
+	awaiting_player_input = false
+	
+	# Spend MP
+	caster.current_mp -= pending_skill.mp_cost
+	if caster.is_player and caster.character_data:
+		caster.character_data.current_mp = caster.current_mp
+	
+	var allies: Array[Combatant] = turn_manager.get_alive_players()
+	_add_log("%s uses %s on all allies!" % [caster.display_name, pending_skill.skill_name])
+	
+	for ally in allies:
+		var heal_amount: int = DamageCalculator.calculate_healing(caster, pending_skill.power_multiplier)
+		var old_hp: int = ally.current_hp
+		ally.current_hp = mini(ally.current_hp + heal_amount, ally.get_max_hp())
+		var actual_heal: int = ally.current_hp - old_hp
+		
+		if ally.is_player and ally.character_data:
+			ally.character_data.current_hp = ally.current_hp
+		
+		if battle_renderer:
+			var idx: int = player_combatants.find(ally)
+			battle_renderer.show_heal_on_player(idx, actual_heal)
+	
+	turn_manager._advance_index()
+	pending_skill = null
+	_update_ui()
+	_continue_after_action()
+
+
+func _execute_skill_on_self() -> void:
+	## Execute a self-targeting skill.
+	var caster: Combatant = turn_manager.current_combatant
+	_execute_skill_on_ally(caster)
+	_update_ui()
+	_continue_after_action()
+
+
+func _get_combatant_skills(combatant: Combatant) -> Array:
+	## Get the skill list for a combatant from their class data.
+	if combatant.is_player and combatant.character_data and combatant.character_data.character_class:
+		return combatant.character_data.character_class.skills
+	return []
 
 
 func _continue_after_action() -> void:
