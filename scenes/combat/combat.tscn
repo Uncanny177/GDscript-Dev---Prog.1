@@ -8,17 +8,20 @@ script = ExtResource("1")
 [node name="Background" type="ColorRect" parent="."]
 offset_right = 640.0
 offset_bottom = 480.0
-color = Color(0.15, 0.05, 0.05, 1.0)
+color = Color(0.08, 0.06, 0.1, 1.0)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="InfoLabel" type="Label" parent="CanvasLayer"]
-offset_left = 180.0
-offset_top = 180.0
-offset_right = 460.0
-offset_bottom = 300.0
-text = "COMBAT!
+offset_left = 20.0
+offset_top = 300.0
+offset_right = 300.0
+offset_bottom = 470.0
+text = "Waiting..."
 
-W = Win battle (earn gold)
-F = Flee (no reward)"
-horizontal_alignment = 1
+[node name="LogLabel" type="Label" parent="CanvasLayer"]
+offset_left = 320.0
+offset_top = 10.0
+offset_right = 630.0
+offset_bottom = 470.0
+text = "Combat loading..."

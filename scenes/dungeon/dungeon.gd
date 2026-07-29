@@ -42,7 +42,6 @@ func _unhandled_input(event: InputEvent) -> void:
 func _enter_combat() -> void:
 	## Transition to combat. GameManager remembers we came from dungeon.
 	GameManager.current_state = GameManager.GameState.COMBAT
-	GameManager.add_gold(10)  # Simulate finding gold
 	GameManager.change_scene("res://scenes/combat/combat.tscn")
 
 
