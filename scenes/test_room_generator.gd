@@ -37,6 +37,9 @@ func _spawn_player() -> void:
 	## preload() loads the resource at compile time (fast, no runtime delay).
 	## instantiate() creates a live instance of the packed scene.
 	var player_scene: PackedScene = load("res://scenes/player/player.tscn")
+	if not player_scene:
+		push_error("[TestRoom] Failed to load player scene")
+		return
 	var player: Node = player_scene.instantiate()
 	player.position = Vector2(160, 160)  # Start in the middle-ish of the room
 	get_parent().add_child(player)  # Add to parent (TestMovement node) not self
