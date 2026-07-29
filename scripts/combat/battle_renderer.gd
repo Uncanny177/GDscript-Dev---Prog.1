@@ -73,7 +73,7 @@ func _draw_party() -> void:
 		
 		# MP bar (smaller, below HP)
 		var mp_pos := bar_pos + Vector2(0, BAR_HEIGHT + 16)
-		_draw_bar(mp_pos, combatant.current_mp, combatant.get_max_hp(), Color(0.3, 0.4, 0.9), Color(0.15, 0.15, 0.3))
+		_draw_bar(mp_pos, combatant.current_mp, combatant.get_max_mp(), Color(0.3, 0.4, 0.9), Color(0.15, 0.15, 0.3))
 
 
 func _draw_enemies() -> void:

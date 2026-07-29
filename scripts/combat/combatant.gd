@@ -82,6 +82,14 @@ func get_max_hp() -> int:
 	return 1
 
 
+func get_max_mp() -> int:
+	if is_player and character_data:
+		return character_data.get_stats().max_mp
+	elif enemy_data and enemy_data.stats:
+		return enemy_data.stats.max_mp
+	return 0
+
+
 func get_atk() -> int:
 	if is_player and character_data:
 		return character_data.get_stats().atk
