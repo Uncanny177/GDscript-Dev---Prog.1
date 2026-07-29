@@ -41,6 +41,7 @@ var current_state: GameState = GameState.HUB
 var current_gold: int = 0
 var current_floor: int = 1
 var is_run_active: bool = false
+var inventory: Inventory = Inventory.new()  # Items carried during a run
 
 ## ─── META DATA (persists permanently) ───────────────────────────
 
@@ -100,9 +101,19 @@ func start_run() -> void:
 	is_run_active = true
 	current_gold = 0
 	current_floor = 1
+	inventory = Inventory.new()  # Fresh inventory each run
+	
+	# Give starter items for each run
+	var health_pot: ItemData = ItemDatabase.get_item("Health Potion")
+	var mana_pot: ItemData = ItemDatabase.get_item("Mana Potion")
+	if health_pot:
+		inventory.add_item(health_pot, 3)
+	if mana_pot:
+		inventory.add_item(mana_pot, 2)
+	
 	total_runs += 1
 	current_state = GameState.DUNGEON
-	print("[GameManager] Run #%d started" % total_runs)
+	print("[GameManager] Run #%d started — %s" % [total_runs, str(inventory)])
 
 
 func end_run(victory: bool) -> void:
@@ -120,6 +131,7 @@ func end_run(victory: bool) -> void:
 		meta_crystals += earned
 		meta_crystals_changed.emit(meta_crystals)
 		current_gold = 0
+		inventory.clear()  # Lose all run items on death
 		gold_changed.emit(current_gold)
 		print("[GameManager] Defeated on floor %d. Earned %d meta-crystals" % [current_floor, earned])
 	

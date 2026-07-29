@@ -40,9 +40,12 @@ var awaiting_player_input: bool = false
 var target_select_mode: bool = false
 var skill_select_mode: bool = false
 var ally_target_mode: bool = false
+var item_select_mode: bool = false
+var item_target_mode: bool = false
 var selected_target_index: int = 0
 var selected_skill_index: int = 0
 var pending_skill: SkillData = null  # Skill chosen, waiting for target
+var pending_item: ItemData = null    # Item chosen, waiting for target
 
 ## Combat log (last N messages shown on screen)
 var combat_log: Array[String] = []
@@ -146,7 +149,7 @@ func _show_player_menu(combatant: Combatant) -> void:
 		battle_renderer.refresh()
 	
 	if info_label:
-		info_label.text = "%s's turn!  (MP: %d/%d)\n\n[1] Attack\n[2] Skill\n[3] Defend\n[4] Flee" % [combatant.display_name, combatant.current_mp, combatant.get_max_mp()]
+		info_label.text = "%s's turn!  (MP: %d/%d)\n\n[1] Attack\n[2] Skill\n[3] Item\n[4] Defend\n[5] Flee" % [combatant.display_name, combatant.current_mp, combatant.get_max_mp()]
 
 
 func _show_target_select() -> void:
@@ -193,12 +196,16 @@ func _unhandled_input(event: InputEvent) -> void:
 		_handle_skill_input(event)
 	elif ally_target_mode:
 		_handle_ally_target_input(event)
+	elif item_select_mode:
+		_handle_item_input(event)
+	elif item_target_mode:
+		_handle_item_target_input(event)
 	else:
 		_handle_menu_input(event)
 
 
 func _handle_menu_input(event: InputEventKey) -> void:
-	## Handle action menu input (1=Attack, 2=Skill, 3=Defend, 4=Flee).
+	## Handle action menu input (1=Attack, 2=Skill, 3=Item, 4=Defend, 5=Flee).
 	
 	match event.keycode:
 		KEY_1:
@@ -209,13 +216,16 @@ func _handle_menu_input(event: InputEventKey) -> void:
 			# Skill — show skill submenu
 			_show_skill_menu()
 		KEY_3:
+			# Item — show item submenu
+			_show_item_menu()
+		KEY_4:
 			# Defend
 			awaiting_player_input = false
 			turn_manager.execute_defend(turn_manager.current_combatant)
 			_add_log("%s defends!" % turn_manager.current_combatant.display_name)
 			_update_ui()
 			_continue_after_action()
-		KEY_4:
+		KEY_5:
 			# Flee
 			awaiting_player_input = false
 			_add_log("Fled from battle!")
@@ -545,6 +555,162 @@ func _get_combatant_skills(combatant: Combatant) -> Array:
 	if combatant.is_player and combatant.character_data and combatant.character_data.character_class:
 		return combatant.character_data.character_class.skills
 	return []
+
+
+func _show_item_menu() -> void:
+	## Display consumable items from inventory.
+	var consumables: Array = GameManager.inventory.get_consumables()
+	
+	if consumables.is_empty():
+		if info_label:
+			info_label.text = "No items!\n\n[ESC] Back"
+		item_select_mode = true
+		return
+	
+	item_select_mode = true
+	
+	var text: String = "ITEMS:\n\n"
+	for i in range(consumables.size()):
+		var entry: Dictionary = consumables[i]
+		var item: ItemData = entry["item"]
+		text += "[%d] %s x%d\n" % [i + 1, item.item_name, entry["count"]]
+	text += "\n[ESC] Back"
+	
+	if info_label:
+		info_label.text = text
+
+
+func _handle_item_input(event: InputEventKey) -> void:
+	## Handle input in the item submenu.
+	if event.keycode == KEY_ESCAPE:
+		item_select_mode = false
+		_show_player_menu(turn_manager.current_combatant)
+		return
+	
+	var consumables: Array = GameManager.inventory.get_consumables()
+	var num: int = event.keycode - KEY_1
+	if num >= 0 and num < consumables.size():
+		var entry: Dictionary = consumables[num]
+		pending_item = entry["item"]
+		item_select_mode = false
+		# Items always target an ally (heal HP/MP)
+		_show_item_target_select()
+
+
+func _show_item_target_select() -> void:
+	## Show ally selection for using an item.
+	var allies: Array[Combatant] = turn_manager.get_alive_players()
+	if allies.is_empty():
+		return
+	
+	item_target_mode = true
+	selected_target_index = 0
+	
+	var text: String = "Use %s on:\n\n" % pending_item.item_name
+	for i in range(allies.size()):
+		var marker: String = "> " if i == selected_target_index else "  "
+		text += "%s[%d] %s (HP: %d/%d  MP: %d/%d)\n" % [
+			marker, i + 1, allies[i].display_name,
+			allies[i].current_hp, allies[i].get_max_hp(),
+			allies[i].current_mp, allies[i].get_max_mp()
+		]
+	text += "\n[ENTER] Confirm  [ESC] Back"
+	
+	if info_label:
+		info_label.text = text
+
+
+func _handle_item_target_input(event: InputEventKey) -> void:
+	## Handle ally target selection for item use.
+	var allies: Array[Combatant] = turn_manager.get_alive_players()
+	if allies.is_empty():
+		item_target_mode = false
+		_show_player_menu(turn_manager.current_combatant)
+		return
+	
+	match event.keycode:
+		KEY_UP, KEY_W:
+			selected_target_index -= 1
+			if selected_target_index < 0:
+				selected_target_index = allies.size() - 1
+			_show_item_target_select()
+		KEY_DOWN, KEY_S:
+			selected_target_index += 1
+			if selected_target_index >= allies.size():
+				selected_target_index = 0
+			_show_item_target_select()
+		KEY_ENTER, KEY_SPACE:
+			item_target_mode = false
+			awaiting_player_input = false
+			var target: Combatant = allies[selected_target_index]
+			_use_item_on_target(target)
+			_update_ui()
+			_continue_after_action()
+		KEY_ESCAPE:
+			item_target_mode = false
+			pending_item = null
+			_show_player_menu(turn_manager.current_combatant)
+		_:
+			var num: int = event.keycode - KEY_1
+			if num >= 0 and num < allies.size():
+				item_target_mode = false
+				awaiting_player_input = false
+				var target: Combatant = allies[num]
+				_use_item_on_target(target)
+				_update_ui()
+				_continue_after_action()
+
+
+func _use_item_on_target(target: Combatant) -> void:
+	## Consume the pending item and apply its effects to the target.
+	if not pending_item:
+		return
+	
+	# Consume from inventory
+	if not GameManager.inventory.use_item(pending_item):
+		_add_log("No %s left!" % pending_item.item_name)
+		pending_item = null
+		return
+	
+	var healed_hp: int = 0
+	var healed_mp: int = 0
+	
+	# Apply HP healing
+	if pending_item.heal_hp > 0:
+		var old_hp: int = target.current_hp
+		target.current_hp = mini(target.current_hp + pending_item.heal_hp, target.get_max_hp())
+		healed_hp = target.current_hp - old_hp
+		if target.is_player and target.character_data:
+			target.character_data.current_hp = target.current_hp
+	
+	# Apply MP restoration
+	if pending_item.heal_mp > 0:
+		var old_mp: int = target.current_mp
+		target.current_mp = mini(target.current_mp + pending_item.heal_mp, target.get_max_mp())
+		healed_mp = target.current_mp - old_mp
+		if target.is_player and target.character_data:
+			target.character_data.current_mp = target.current_mp
+	
+	# Log and visual feedback
+	var effect_text: String = ""
+	if healed_hp > 0:
+		effect_text += "+%d HP " % healed_hp
+	if healed_mp > 0:
+		effect_text += "+%d MP " % healed_mp
+	
+	_add_log("%s uses %s → %s: %s" % [
+		turn_manager.current_combatant.display_name,
+		pending_item.item_name,
+		target.display_name,
+		effect_text.strip_edges()
+	])
+	
+	if battle_renderer and healed_hp > 0:
+		var idx: int = player_combatants.find(target)
+		battle_renderer.show_heal_on_player(idx, healed_hp)
+	
+	turn_manager._advance_index()
+	pending_item = null
 
 
 func _continue_after_action() -> void:
