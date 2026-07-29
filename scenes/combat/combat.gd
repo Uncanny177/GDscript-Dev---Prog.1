@@ -534,6 +534,7 @@ func _execute_skill_aoe_allies() -> void:
 func _execute_skill_on_self() -> void:
 	## Execute a self-targeting skill.
 	var caster: Combatant = turn_manager.current_combatant
+	awaiting_player_input = false
 	_execute_skill_on_ally(caster)
 	_update_ui()
 	_continue_after_action()
