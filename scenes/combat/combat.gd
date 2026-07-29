@@ -25,6 +25,9 @@ extends Node2D
 @onready var info_label: Label = $CanvasLayer/InfoLabel
 @onready var log_label: Label = $CanvasLayer/LogLabel
 
+## Visual renderer for sprites, HP bars, damage numbers
+var battle_renderer: Node2D = null
+
 ## The turn manager — drives the battle
 var turn_manager: TurnManager = null
 
@@ -79,6 +82,16 @@ func _setup_battle() -> void:
 	turn_manager.action_executed.connect(_on_action_executed)
 	turn_manager.setup_battle(player_combatants, enemy_combatants)
 	
+	# Set up visual renderer
+	var renderer_script: Script = load("res://scripts/combat/battle_renderer.gd")
+	if renderer_script:
+		battle_renderer = Node2D.new()
+		battle_renderer.name = "BattleRenderer"
+		battle_renderer.set_script(renderer_script)
+		battle_renderer.player_combatants = player_combatants
+		battle_renderer.enemy_combatants = enemy_combatants
+		add_child(battle_renderer)
+	
 	_add_log("Battle start!")
 	_update_ui()
 	
@@ -123,6 +136,11 @@ func _start_next_turn() -> void:
 
 func _show_player_menu(combatant: Combatant) -> void:
 	## Display the action menu for a player combatant.
+	# Clear target highlight
+	if battle_renderer:
+		battle_renderer.highlighted_target = -1
+		battle_renderer.refresh()
+	
 	if info_label:
 		info_label.text = "%s's turn!\n\n[1] Attack\n[2] Defend\n[3] Flee" % combatant.display_name
 
@@ -140,6 +158,11 @@ func _show_target_select() -> void:
 	
 	# Clamp index in case enemies died since last shown
 	selected_target_index = clampi(selected_target_index, 0, enemies.size() - 1)
+	
+	# Update visual highlight
+	if battle_renderer:
+		battle_renderer.highlighted_target = selected_target_index
+		battle_renderer.refresh()
 	
 	var text: String = "Select target:\n\n"
 	for i in range(enemies.size()):
@@ -242,11 +265,24 @@ func _continue_after_action() -> void:
 ## ─── SIGNAL HANDLERS ────────────────────────────────────────────
 
 func _on_action_executed(_attacker: Combatant, target: Combatant, damage: int, action_name: String) -> void:
-	## Called when any action resolves. Updates the combat log.
+	## Called when any action resolves. Updates the combat log and visuals.
 	if action_name == "Attack":
 		_add_log("%s → %s: %d dmg" % [_attacker.display_name, target.display_name, damage])
+		
+		# Show damage number on the target
+		if battle_renderer and damage > 0:
+			if target.is_player:
+				var idx: int = player_combatants.find(target)
+				battle_renderer.show_damage_on_player(idx, damage)
+			else:
+				var idx: int = enemy_combatants.find(target)
+				battle_renderer.show_damage_on_enemy(idx, damage)
 	elif action_name == "Defend":
 		_add_log("%s defends" % _attacker.display_name)
+	
+	# Refresh visuals (HP bars, death states)
+	if battle_renderer:
+		battle_renderer.refresh()
 
 
 func _on_battle_won() -> void:
@@ -297,6 +333,11 @@ func _wait_for_confirm() -> void:
 
 func _update_ui() -> void:
 	## Refresh the combat log display and status.
+	
+	# Refresh visual renderer
+	if battle_renderer:
+		battle_renderer.refresh()
+	
 	if log_label:
 		var party_status: String = "── PARTY ──\n"
 		for pc in player_combatants:
