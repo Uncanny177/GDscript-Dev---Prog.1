@@ -111,8 +111,12 @@ func _start_next_turn() -> void:
 		# Enemy's turn — execute AI after delay
 		awaiting_player_input = false
 		await get_tree().create_timer(ACTION_DELAY).timeout
+		if not turn_manager.is_battle_active:
+			return  # Battle ended during the wait (e.g., scene changing)
 		turn_manager.execute_enemy_turn(active)
 		_update_ui()
+		if not turn_manager.is_battle_active:
+			return  # Battle ended from this attack
 		await get_tree().create_timer(ACTION_DELAY).timeout
 		_start_next_turn()
 
@@ -129,12 +133,17 @@ func _show_target_select() -> void:
 	if enemies.is_empty():
 		return
 	
-	selected_target_index = 0
-	target_select_mode = true
+	# Only enter target mode (and reset index) if not already in it
+	if not target_select_mode:
+		selected_target_index = 0
+		target_select_mode = true
+	
+	# Clamp index in case enemies died since last shown
+	selected_target_index = clampi(selected_target_index, 0, enemies.size() - 1)
 	
 	var text: String = "Select target:\n\n"
 	for i in range(enemies.size()):
-		var marker: String = "→ " if i == selected_target_index else "  "
+		var marker: String = "> " if i == selected_target_index else "  "
 		text += "%s[%d] %s (HP: %d/%d)\n" % [marker, i + 1, enemies[i].display_name, enemies[i].current_hp, enemies[i].get_max_hp()]
 	text += "\n[ENTER] Confirm  [ESC] Back"
 	
@@ -182,15 +191,21 @@ func _handle_menu_input(event: InputEventKey) -> void:
 func _handle_target_input(event: InputEventKey) -> void:
 	## Handle target selection input.
 	var enemies: Array[Combatant] = turn_manager.get_alive_enemies()
+	if enemies.is_empty():
+		target_select_mode = false
+		_show_player_menu(turn_manager.current_combatant)
+		return
 	
 	match event.keycode:
 		KEY_UP, KEY_W:
-			selected_target_index = (selected_target_index - 1) % enemies.size()
+			selected_target_index -= 1
 			if selected_target_index < 0:
 				selected_target_index = enemies.size() - 1
 			_show_target_select()
 		KEY_DOWN, KEY_S:
-			selected_target_index = (selected_target_index + 1) % enemies.size()
+			selected_target_index += 1
+			if selected_target_index >= enemies.size():
+				selected_target_index = 0
 			_show_target_select()
 		KEY_ENTER, KEY_SPACE:
 			# Confirm attack on selected target
@@ -219,6 +234,8 @@ func _handle_target_input(event: InputEventKey) -> void:
 func _continue_after_action() -> void:
 	## Wait a beat after an action, then start next turn.
 	await get_tree().create_timer(ACTION_DELAY).timeout
+	if not turn_manager.is_battle_active:
+		return  # Battle ended — don't continue cycling turns
 	_start_next_turn()
 
 
