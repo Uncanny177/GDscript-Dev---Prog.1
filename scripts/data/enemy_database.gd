@@ -6,7 +6,6 @@
 ## Enemies are organized by "tier" (difficulty). The dungeon generator
 ## will pick enemies appropriate to the current floor.
 
-class_name EnemyDatabase
 extends Node
 
 ## Dictionary of enemy_name → EnemyData

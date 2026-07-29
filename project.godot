@@ -1,90 +1,48 @@
 ; ============================================================
-; PROJECT.GODOT — The master configuration file for your game.
+; PROJECT.GODOT — Master configuration for the Roguelite RPG.
 ; ============================================================
+; Godot reads this on project open. It defines the game name,
+; which scene starts on F5, input bindings, autoloads, and rendering.
 ;
-; WHAT THIS FILE DOES:
-; This is the first thing Godot reads when opening your project.
-; It tells the engine: what's the game called, what scene to start with,
-; what keys do what, what scripts run globally, and how to render things.
-;
-; Think of it like a settings.ini for your entire game.
-;
-; HOW TO EDIT:
-; You CAN edit this by hand, but normally you'd use Godot's
-; Project Settings menu (Project → Project Settings in the editor).
-; Changes there auto-update this file.
-;
-; SECTIONS EXPLAINED BELOW:
+; NOTE: Godot will ADD extra lines/sections to this file when you
+; change settings in the editor. That's normal — don't fight it.
 ; ============================================================
 
 config_version=5
 
-; ─── [application] ───────────────────────────────────────────
-; Basic identity of your game: name, starting scene, icon.
 [application]
 
-; The name that shows in the window title bar and project manager
+; Game name (shows in title bar and project manager)
 config/name="Roguelite RPG"
-
-; Engine version features this project uses
-config/features=PackedStringArray("4.3", "GL Compatibility")
-
-; MAIN SCENE — this is what runs when you press F5 (Play).
-; Currently set to the Hub Town. Change this to test different scenes:
-;   "res://scenes/hub/hub.tscn"          ← v0.02 game loop (hub → dungeon → combat)
-;   "res://scenes/test_movement.tscn"    ← v0.01 movement test only
-;   "res://scenes/sandbox/sandbox.tscn"  ← GDScript learning playground
+; Engine features this project needs
+config/features=PackedStringArray("4.4", "GL Compatibility")
+; MAIN SCENE — what runs on F5. Change this to test different things:
+;   "res://scenes/hub/hub.tscn"          ← full game loop (hub→dungeon→combat)
+;   "res://scenes/test_movement.tscn"    ← player movement test only
+;   "res://scenes/sandbox/sandbox.tscn"  ← GDScript playground
 run/main_scene="res://scenes/hub/hub.tscn"
 
-; Game icon (shows in taskbar/window). We haven't made one yet.
-config/icon="res://icon.svg"
-
-; ─── [autoload] ──────────────────────────────────────────────
-; AUTOLOADS — Scripts/scenes that load ONCE at startup and NEVER die.
-; They persist across all scene changes. This is how we keep game state
-; (gold, progress, unlocks) alive when switching between hub/dungeon/combat.
-;
-; The "*" prefix means "create a Node and attach this script automatically."
-; The name before "=" is how you access it from ANY script: GameManager.some_func()
 [autoload]
 
+; Autoloads persist across scene changes. Order matters — listed first loads first.
 GameManager="*res://scripts/managers/game_manager.gd"
 ClassDatabase="*res://scripts/data/class_database.gd"
 EnemyDatabase="*res://scripts/data/enemy_database.gd"
 PartyManager="*res://scripts/data/party_manager.gd"
 
-; ─── [display] ────────────────────────────────────────────────
-; Window and rendering settings.
 [display]
 
-; Game resolution — 640x480 is small (retro pixel-art friendly).
-; The game renders at this size internally.
+; Internal resolution (pixel art friendly — small, then stretched)
 window/size/viewport_width=640
 window/size/viewport_height=480
-
-; "viewport" stretch mode means: render at 640x480, then scale up to
-; fill the window. Keeps pixel art crisp even in fullscreen.
+; "viewport" stretch = render at 640x480, scale up to fill window. Keeps pixels crisp.
 window/stretch/mode="viewport"
 
-; ─── [input] ──────────────────────────────────────────────────
-; INPUT MAP — Maps action names to physical keys.
-;
-; WHY THIS MATTERS:
-; In our code, we write: Input.is_action_just_pressed("move_up")
-; NOT: Input.is_key_pressed(KEY_W)
-;
-; This decouples the game logic from specific keys. If a player
-; wants to remap controls, we change it here (or in settings UI),
-; not in every script that checks for movement.
-;
-; Each action can have MULTIPLE keys (notice each has two entries):
-;   - physical_keycode 87 = W key
-;   - physical_keycode 4194320 = Up Arrow
-; So both WASD and Arrow keys work for movement.
-;
-; The ugly Object() syntax is Godot's serialization format.
-; You'd normally add these in Project Settings → Input Map (visual UI).
+[input]
 
+; Movement inputs — both WASD and Arrow keys mapped to same actions.
+; The ugly Object() lines are Godot's serialization. You'd normally
+; set these in Project Settings → Input Map in the editor.
 move_up={
 "deadzone": 0.5,
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":87,"key_label":0,"unicode":119,"location":0,"echo":false,"script":null)
@@ -110,16 +68,10 @@ move_right={
 ]
 }
 
-; ─── [rendering] ──────────────────────────────────────────────
-; How Godot draws things to the screen.
 [rendering]
 
-; "gl_compatibility" = OpenGL renderer. Works on older hardware.
-; The other option is "forward_plus" (Vulkan) for fancy 3D — overkill for 2D pixel art.
+; GL Compatibility = OpenGL renderer (works on older hardware, fine for 2D)
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
-
-; Texture filter = 0 means "Nearest Neighbor" (no smoothing).
-; This keeps pixel art sharp instead of blurry when scaled up.
-; Without this, a 32x32 tile scaled 2x would look smeared.
+; Nearest neighbor filtering = pixel art stays sharp (no blurring)
 textures/canvas_textures/default_texture_filter=0

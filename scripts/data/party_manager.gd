@@ -9,7 +9,6 @@
 ## As the game grows, GameManager would become 1000+ lines if we dumped
 ## everything in there. Splitting by domain keeps things manageable.
 
-class_name PartyManager
 extends Node
 
 ## Maximum party size for active combat

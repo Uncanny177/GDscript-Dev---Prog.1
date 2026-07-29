@@ -29,6 +29,17 @@ var wall_bodies: Array[StaticBody2D] = []
 
 func _ready() -> void:
 	_generate_room()
+	_spawn_player()
+
+
+func _spawn_player() -> void:
+	## Load and instantiate the player scene, then add it to this scene.
+	## preload() loads the resource at compile time (fast, no runtime delay).
+	## instantiate() creates a live instance of the packed scene.
+	var player_scene: PackedScene = load("res://scenes/player/player.tscn")
+	var player: Node = player_scene.instantiate()
+	player.position = Vector2(160, 160)  # Start in the middle-ish of the room
+	get_parent().add_child(player)  # Add to parent (TestMovement node) not self
 
 
 func _generate_room() -> void:

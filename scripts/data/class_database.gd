@@ -11,7 +11,6 @@
 ##
 ## This is registered as an autoload in project.godot (we'll add it).
 
-class_name ClassDatabase
 extends Node
 
 ## Dictionary of class_name → ClassData. Populated in _ready().

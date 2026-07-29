@@ -1,9 +1,10 @@
 ## Dungeon Scene — Where the player explores procedural floors.
 ##
 ## For now this is a placeholder that lets you:
-## - Simulate "exploring" by pressing SPACE to trigger a combat encounter
+## - Press SPACE to trigger a combat encounter
 ## - Press E to go to next floor
-## - Die (press D) to test the death → hub flow
+## - Press D to simulate death (test death → hub flow)
+## - Press B to simulate beating the boss
 ##
 ## Later this will have the real procedural generation from Task 9.
 
@@ -18,36 +19,24 @@ func _ready() -> void:
 	print("[Dungeon] Entered floor %d" % GameManager.current_floor)
 
 
-func _process(_delta: float) -> void:
-	# SPACE = enter combat (simulated encounter)
-	if Input.is_action_just_pressed("ui_accept"):
-		_enter_combat()
-	
-	# E key = next floor (we'll check for this input action)
-	if Input.is_key_pressed(KEY_E):
-		# Small hack: only trigger once by checking if we just pressed
-		# In a real game, stairs would be a physical trigger area
-		if Input.is_action_just_pressed("ui_text_indent"):  # Tab key as stand-in
-			pass
-		_next_floor()
-	
-	# D key = simulate death (testing meta-progression on death)
-	if Input.is_key_pressed(KEY_D) and Input.is_action_just_pressed("ui_end"):
-		pass  # Handled below with a simpler check
-
-
 func _unhandled_input(event: InputEvent) -> void:
-	## _unhandled_input catches input that no other node consumed.
-	## We use it here for our placeholder keys to avoid conflicts.
+	## _unhandled_input catches keypresses that no other node consumed.
+	## We use this single function for all our placeholder controls.
 	
-	if event is InputEventKey and event.pressed:
-		match event.keycode:
-			KEY_E:
-				_next_floor()
-			KEY_D:
-				_simulate_death()
-			KEY_B:
-				_simulate_boss()
+	if not event is InputEventKey:
+		return
+	if not event.pressed:
+		return
+	
+	match event.keycode:
+		KEY_SPACE:
+			_enter_combat()
+		KEY_E:
+			_next_floor()
+		KEY_D:
+			_simulate_death()
+		KEY_B:
+			_simulate_boss()
 
 
 func _enter_combat() -> void:
