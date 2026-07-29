@@ -31,10 +31,15 @@ func _create_default_party() -> void:
 	## Sets up a starting party with one of each class.
 	## This lets us test combat immediately without building recruitment first.
 	
-	# Wait one frame for ClassDatabase autoload to initialize first.
-	# "await" pauses this function until the signal fires, then resumes.
-	# get_tree().process_frame is a signal that fires every frame.
+	# Wait one frame for all autoloads to fully initialize.
+	# ClassDatabase loads before us (listed earlier in project.godot),
+	# but awaiting one frame ensures _ready() has completed on all of them.
 	await get_tree().process_frame
+	
+	# Verify ClassDatabase is accessible
+	if not ClassDatabase.classes.has("Warrior"):
+		push_error("[PartyManager] ClassDatabase not ready — no classes found")
+		return
 	
 	var warrior := CharacterData.new()
 	warrior.character_name = "Roland"

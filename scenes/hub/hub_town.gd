@@ -210,29 +210,38 @@ func _spawn_player() -> void:
 	## Load and spawn the player at the town center.
 	## Also attaches the NPC interaction script and dialogue box.
 	var player_scene: PackedScene = load("res://scenes/player/player.tscn")
-	if player_scene:
-		var player: Node = player_scene.instantiate()
-		player.position = Vector2(10 * TILE_SIZE + TILE_SIZE / 2, 8 * TILE_SIZE + TILE_SIZE / 2)
-		get_parent().add_child(player)
-		
-		# Attach NPC interaction system to the player
-		var interaction_script: Script = load("res://scenes/hub/npc_interaction.gd")
-		var interaction := Node.new()
-		interaction.name = "NPCInteraction"
-		interaction.set_script(interaction_script)
-		player.add_child(interaction)
-		
-		# Create dialogue box UI and give it to the interaction system
-		var dialogue_script: Script = load("res://scenes/hub/dialogue_box.gd")
-		var dialogue_box := CanvasLayer.new()
-		dialogue_box.name = "DialogueBox"
-		dialogue_box.set_script(dialogue_script)
-		get_parent().add_child(dialogue_box)
-		
-		# Connect interaction system to dialogue box
-		interaction.dialogue_box = dialogue_box
-	else:
+	if not player_scene:
 		push_error("[HubTown] Failed to load player scene")
+		return
+	
+	var player: Node = player_scene.instantiate()
+	player.position = Vector2(10 * TILE_SIZE + TILE_SIZE / 2, 8 * TILE_SIZE + TILE_SIZE / 2)
+	add_child(player)  # Add player to Town node (same level as walls/NPCs)
+	
+	# Attach NPC interaction system to the player
+	var interaction_script: Script = load("res://scenes/hub/npc_interaction.gd")
+	if not interaction_script:
+		push_error("[HubTown] Failed to load NPC interaction script")
+		return
+	
+	var interaction := Node.new()
+	interaction.name = "NPCInteraction"
+	interaction.set_script(interaction_script)
+	player.add_child(interaction)
+	
+	# Create dialogue box UI and give it to the interaction system
+	var dialogue_script: Script = load("res://scenes/hub/dialogue_box.gd")
+	if not dialogue_script:
+		push_error("[HubTown] Failed to load dialogue script")
+		return
+	
+	var dialogue_box := CanvasLayer.new()
+	dialogue_box.name = "DialogueBox"
+	dialogue_box.set_script(dialogue_script)
+	add_child(dialogue_box)  # Add to Town node (same parent as player)
+	
+	# Connect interaction system to dialogue box
+	interaction.dialogue_box = dialogue_box
 
 
 func _draw() -> void:

@@ -147,7 +147,9 @@ func _unhandled_input(event: InputEvent) -> void:
 	
 	if event.keycode == KEY_SPACE or event.keycode == KEY_ENTER:
 		# Consume the input so nothing else reacts to it
-		get_viewport().set_input_as_handled()
+		var viewport: Viewport = get_viewport()
+		if viewport:
+			viewport.set_input_as_handled()
 		_advance_dialogue()
 
 

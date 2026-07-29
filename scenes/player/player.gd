@@ -96,6 +96,11 @@ func _try_move(direction: Vector2) -> void:
 	## We point it in our movement direction and ask "is anything there?"
 	## This is how we check for walls WITHOUT actually moving into them.
 	
+	# Safety check — if ray node is missing, can't do collision detection
+	if not ray:
+		push_error("[Player] RayCast2D node not found — cannot check for walls")
+		return
+	
 	# Point the raycast in the direction we want to move
 	ray.target_position = direction * tile_size
 	
