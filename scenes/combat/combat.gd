@@ -430,9 +430,9 @@ func _execute_skill_on_target(target: Combatant) -> void:
 	if not target.is_alive:
 		turn_manager.combatant_died.emit(target)
 	
-	turn_manager._check_battle_end()
+	turn_manager.check_battle_end()
 	if turn_manager.is_battle_active:
-		turn_manager._advance_index()
+		turn_manager.advance_index()
 	
 	pending_skill = null
 
@@ -464,9 +464,9 @@ func _execute_skill_aoe_enemies() -> void:
 		if not enemy.is_alive:
 			turn_manager.combatant_died.emit(enemy)
 	
-	turn_manager._check_battle_end()
+	turn_manager.check_battle_end()
 	if turn_manager.is_battle_active:
-		turn_manager._advance_index()
+		turn_manager.advance_index()
 	
 	pending_skill = null
 	_update_ui()
@@ -502,7 +502,7 @@ func _execute_skill_on_ally(target: Combatant) -> void:
 		var idx: int = player_combatants.find(target)
 		battle_renderer.show_heal_on_player(idx, actual_heal)
 	
-	turn_manager._advance_index()
+	turn_manager.advance_index()
 	pending_skill = null
 
 
@@ -535,7 +535,7 @@ func _execute_skill_aoe_allies() -> void:
 			var idx: int = player_combatants.find(ally)
 			battle_renderer.show_heal_on_player(idx, actual_heal)
 	
-	turn_manager._advance_index()
+	turn_manager.advance_index()
 	pending_skill = null
 	_update_ui()
 	_continue_after_action()
@@ -709,7 +709,7 @@ func _use_item_on_target(target: Combatant) -> void:
 		var idx: int = player_combatants.find(target)
 		battle_renderer.show_heal_on_player(idx, healed_hp)
 	
-	turn_manager._advance_index()
+	turn_manager.advance_index()
 	pending_item = null
 
 

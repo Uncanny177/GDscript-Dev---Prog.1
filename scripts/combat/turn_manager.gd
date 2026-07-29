@@ -81,7 +81,7 @@ func start_next_turn() -> void:
 			return
 		
 		# Skip dead combatants
-		_advance_index()
+		advance_index()
 		attempts += 1
 	
 	# If we get here, everyone is dead (shouldn't happen — win/lose checks first)
@@ -101,10 +101,10 @@ func execute_attack(attacker: Combatant, target: Combatant) -> void:
 		combatant_died.emit(target)
 		print("[Combat] %s was defeated!" % target.display_name)
 	
-	_check_battle_end()
+	check_battle_end()
 	
 	if is_battle_active:
-		_advance_index()
+		advance_index()
 
 
 func execute_defend(combatant: Combatant) -> void:
@@ -114,7 +114,7 @@ func execute_defend(combatant: Combatant) -> void:
 	action_executed.emit(combatant, combatant, 0, "Defend")
 	print("[Combat] %s is defending!" % combatant.display_name)
 	
-	_advance_index()
+	advance_index()
 
 
 func execute_enemy_turn(enemy: Combatant) -> void:
@@ -124,7 +124,7 @@ func execute_enemy_turn(enemy: Combatant) -> void:
 	var targets: Array[Combatant] = get_alive_players()
 	
 	if targets.is_empty():
-		_check_battle_end()
+		check_battle_end()
 		return
 	
 	# Pick a random target
@@ -155,12 +155,12 @@ func get_alive_enemies() -> Array[Combatant]:
 
 ## ─── INTERNAL ───────────────────────────────────────────────────
 
-func _advance_index() -> void:
+func advance_index() -> void:
 	## Move to next position in turn order (wraps around).
 	current_turn_index = (current_turn_index + 1) % turn_order.size()
 
 
-func _check_battle_end() -> void:
+func check_battle_end() -> void:
 	## Check if all players or all enemies are dead.
 	
 	var players_alive: bool = false
