@@ -5,29 +5,18 @@
 [node name="Dungeon" type="Node2D"]
 script = ExtResource("1")
 
-[node name="Background" type="ColorRect" parent="."]
-offset_right = 640.0
-offset_bottom = 480.0
-color = Color(0.08, 0.05, 0.12, 1.0)
-
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="InfoLabel" type="Label" parent="CanvasLayer"]
-offset_left = 150.0
-offset_top = 140.0
-offset_right = 490.0
-offset_bottom = 320.0
-text = "DUNGEON
-
-SPACE = Combat encounter
-E = Next floor
-D = Simulate death
-B = Beat boss"
-horizontal_alignment = 1
+offset_left = 10.0
+offset_top = 440.0
+offset_right = 400.0
+offset_bottom = 475.0
+text = ""
 
 [node name="FloorLabel" type="Label" parent="CanvasLayer"]
 offset_left = 10.0
 offset_top = 10.0
-offset_right = 300.0
+offset_right = 350.0
 offset_bottom = 30.0
-text = "Floor: 1 | Gold: 0"
+text = "Floor: 1 | Gold: 0 | Steps: 0"
