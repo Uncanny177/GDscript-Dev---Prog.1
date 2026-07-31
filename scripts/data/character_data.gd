@@ -52,10 +52,38 @@ func initialize() -> void:
 
 func get_stats() -> StatBlock:
 	## Returns the character's EFFECTIVE stats (base + equipment bonuses).
-	## For now, just returns base stats. Equipment modifiers come in Task 12.
+	## Combines class base stats with all equipped item stat_bonus values.
+	var base: StatBlock = null
 	if character_class and character_class.base_stats:
-		return character_class.base_stats
-	return StatBlock.new()  # Fallback: all stats at default (10)
+		base = character_class.base_stats
+	else:
+		return StatBlock.new()
+	
+	# If no equipment, just return base stats (avoid creating new object)
+	if not weapon and not armor and not accessory:
+		return base
+	
+	# Combine base + equipment bonuses into a new StatBlock
+	var result := StatBlock.new()
+	result.max_hp = base.max_hp
+	result.max_mp = base.max_mp
+	result.atk = base.atk
+	result.def_stat = base.def_stat
+	result.mag = base.mag
+	result.res_stat = base.res_stat
+	result.spd = base.spd
+	
+	# Add weapon bonus
+	if weapon and weapon.stat_bonus:
+		result = result.add(weapon.stat_bonus)
+	# Add armor bonus
+	if armor and armor.stat_bonus:
+		result = result.add(armor.stat_bonus)
+	# Add accessory bonus
+	if accessory and accessory.stat_bonus:
+		result = result.add(accessory.stat_bonus)
+	
+	return result
 
 
 func take_damage(amount: int) -> int:

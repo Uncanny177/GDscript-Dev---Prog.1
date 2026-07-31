@@ -128,7 +128,7 @@ func _spawn_npcs() -> void:
 		"Welcome to the Adventurer's Guild!",
 		"Here you can recruit new party members.",
 		"Each class brings unique skills to your team."
-	])
+	], false, false, true)  # is_dungeon_entrance=false, is_shop=false, is_guild=true
 	
 	_create_npc("Blacksmith", Vector2(4, 9), Color(0.7, 0.4, 0.2), [
 		"*clang clang*",
@@ -149,7 +149,7 @@ func _spawn_npcs() -> void:
 	], true)  # is_dungeon_entrance = true
 
 
-func _create_npc(npc_name: String, grid_pos: Vector2, color: Color, dialogue: Array, is_dungeon_entrance: bool = false, is_shop: bool = false) -> void:
+func _create_npc(npc_name: String, grid_pos: Vector2, color: Color, dialogue: Array, is_dungeon_entrance: bool = false, is_shop: bool = false, is_guild: bool = false) -> void:
 	## Creates an NPC node with:
 	##   - Area2D (detects player proximity)
 	##   - ColorRect (visual placeholder)
@@ -173,6 +173,7 @@ func _create_npc(npc_name: String, grid_pos: Vector2, color: Color, dialogue: Ar
 	npc.set_meta("dialogue", dialogue)
 	npc.set_meta("is_dungeon_entrance", is_dungeon_entrance)
 	npc.set_meta("is_shop", is_shop)
+	npc.set_meta("is_guild", is_guild)
 	
 	# Visual — colored square for the NPC
 	var visual := ColorRect.new()
@@ -252,6 +253,15 @@ func _spawn_player() -> void:
 		shop_ui.set_script(shop_script)
 		add_child(shop_ui)
 		interaction.shop_ui = shop_ui
+	
+	# Create guild UI and give it to the interaction system
+	var guild_script: Script = load("res://scenes/hub/guild_ui.gd")
+	if guild_script:
+		var guild_ui := CanvasLayer.new()
+		guild_ui.name = "GuildUI"
+		guild_ui.set_script(guild_script)
+		add_child(guild_ui)
+		interaction.guild_ui = guild_ui
 
 
 func _draw() -> void:
