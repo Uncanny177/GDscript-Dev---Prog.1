@@ -6,7 +6,7 @@
 ## This script creates all the classes on startup and makes them accessible.
 ##
 ## USAGE FROM OTHER SCRIPTS:
-##   var warrior_class: ClassData = ClassDatabase.get_class("Warrior")
+##   var warrior_class: ClassData = ClassDatabase.get_class_data("Warrior")
 ##   var all_classes: Array = ClassDatabase.get_all_classes()
 ##
 ## This is registered as an autoload in project.godot (we'll add it).
@@ -24,7 +24,7 @@ func _ready() -> void:
 	print("[ClassDatabase] Loaded %d classes" % classes.size())
 
 
-func get_class(class_name_key: String) -> ClassData:
+func get_class_data(class_name_key: String) -> ClassData:
 	## Look up a class by name. Returns null if not found.
 	if classes.has(class_name_key):
 		return classes[class_name_key]

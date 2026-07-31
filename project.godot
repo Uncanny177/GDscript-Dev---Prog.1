@@ -1,30 +1,25 @@
-; ============================================================
-; PROJECT.GODOT — Master configuration for the Roguelite RPG.
-; ============================================================
-; Godot reads this on project open. It defines the game name,
-; which scene starts on F5, input bindings, autoloads, and rendering.
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
 ;
-; NOTE: Godot will ADD extra lines/sections to this file when you
-; change settings in the editor. That's normal — don't fight it.
-; ============================================================
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
 
 config_version=5
 
+[animation]
+
+compatibility/default_parent_skeleton_in_mesh_instance_3d=true
+
 [application]
 
-; Game name (shows in title bar and project manager)
 config/name="Roguelite RPG"
-; Engine features this project needs
-config/features=PackedStringArray("4.4", "GL Compatibility")
-; MAIN SCENE — what runs on F5. Change this to test different things:
-;   "res://scenes/hub/hub.tscn"          ← full game loop (hub→dungeon→combat)
-;   "res://scenes/test_movement.tscn"    ← player movement test only
-;   "res://scenes/sandbox/sandbox.tscn"  ← GDScript playground
 run/main_scene="res://scenes/hub/hub.tscn"
+config/features=PackedStringArray("4.7", "GL Compatibility")
 
 [autoload]
 
-; Autoloads persist across scene changes. Order matters — listed first loads first.
 GameManager="*res://scripts/managers/game_manager.gd"
 ClassDatabase="*res://scripts/data/class_database.gd"
 EnemyDatabase="*res://scripts/data/enemy_database.gd"
@@ -33,17 +28,12 @@ PartyManager="*res://scripts/data/party_manager.gd"
 
 [display]
 
-; Internal resolution (pixel art friendly — small, then stretched)
 window/size/viewport_width=640
 window/size/viewport_height=480
-; "viewport" stretch = render at 640x480, scale up to fill window. Keeps pixels crisp.
 window/stretch/mode="viewport"
 
 [input]
 
-; Movement inputs — both WASD and Arrow keys mapped to same actions.
-; The ugly Object() lines are Godot's serialization. You'd normally
-; set these in Project Settings → Input Map in the editor.
 move_up={
 "deadzone": 0.5,
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":87,"key_label":0,"unicode":119,"location":0,"echo":false,"script":null)
@@ -71,8 +61,6 @@ move_right={
 
 [rendering]
 
-; GL Compatibility = OpenGL renderer (works on older hardware, fine for 2D)
+textures/canvas_textures/default_texture_filter=0
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
-; Nearest neighbor filtering = pixel art stays sharp (no blurring)
-textures/canvas_textures/default_texture_filter=0

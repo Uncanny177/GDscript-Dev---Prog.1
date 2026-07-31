@@ -43,17 +43,17 @@ func _create_default_party() -> void:
 	
 	var warrior := CharacterData.new()
 	warrior.character_name = "Roland"
-	warrior.character_class = ClassDatabase.get_class("Warrior")
+	warrior.character_class = ClassDatabase.get_class_data("Warrior")
 	warrior.initialize()
 	
 	var mage := CharacterData.new()
 	mage.character_name = "Elara"
-	mage.character_class = ClassDatabase.get_class("Mage")
+	mage.character_class = ClassDatabase.get_class_data("Mage")
 	mage.initialize()
 	
 	var rogue := CharacterData.new()
 	rogue.character_name = "Shadow"
-	rogue.character_class = ClassDatabase.get_class("Rogue")
+	rogue.character_class = ClassDatabase.get_class_data("Rogue")
 	rogue.initialize()
 	
 	active_party = [warrior, mage, rogue]
