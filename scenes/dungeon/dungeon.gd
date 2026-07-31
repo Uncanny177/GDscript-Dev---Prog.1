@@ -190,33 +190,25 @@ func _on_reach_exit() -> void:
 
 func _on_reach_chest(chest_pos: Vector2i) -> void:
 	floor_gen.chest_spawn_points.erase(chest_pos)
-	var floor_mult: int = GameManager.current_floor
-	var loot_roll: int = randi() % 100
 	
-	if loot_roll < 35:
-		var gold: int = randi_range(5, 15) * floor_mult
-		GameManager.add_gold(gold)
-		_add_message("Chest: +%d gold!" % gold)
-	elif loot_roll < 55:
-		var potion: ItemData = ItemDatabase.get_item("Health Potion")
-		if potion:
-			GameManager.inventory.add_item(potion)
-			_add_message("Chest: +1 Health Potion!")
-	elif loot_roll < 70:
-		var mana_pot: ItemData = ItemDatabase.get_item("Mana Potion")
-		if mana_pot:
-			GameManager.inventory.add_item(mana_pot)
-			_add_message("Chest: +1 Mana Potion!")
-	elif loot_roll < 85:
-		var item_name: String = "Mega Potion" if floor_mult >= 3 else "Health Potion"
-		var item: ItemData = ItemDatabase.get_item(item_name)
-		if item:
-			GameManager.inventory.add_item(item)
-			_add_message("Chest: +1 %s!" % item_name)
-	else:
-		var crystals: int = 1 + floor_mult / 2
-		GameManager.meta_crystals += crystals
-		_add_message("Chest: +%d Meta-Crystal%s!" % [crystals, "s" if crystals > 1 else ""])
+	# Use loot table for chest drops
+	var chest_table: LootTable = LootTable.create_chest_table(GameManager.current_floor)
+	var drop: Dictionary = chest_table.roll()
+	
+	match drop["type"]:
+		LootTable.LootType.GOLD:
+			GameManager.add_gold(drop["amount"])
+			_add_message("Chest: +%d gold!" % drop["amount"])
+		LootTable.LootType.ITEM:
+			var item: ItemData = ItemDatabase.get_item(drop["item_name"])
+			if item:
+				GameManager.inventory.add_item(item, drop["amount"])
+				_add_message("Chest: +%d %s!" % [drop["amount"], drop["item_name"]])
+		LootTable.LootType.META_CRYSTAL:
+			GameManager.meta_crystals += drop["amount"]
+			_add_message("Chest: +%d Meta-Crystal%s!" % [drop["amount"], "s" if drop["amount"] > 1 else ""])
+		_:
+			_add_message("Chest: Empty...")
 	
 	if dungeon_renderer:
 		dungeon_renderer.queue_redraw()

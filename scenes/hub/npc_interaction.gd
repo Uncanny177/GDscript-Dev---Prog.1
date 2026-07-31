@@ -18,6 +18,9 @@ extends Node
 ## Reference to the dialogue box (set by hub scene after spawning)
 var dialogue_box: Node = null
 
+## Reference to the shop UI (set by hub scene after spawning)
+var shop_ui: Node = null
+
 ## The NPC we're currently close enough to talk to (or null)
 var nearby_npc: Area2D = null
 
@@ -30,9 +33,11 @@ const INTERACT_DISTANCE: float = 48.0
 
 func _process(_delta: float) -> void:
 	## Every frame, find the closest NPC within range.
-	## If dialogue is active, skip (don't change targets mid-conversation).
+	## If dialogue or shop is active, skip.
 	
 	if dialogue_box and dialogue_box.is_active:
+		return
+	if shop_ui and shop_ui.is_active:
 		return
 	
 	_find_nearby_npc()
@@ -42,7 +47,9 @@ func _unhandled_input(event: InputEvent) -> void:
 	## Listen for the interact key (E or ENTER) when near an NPC.
 	
 	if dialogue_box and dialogue_box.is_active:
-		return  # Dialogue box handles its own input
+		return
+	if shop_ui and shop_ui.is_active:
+		return
 	
 	if not event is InputEventKey or not event.pressed:
 		return
@@ -73,19 +80,22 @@ func _find_nearby_npc() -> void:
 
 
 func _interact_with_npc(npc: Area2D) -> void:
-	## Trigger dialogue with the given NPC.
-	## Reads the NPC's name and dialogue from its metadata.
+	## Trigger interaction based on NPC type.
 	
 	var npc_name: String = npc.get_meta("npc_name", "???")
 	var dialogue: Array = npc.get_meta("dialogue", ["..."])
 	var is_entrance: bool = npc.get_meta("is_dungeon_entrance", false)
+	var is_shop: bool = npc.get_meta("is_shop", false)
 	
 	if is_entrance:
-		# Special case: dungeon entrance triggers a run
 		GameManager.start_run()
 		GameManager.change_scene("res://scenes/dungeon/dungeon.tscn")
 		return
 	
-	# Start normal dialogue
+	if is_shop and shop_ui:
+		shop_ui.open_shop()
+		return
+	
+	# Default: normal dialogue
 	if dialogue_box:
 		dialogue_box.start_dialogue(npc_name, dialogue)

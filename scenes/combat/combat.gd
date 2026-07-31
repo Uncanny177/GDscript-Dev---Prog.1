@@ -745,20 +745,57 @@ func _on_action_executed(_attacker: Combatant, target: Combatant, damage: int, a
 
 
 func _on_battle_won() -> void:
-	## All enemies defeated! Calculate rewards and return.
+	## All enemies defeated! Roll loot tables and give rewards.
 	var gold_earned: int = 0
+	var items_found: Array[String] = []
+	var crystals_earned: int = 0
+	
+	# Roll loot for each defeated enemy
+	var loot_table: LootTable = LootTable.create_enemy_table(GameManager.current_floor)
+	
 	for enemy in enemy_combatants:
 		if enemy.enemy_data:
 			gold_earned += enemy.enemy_data.gold_reward
+		
+		# Roll the loot table for this enemy
+		var drop: Dictionary = loot_table.roll()
+		match drop["type"]:
+			LootTable.LootType.GOLD:
+				gold_earned += drop["amount"]
+			LootTable.LootType.ITEM:
+				var item: ItemData = ItemDatabase.get_item(drop["item_name"])
+				if item:
+					GameManager.inventory.add_item(item, drop["amount"])
+					items_found.append(drop["item_name"])
+			LootTable.LootType.META_CRYSTAL:
+				crystals_earned += drop["amount"]
+			LootTable.LootType.NOTHING:
+				pass
 	
-	GameManager.add_gold(gold_earned)
+	# Apply rewards
+	if gold_earned > 0:
+		GameManager.add_gold(gold_earned)
+	if crystals_earned > 0:
+		GameManager.meta_crystals += crystals_earned
+	
+	# Build reward summary
+	var reward_text: String = "VICTORY!\n\n"
+	if gold_earned > 0:
+		reward_text += "+%d gold\n" % gold_earned
+	if crystals_earned > 0:
+		reward_text += "+%d meta-crystal%s\n" % [crystals_earned, "s" if crystals_earned > 1 else ""]
+	for item_name in items_found:
+		reward_text += "+1 %s\n" % item_name
+	if gold_earned == 0 and crystals_earned == 0 and items_found.is_empty():
+		reward_text += "No drops this time.\n"
+	reward_text += "\n[ENTER] Continue"
+	
 	_add_log("VICTORY! +%d gold" % gold_earned)
 	_update_ui()
 	
 	if info_label:
-		info_label.text = "VICTORY!\n\n+%d gold earned\n\n[ENTER] Continue" % gold_earned
+		info_label.text = reward_text
 	
-	# Wait for player to press enter
 	awaiting_player_input = false
 	await _wait_for_confirm()
 	GameManager.current_state = GameManager.GameState.DUNGEON
