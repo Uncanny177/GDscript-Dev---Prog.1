@@ -120,10 +120,15 @@ func end_run(victory: bool) -> void:
 	## Called on death or boss victory. Handles what carries over.
 	is_run_active = false
 	
+	# Track milestones
+	UnlocksManager.record_floor_reached(current_floor)
+	
 	if victory:
 		# Keep run gold + bonus meta-crystals on victory
 		meta_crystals += 5 + current_floor  # Bonus based on depth
 		meta_crystals_changed.emit(meta_crystals)
+		UnlocksManager.record_run_completed()
+		UnlocksManager.record_boss_defeated()
 		print("[GameManager] Victory! Earned %d meta-crystals" % (5 + current_floor))
 	else:
 		# Lose run gold on death, still get some meta-crystals for progress

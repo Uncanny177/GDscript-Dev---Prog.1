@@ -24,6 +24,9 @@ var shop_ui: Node = null
 ## Reference to the guild UI (set by hub scene after spawning)
 var guild_ui: Node = null
 
+## Reference to the town hall UI (set by hub scene after spawning)
+var town_hall_ui: Node = null
+
 ## The NPC we're currently close enough to talk to (or null)
 var nearby_npc: Area2D = null
 
@@ -44,6 +47,8 @@ func _process(_delta: float) -> void:
 		return
 	if guild_ui and guild_ui.is_active:
 		return
+	if town_hall_ui and town_hall_ui.is_active:
+		return
 	
 	_find_nearby_npc()
 
@@ -56,6 +61,8 @@ func _unhandled_input(event: InputEvent) -> void:
 	if shop_ui and shop_ui.is_active:
 		return
 	if guild_ui and guild_ui.is_active:
+		return
+	if town_hall_ui and town_hall_ui.is_active:
 		return
 	
 	if not event is InputEventKey or not event.pressed:
@@ -94,6 +101,7 @@ func _interact_with_npc(npc: Area2D) -> void:
 	var is_entrance: bool = npc.get_meta("is_dungeon_entrance", false)
 	var is_shop: bool = npc.get_meta("is_shop", false)
 	var is_guild: bool = npc.get_meta("is_guild", false)
+	var is_town_hall: bool = npc.get_meta("is_town_hall", false)
 	
 	if is_entrance:
 		GameManager.start_run()
@@ -106,6 +114,10 @@ func _interact_with_npc(npc: Area2D) -> void:
 	
 	if is_guild and guild_ui:
 		guild_ui.open_guild()
+		return
+	
+	if is_town_hall and town_hall_ui:
+		town_hall_ui.open_town_hall()
 		return
 	
 	# Default: normal dialogue

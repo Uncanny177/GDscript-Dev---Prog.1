@@ -63,6 +63,8 @@ func _physics_process(_delta: float) -> void:
 		return
 	if interaction and interaction.guild_ui and interaction.guild_ui.is_active:
 		return
+	if interaction and interaction.town_hall_ui and interaction.town_hall_ui.is_active:
+		return
 	
 	# Check for directional input — one direction at a time for clean grid movement
 	var direction := _get_input_direction()

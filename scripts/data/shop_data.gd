@@ -25,9 +25,9 @@ var tier: int = 1
 
 
 func refresh_stock() -> void:
-	## Rebuild the shop stock based on current tier.
-	## Called when entering the shop or after upgrading.
+	## Rebuild the shop stock based on current tier from UnlocksManager.
 	stock.clear()
+	tier = UnlocksManager.shop_tier
 	
 	# Tier 1 — always available
 	_add_if_exists("Health Potion")
