@@ -55,9 +55,11 @@ func _physics_process(_delta: float) -> void:
 		return  # Already sliding to next tile, ignore input
 	
 	# Don't move if dialogue or UI is active
-	# Check if any child node named "NPCInteraction" has an active dialogue
+	# Check if any child node named "NPCInteraction" has an active dialogue or shop
 	var interaction: Node = get_node_or_null("NPCInteraction")
 	if interaction and interaction.dialogue_box and interaction.dialogue_box.is_active:
+		return
+	if interaction and interaction.shop_ui and interaction.shop_ui.is_active:
 		return
 	
 	# Check for directional input — one direction at a time for clean grid movement
