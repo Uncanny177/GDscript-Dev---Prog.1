@@ -33,10 +33,10 @@ var current_mp: int = 0
 ## Is this character currently alive?
 var is_alive: bool = true
 
-## Equipment slots (will hold ItemData references later — null = empty slot)
-var weapon: Resource = null   # Will be ItemData in Task 8
-var armor: Resource = null
-var accessory: Resource = null
+## Equipment slots (hold ItemData references — null = empty slot)
+var weapon: ItemData = null
+var armor: ItemData = null
+var accessory: ItemData = null
 
 
 func initialize() -> void:
