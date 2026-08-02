@@ -79,7 +79,7 @@ func load_meta() -> bool:
 	# Restore party
 	var party_data: Dictionary = data.get("party", {})
 	if not party_data.is_empty():
-		_deserialize_party(party_data)
+		await _deserialize_party(party_data)
 	
 	print("[SaveManager] Meta loaded — %d crystals, %d runs" % [
 		GameManager.meta_crystals, GameManager.total_runs

@@ -63,7 +63,7 @@ func get_sell_price() -> int:
 	## Using integer division — 11 / 2 = 5, not 5.5
 	if not sellable:
 		return 0
-	return buy_price / 2
+	return buy_price / 2  # Integer division intentional
 
 
 func _to_string() -> String:

@@ -65,7 +65,7 @@ func _ready() -> void:
 	# Load saved meta data on startup (after one frame for other autoloads)
 	await get_tree().process_frame
 	await get_tree().process_frame  # Extra frame for ClassDatabase/ItemDatabase
-	SaveManager.load_meta()
+	await SaveManager.load_meta()
 
 
 func _notification(what: int) -> void:
