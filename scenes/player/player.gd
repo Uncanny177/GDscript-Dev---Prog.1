@@ -40,8 +40,10 @@ var target_position: Vector2 = Vector2.ZERO
 func _ready() -> void:
 	## _ready() is called once when the node enters the scene tree.
 	## Like __init__ but guaranteed all children are loaded.
-	## We snap to grid on spawn to avoid floating-point position issues.
-	position = position.snapped(Vector2(tile_size, tile_size))
+	## Snap to tile CENTER (not edge). Tile centers are at n*32+16.
+	## We offset by half-tile, snap to grid, then offset back.
+	var half_tile := Vector2(tile_size / 2.0, tile_size / 2.0)
+	position = (position - half_tile).snapped(Vector2(tile_size, tile_size)) + half_tile
 	target_position = position
 
 
@@ -139,6 +141,7 @@ func _try_move(direction: Vector2) -> void:
 
 func _on_move_finished() -> void:
 	## Called when the movement tween completes. Unlocks input for next move.
-	## Snapping prevents floating-point drift (e.g., 31.9999 instead of 32).
+	## Snap to tile center to prevent floating-point drift.
 	is_moving = false
-	position = position.snapped(Vector2(tile_size, tile_size))
+	var half_tile := Vector2(tile_size / 2.0, tile_size / 2.0)
+	position = (position - half_tile).snapped(Vector2(tile_size, tile_size)) + half_tile
