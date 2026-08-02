@@ -61,6 +61,21 @@ func _ready() -> void:
 	## the game is paused. Important for a manager that handles menus.
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	print("[GameManager] Initialized")
+	
+	# Load saved meta data on startup (after one frame for other autoloads)
+	await get_tree().process_frame
+	await get_tree().process_frame  # Extra frame for ClassDatabase/ItemDatabase
+	SaveManager.load_meta()
+
+
+func _notification(what: int) -> void:
+	## Called when the application is about to quit.
+	## Save run state if player is mid-dungeon.
+	if what == NOTIFICATION_WM_CLOSE_REQUEST:
+		if is_run_active:
+			SaveManager.save_run()
+		SaveManager.save_meta()
+		get_tree().quit()
 
 
 func change_scene(scene_path: String) -> void:
@@ -141,6 +156,11 @@ func end_run(victory: bool) -> void:
 		print("[GameManager] Defeated on floor %d. Earned %d meta-crystals" % [current_floor, earned])
 	
 	current_state = GameState.HUB
+	
+	# Auto-save meta progression on every return to hub
+	SaveManager.save_meta()
+	# Delete any mid-run save (run is over)
+	SaveManager.delete_run_save()
 
 
 ## ─── CURRENCY ───────────────────────────────────────────────────

@@ -40,6 +40,10 @@ func _ready() -> void:
 	_create_walls()
 	_spawn_npcs()
 	_spawn_player()
+	
+	# Check for a resume-able run save
+	if SaveManager.has_run_save():
+		print("[Hub] Run save detected — player can resume")
 
 
 func _build_town_map() -> void:

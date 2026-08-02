@@ -104,7 +104,11 @@ func _interact_with_npc(npc: Area2D) -> void:
 	var is_town_hall: bool = npc.get_meta("is_town_hall", false)
 	
 	if is_entrance:
-		GameManager.start_run()
+		# Check if resuming a saved run
+		if SaveManager.has_run_save():
+			SaveManager.load_run()
+		else:
+			GameManager.start_run()
 		GameManager.change_scene("res://scenes/dungeon/dungeon.tscn")
 		return
 	
