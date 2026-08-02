@@ -31,6 +31,10 @@ var transitioning: bool = false
 ## Floor seed for reproducibility
 var current_seed: int = 0
 
+## Boss fight flag — set by GameManager or dungeon when entering boss floor
+var is_boss_fight: bool = false
+var boss_combatant: BossCombatant = null
+
 ## Track player's last tile to detect movement
 var last_player_tile: Vector2i = Vector2i(-1, -1)
 
@@ -185,7 +189,14 @@ func _on_reach_exit() -> void:
 		GameManager.end_run(true)
 		GameManager.change_scene("res://scenes/hub/hub.tscn")
 	else:
-		GameManager.change_scene("res://scenes/dungeon/dungeon.tscn")
+		# Check if next floor is a boss floor (floors 3 and 5)
+		if GameManager.current_floor in [3, 5]:
+			# Boss fight! Set flag and enter combat directly
+			GameManager.current_state = GameManager.GameState.COMBAT
+			GameManager.set_meta("boss_fight", true)
+			GameManager.change_scene("res://scenes/combat/combat.tscn")
+		else:
+			GameManager.change_scene("res://scenes/dungeon/dungeon.tscn")
 
 
 func _on_reach_chest(chest_pos: Vector2i) -> void:

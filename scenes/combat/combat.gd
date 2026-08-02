@@ -51,6 +51,10 @@ var pending_item: ItemData = null    # Item chosen, waiting for target
 var combat_log: Array[String] = []
 const MAX_LOG_LINES: int = 6
 
+## Boss fight state
+var is_boss_fight: bool = false
+var boss: BossCombatant = null
+
 ## Pause between actions for readability (seconds)
 const ACTION_DELAY: float = 0.8
 
@@ -67,20 +71,18 @@ func _setup_battle() -> void:
 	for member in PartyManager.active_party:
 		player_combatants.append(Combatant.from_character(member))
 	
-	# Create enemy combatants (random for current floor)
-	enemy_combatants.clear()
-	var enemy_pool: Array = EnemyDatabase.get_enemies_for_floor(GameManager.current_floor)
-	var enemy_count: int = randi_range(1, 3)  # 1-3 enemies
+	# Check if this is a boss fight
+	is_boss_fight = GameManager.get_meta("boss_fight", false)
+	if is_boss_fight:
+		GameManager.set_meta("boss_fight", false)  # Clear flag
 	
-	for i in range(enemy_count):
-		if enemy_pool.is_empty():
-			break
-		var enemy_data: EnemyData = enemy_pool[randi() % enemy_pool.size()]
-		var combatant: Combatant = Combatant.from_enemy(enemy_data)
-		# Append letter to name if duplicate (Slime A, Slime B)
-		if enemy_count > 1:
-			combatant.display_name += " " + char(65 + i)  # A, B, C
-		enemy_combatants.append(combatant)
+	# Create enemy combatants
+	enemy_combatants.clear()
+	
+	if is_boss_fight:
+		_setup_boss_encounter()
+	else:
+		_setup_normal_encounter()
 	
 	# Set up turn manager
 	turn_manager = TurnManager.new()
@@ -88,6 +90,9 @@ func _setup_battle() -> void:
 	turn_manager.battle_lost.connect(_on_battle_lost)
 	turn_manager.action_executed.connect(_on_action_executed)
 	turn_manager.setup_battle(player_combatants, enemy_combatants)
+	
+	if is_boss_fight:
+		_add_log("BOSS BATTLE: %s!" % boss.display_name)
 	
 	# Set up visual renderer
 	var renderer_script: Script = load("res://scripts/combat/battle_renderer.gd")
@@ -105,6 +110,53 @@ func _setup_battle() -> void:
 	# Start first turn after a brief pause
 	await get_tree().create_timer(0.5).timeout
 	_start_next_turn()
+
+
+func _setup_normal_encounter() -> void:
+	## Set up a regular random encounter with floor-appropriate enemies.
+	var enemy_pool: Array = EnemyDatabase.get_enemies_for_floor(GameManager.current_floor)
+	var enemy_count: int = randi_range(1, 3)
+	
+	for i in range(enemy_count):
+		if enemy_pool.is_empty():
+			break
+		var enemy_data: EnemyData = enemy_pool[randi() % enemy_pool.size()]
+		var combatant: Combatant = Combatant.from_enemy(enemy_data)
+		if enemy_count > 1:
+			combatant.display_name += " " + char(65 + i)
+		enemy_combatants.append(combatant)
+
+
+func _setup_boss_encounter() -> void:
+	## Set up a boss fight. Creates a BossCombatant wrapped in a Combatant.
+	var boss_data: BossData = BossDatabase.get_boss_for_floor(GameManager.current_floor)
+	if not boss_data:
+		push_warning("[Combat] No boss defined for floor %d — using normal encounter" % GameManager.current_floor)
+		_setup_normal_encounter()
+		is_boss_fight = false
+		return
+	
+	# Create the boss as a Combatant (adapting BossCombatant to the Combatant interface)
+	boss = BossCombatant.from_boss(boss_data)
+	
+	# Wrap boss in a regular Combatant shell for TurnManager compatibility
+	var boss_combatant := Combatant.new()
+	boss_combatant.is_player = false
+	boss_combatant.current_hp = boss.current_hp
+	boss_combatant.current_mp = boss.current_mp
+	boss_combatant.is_alive = true
+	boss_combatant.display_name = boss.display_name
+	boss_combatant.sprite_color = boss.sprite_color
+	
+	# Create a fake EnemyData for compatibility with existing systems
+	var fake_enemy := EnemyData.new()
+	fake_enemy.enemy_name = boss_data.boss_name
+	fake_enemy.stats = boss_data.stats
+	fake_enemy.gold_reward = boss_data.gold_reward
+	fake_enemy.sprite_color = boss_data.sprite_color
+	boss_combatant.enemy_data = fake_enemy
+	
+	enemy_combatants.append(boss_combatant)
 
 
 func _start_next_turn() -> void:
@@ -132,11 +184,17 @@ func _start_next_turn() -> void:
 		awaiting_player_input = false
 		await get_tree().create_timer(ACTION_DELAY).timeout
 		if not turn_manager.is_battle_active:
-			return  # Battle ended during the wait (e.g., scene changing)
-		turn_manager.execute_enemy_turn(active)
+			return
+		
+		# Boss AI: use phase-based skills and summon mechanic
+		if is_boss_fight and boss and active.display_name == boss.display_name:
+			_execute_boss_turn(active)
+		else:
+			turn_manager.execute_enemy_turn(active)
+		
 		_update_ui()
 		if not turn_manager.is_battle_active:
-			return  # Battle ended from this attack
+			return
 		await get_tree().create_timer(ACTION_DELAY).timeout
 		_start_next_turn()
 
@@ -713,6 +771,98 @@ func _use_item_on_target(target: Combatant) -> void:
 	pending_item = null
 
 
+func _execute_boss_turn(active: Combatant) -> void:
+	## Boss AI: pick action based on phase, handle summons.
+	
+	# Sync boss HP with the combatant wrapper
+	boss.current_hp = active.current_hp
+	
+	# Check for phase transition
+	if boss.check_phase_transition():
+		_add_log("%s enters a new phase!" % boss.display_name)
+	
+	# Pick action
+	var action: Dictionary = boss.pick_action()
+	
+	match action["type"]:
+		"summon":
+			_boss_summon()
+		"skill":
+			_boss_use_skill(active, action["skill"])
+		_:
+			# Default attack
+			turn_manager.execute_enemy_turn(active)
+
+
+func _boss_summon() -> void:
+	## Boss summons minion enemies into the battle.
+	if not boss or not boss.boss_data:
+		return
+	
+	var summon_name: String = boss.boss_data.summon_enemy_name
+	var count: int = boss.boss_data.summon_count
+	
+	_add_log("%s summons reinforcements!" % boss.display_name)
+	
+	for i in range(count):
+		var enemy_data: EnemyData = EnemyDatabase.get_enemy(summon_name)
+		if not enemy_data:
+			break
+		var minion: Combatant = Combatant.from_enemy(enemy_data)
+		minion.display_name = "%s %s" % [summon_name, char(65 + enemy_combatants.size())]
+		enemy_combatants.append(minion)
+		turn_manager.turn_order.append(minion)
+	
+	# Refresh renderer
+	if battle_renderer:
+		battle_renderer.enemy_combatants = enemy_combatants
+		battle_renderer.refresh()
+	
+	turn_manager.advance_index()
+
+
+func _boss_use_skill(active: Combatant, skill: SkillData) -> void:
+	## Boss uses a phase-appropriate skill on a random target.
+	var targets: Array[Combatant] = turn_manager.get_alive_players()
+	if targets.is_empty():
+		return
+	
+	# Spend MP if the boss has enough
+	if skill.mp_cost > 0 and active.current_mp >= skill.mp_cost:
+		active.current_mp -= skill.mp_cost
+	
+	match skill.target_type:
+		SkillData.TargetType.SINGLE_ENEMY:
+			var target: Combatant = targets[randi() % targets.size()]
+			var damage: int = DamageCalculator.calculate_skill_damage(active, target, skill)
+			var actual: int = target.take_damage(damage)
+			_add_log("%s uses %s → %s: %d dmg" % [active.display_name, skill.skill_name, target.display_name, actual])
+			if battle_renderer:
+				var idx: int = player_combatants.find(target)
+				battle_renderer.show_damage_on_player(idx, actual)
+			if not target.is_alive:
+				turn_manager.combatant_died.emit(target)
+		SkillData.TargetType.ALL_ENEMIES:
+			_add_log("%s uses %s on all!" % [active.display_name, skill.skill_name])
+			for target in targets:
+				var damage: int = DamageCalculator.calculate_skill_damage(active, target, skill)
+				var actual: int = target.take_damage(damage)
+				if battle_renderer:
+					var idx: int = player_combatants.find(target)
+					battle_renderer.show_damage_on_player(idx, actual)
+				if not target.is_alive:
+					turn_manager.combatant_died.emit(target)
+		_:
+			# Fallback: treat as single target attack
+			var target: Combatant = targets[randi() % targets.size()]
+			turn_manager.execute_attack(active, target)
+			return
+	
+	turn_manager.check_battle_end()
+	if turn_manager.is_battle_active:
+		turn_manager.advance_index()
+
+
 func _continue_after_action() -> void:
 	## Wait a beat after an action, then start next turn.
 	await get_tree().create_timer(ACTION_DELAY).timeout
@@ -750,27 +900,48 @@ func _on_battle_won() -> void:
 	var items_found: Array[String] = []
 	var crystals_earned: int = 0
 	
-	# Roll loot for each defeated enemy
-	var loot_table: LootTable = LootTable.create_enemy_table(GameManager.current_floor)
-	
-	for enemy in enemy_combatants:
-		if enemy.enemy_data:
-			gold_earned += enemy.enemy_data.gold_reward
+	if is_boss_fight and boss and boss.boss_data:
+		# Boss rewards — use boss loot table (always generous)
+		var boss_table: LootTable = LootTable.create_boss_table(GameManager.current_floor)
+		gold_earned = boss.boss_data.gold_reward
+		crystals_earned = boss.boss_data.meta_crystal_reward
 		
-		# Roll the loot table for this enemy
-		var drop: Dictionary = loot_table.roll()
-		match drop["type"]:
-			LootTable.LootType.GOLD:
-				gold_earned += drop["amount"]
-			LootTable.LootType.ITEM:
-				var item: ItemData = ItemDatabase.get_item(drop["item_name"])
-				if item:
-					GameManager.inventory.add_item(item, drop["amount"])
-					items_found.append(drop["item_name"])
-			LootTable.LootType.META_CRYSTAL:
-				crystals_earned += drop["amount"]
-			LootTable.LootType.NOTHING:
-				pass
+		# Roll boss table for bonus drops
+		var drops: Array[Dictionary] = boss_table.roll_multiple(3)
+		for drop in drops:
+			match drop["type"]:
+				LootTable.LootType.GOLD:
+					gold_earned += drop["amount"]
+				LootTable.LootType.ITEM:
+					var item: ItemData = ItemDatabase.get_item(drop["item_name"])
+					if item:
+						GameManager.inventory.add_item(item, drop["amount"])
+						items_found.append(drop["item_name"])
+				LootTable.LootType.META_CRYSTAL:
+					crystals_earned += drop["amount"]
+		
+		# Track milestone
+		UnlocksManager.record_boss_defeated()
+	else:
+		# Normal encounter rewards
+		var loot_table: LootTable = LootTable.create_enemy_table(GameManager.current_floor)
+		
+		for enemy in enemy_combatants:
+			if enemy.enemy_data:
+				gold_earned += enemy.enemy_data.gold_reward
+			var drop: Dictionary = loot_table.roll()
+			match drop["type"]:
+				LootTable.LootType.GOLD:
+					gold_earned += drop["amount"]
+				LootTable.LootType.ITEM:
+					var item: ItemData = ItemDatabase.get_item(drop["item_name"])
+					if item:
+						GameManager.inventory.add_item(item, drop["amount"])
+						items_found.append(drop["item_name"])
+				LootTable.LootType.META_CRYSTAL:
+					crystals_earned += drop["amount"]
+				LootTable.LootType.NOTHING:
+					pass
 	
 	# Apply rewards
 	if gold_earned > 0:
@@ -798,8 +969,20 @@ func _on_battle_won() -> void:
 	
 	awaiting_player_input = false
 	await _wait_for_confirm()
-	GameManager.current_state = GameManager.GameState.DUNGEON
-	GameManager.go_back()
+	
+	if is_boss_fight:
+		# Boss defeated — advance floor and continue or end run
+		if GameManager.current_floor >= 5:
+			# Final boss defeated — run complete!
+			GameManager.end_run(true)
+			GameManager.change_scene("res://scenes/hub/hub.tscn")
+		else:
+			# Mini-boss — continue to next floor
+			GameManager.current_state = GameManager.GameState.DUNGEON
+			GameManager.change_scene("res://scenes/dungeon/dungeon.tscn")
+	else:
+		GameManager.current_state = GameManager.GameState.DUNGEON
+		GameManager.go_back()
 
 
 func _on_battle_lost() -> void:

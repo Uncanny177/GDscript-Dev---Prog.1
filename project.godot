@@ -25,6 +25,7 @@ UnlocksManager="*res://scripts/managers/unlocks_manager.gd"
 SaveManager="*res://scripts/managers/save_manager.gd"
 ClassDatabase="*res://scripts/data/class_database.gd"
 EnemyDatabase="*res://scripts/data/enemy_database.gd"
+BossDatabase="*res://scripts/data/boss_database.gd"
 ItemDatabase="*res://scripts/data/item_database.gd"
 PartyManager="*res://scripts/data/party_manager.gd"
 
