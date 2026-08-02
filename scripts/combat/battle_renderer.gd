@@ -44,72 +44,84 @@ func _draw() -> void:
 
 
 func _draw_party() -> void:
-	## Draw party members on the left side.
+	## Draw party members on the left side with improved visuals.
 	for i in range(player_combatants.size()):
 		var combatant: Combatant = player_combatants[i]
 		var pos := Vector2(PARTY_X, START_Y + i * SPACING_Y)
 		
-		# Sprite (colored square)
+		# Shadow
+		draw_rect(Rect2(pos + Vector2(-12, 18), Vector2(24, 8)), Color(0.0, 0.0, 0.0, 0.25), true)
+		
+		# Body (colored square with border)
 		var sprite_rect := Rect2(pos - Vector2(SPRITE_SIZE / 2.0, SPRITE_SIZE / 2.0), Vector2(SPRITE_SIZE, SPRITE_SIZE))
 		var color: Color = combatant.sprite_color
 		if not combatant.is_alive:
-			color = Color(0.3, 0.3, 0.3, 0.5)  # Gray out dead members
-		elif combatant.is_defending:
-			# Draw a shield outline when defending
-			draw_rect(sprite_rect.grow(3), Color(0.3, 0.6, 1.0, 0.7), false, 2.0)
+			color = Color(0.3, 0.3, 0.3, 0.4)
 		draw_rect(sprite_rect, color, true)
+		draw_rect(sprite_rect, color.lightened(0.3), false, 1.5)  # Light border
 		
-		# Name
+		# Defend indicator
+		if combatant.is_defending and combatant.is_alive:
+			draw_rect(sprite_rect.grow(4), Color(0.3, 0.6, 1.0, 0.6), false, 2.0)
+			draw_rect(sprite_rect.grow(6), Color(0.3, 0.6, 1.0, 0.3), false, 1.0)
+		
+		# Name above
 		var font: Font = ThemeDB.fallback_font
-		draw_string(font, pos + Vector2(-SPRITE_SIZE / 2.0, -SPRITE_SIZE / 2.0 - 4), combatant.display_name, HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color.WHITE)
+		draw_string(font, pos + Vector2(-SPRITE_SIZE / 2.0, -SPRITE_SIZE / 2.0 - 6), combatant.display_name, HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color(0.9, 0.9, 0.9))
 		
 		# HP bar
 		var bar_pos := pos + Vector2(-BAR_WIDTH / 2.0, BAR_OFFSET_Y)
-		_draw_bar(bar_pos, combatant.current_hp, combatant.get_max_hp(), Color(0.2, 0.8, 0.2), Color(0.8, 0.2, 0.2))
+		_draw_bar(bar_pos, combatant.current_hp, combatant.get_max_hp(), Color(0.15, 0.75, 0.25), Color(0.6, 0.12, 0.12))
 		
 		# HP text
 		var hp_text: String = "%d/%d" % [combatant.current_hp, combatant.get_max_hp()]
-		draw_string(font, bar_pos + Vector2(0, BAR_HEIGHT + 12), hp_text, HORIZONTAL_ALIGNMENT_LEFT, -1, 10, Color(0.8, 0.8, 0.8))
+		draw_string(font, bar_pos + Vector2(0, BAR_HEIGHT + 12), hp_text, HORIZONTAL_ALIGNMENT_LEFT, -1, 10, Color(0.75, 0.75, 0.75))
 		
 		# MP bar (smaller, below HP)
 		var mp_pos := bar_pos + Vector2(0, BAR_HEIGHT + 16)
-		_draw_bar(mp_pos, combatant.current_mp, combatant.get_max_mp(), Color(0.3, 0.4, 0.9), Color(0.15, 0.15, 0.3))
+		_draw_bar(mp_pos, combatant.current_mp, combatant.get_max_mp(), Color(0.25, 0.4, 0.9), Color(0.1, 0.1, 0.25))
 
 
 func _draw_enemies() -> void:
-	## Draw enemies on the right side.
+	## Draw enemies on the right side with improved visuals.
 	for i in range(enemy_combatants.size()):
 		var combatant: Combatant = enemy_combatants[i]
 		var pos := Vector2(ENEMY_X, START_Y + i * SPACING_Y)
 		
-		# Sprite (colored square)
+		# Shadow
+		draw_rect(Rect2(pos + Vector2(-14, 18), Vector2(28, 8)), Color(0.0, 0.0, 0.0, 0.25), true)
+		
+		# Sprite (colored square with dark border)
 		var sprite_rect := Rect2(pos - Vector2(SPRITE_SIZE / 2.0, SPRITE_SIZE / 2.0), Vector2(SPRITE_SIZE, SPRITE_SIZE))
 		var color: Color = combatant.sprite_color
 		if not combatant.is_alive:
-			color = Color(0.3, 0.3, 0.3, 0.3)  # Faded for dead
+			color = Color(0.25, 0.25, 0.25, 0.3)
 		draw_rect(sprite_rect, color, true)
+		draw_rect(sprite_rect, color.darkened(0.3), false, 1.5)  # Dark border
 		
 		# Highlight selected target
 		if i == highlighted_target and combatant.is_alive:
-			draw_rect(sprite_rect.grow(4), Color(1.0, 1.0, 0.3, 0.8), false, 2.0)
-			# Draw arrow indicator
-			var arrow_pos := pos + Vector2(-SPRITE_SIZE / 2.0 - 12, 0)
-			draw_string(ThemeDB.fallback_font, arrow_pos, ">", HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Color(1.0, 1.0, 0.3))
+			draw_rect(sprite_rect.grow(5), Color(1.0, 0.9, 0.2, 0.8), false, 2.5)
+			draw_rect(sprite_rect.grow(8), Color(1.0, 0.9, 0.2, 0.3), false, 1.0)
+			# Arrow
+			var font: Font = ThemeDB.fallback_font
+			var arrow_pos := pos + Vector2(-SPRITE_SIZE / 2.0 - 14, 4)
+			draw_string(font, arrow_pos, ">", HORIZONTAL_ALIGNMENT_LEFT, -1, 18, Color(1.0, 0.9, 0.2))
 		
-		# Name
+		# Name above
 		var font: Font = ThemeDB.fallback_font
-		draw_string(font, pos + Vector2(-SPRITE_SIZE / 2.0, -SPRITE_SIZE / 2.0 - 4), combatant.display_name, HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color.WHITE)
+		draw_string(font, pos + Vector2(-SPRITE_SIZE / 2.0, -SPRITE_SIZE / 2.0 - 6), combatant.display_name, HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color(0.9, 0.9, 0.9))
 		
 		# HP bar
 		var bar_pos := pos + Vector2(-BAR_WIDTH / 2.0, BAR_OFFSET_Y)
-		_draw_bar(bar_pos, combatant.current_hp, combatant.get_max_hp(), Color(0.8, 0.2, 0.2), Color(0.3, 0.1, 0.1))
+		_draw_bar(bar_pos, combatant.current_hp, combatant.get_max_hp(), Color(0.8, 0.2, 0.15), Color(0.25, 0.08, 0.08))
 		
-		# HP text
+		# HP text or DEFEATED
 		if combatant.is_alive:
 			var hp_text: String = "%d/%d" % [combatant.current_hp, combatant.get_max_hp()]
-			draw_string(font, bar_pos + Vector2(0, BAR_HEIGHT + 12), hp_text, HORIZONTAL_ALIGNMENT_LEFT, -1, 10, Color(0.8, 0.8, 0.8))
+			draw_string(font, bar_pos + Vector2(0, BAR_HEIGHT + 12), hp_text, HORIZONTAL_ALIGNMENT_LEFT, -1, 10, Color(0.75, 0.75, 0.75))
 		else:
-			draw_string(font, bar_pos + Vector2(0, BAR_HEIGHT + 12), "DEFEATED", HORIZONTAL_ALIGNMENT_LEFT, -1, 10, Color(0.5, 0.3, 0.3))
+			draw_string(font, bar_pos + Vector2(0, BAR_HEIGHT + 12), "DEFEATED", HORIZONTAL_ALIGNMENT_LEFT, -1, 10, Color(0.5, 0.25, 0.25))
 
 
 func _draw_bar(pos: Vector2, current: int, maximum: int, fill_color: Color, bg_color: Color) -> void:

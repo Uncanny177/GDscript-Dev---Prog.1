@@ -25,13 +25,13 @@ enum Tile { FLOOR, WALL, BUILDING, PATH, DOOR }
 ## The town layout as a 2D array. Built in _ready().
 var town_map: Array = []
 
-## Colors for each tile type
+## Colors for each tile type — warmer, more vibrant palette
 const COLORS := {
-	Tile.FLOOR: Color(0.2, 0.35, 0.15),     # Green (grass)
-	Tile.WALL: Color(0.35, 0.25, 0.15),      # Brown (fences/walls)
-	Tile.BUILDING: Color(0.3, 0.3, 0.35),    # Gray (buildings)
-	Tile.PATH: Color(0.4, 0.35, 0.25),       # Tan (dirt path)
-	Tile.DOOR: Color(0.5, 0.3, 0.1),         # Orange-brown (doors)
+	Tile.FLOOR: Color(0.25, 0.45, 0.2),     # Rich green (grass)
+	Tile.WALL: Color(0.4, 0.3, 0.18),       # Warm brown (fences/walls)
+	Tile.BUILDING: Color(0.35, 0.32, 0.38), # Cool gray (stone buildings)
+	Tile.PATH: Color(0.5, 0.42, 0.3),       # Sandy tan (dirt path)
+	Tile.DOOR: Color(0.55, 0.35, 0.15),     # Orange-brown (wooden doors)
 }
 
 
@@ -285,18 +285,45 @@ func _spawn_player() -> void:
 
 
 func _draw() -> void:
-	## Draw all tiles as colored rectangles.
+	## Draw all tiles with improved visuals.
 	for y in range(TOWN_HEIGHT):
 		for x in range(TOWN_WIDTH):
 			var tile_type: int = town_map[y][x]
-			var rect := Rect2(Vector2(x * TILE_SIZE, y * TILE_SIZE), Vector2(TILE_SIZE, TILE_SIZE))
+			var pos := Vector2(x * TILE_SIZE, y * TILE_SIZE)
+			var rect := Rect2(pos, Vector2(TILE_SIZE, TILE_SIZE))
+			
+			# Base color
 			draw_rect(rect, COLORS[tile_type], true)
 			
-			# Grid lines for clarity
-			draw_rect(rect, Color(0.0, 0.0, 0.0, 0.15), false)
+			# Add detail per tile type
+			match tile_type:
+				Tile.FLOOR:
+					# Grass texture — subtle dots
+					if (x + y) % 3 == 0:
+						draw_rect(Rect2(pos + Vector2(8, 12), Vector2(2, 4)), Color(0.2, 0.35, 0.15), true)
+					if (x * 7 + y * 3) % 5 == 0:
+						draw_rect(Rect2(pos + Vector2(20, 8), Vector2(2, 3)), Color(0.2, 0.38, 0.15), true)
+				Tile.WALL:
+					# Fence/stone detail
+					draw_rect(Rect2(pos, Vector2(TILE_SIZE, 2)), Color(0.5, 0.38, 0.22), true)  # Top highlight
+					draw_rect(Rect2(pos + Vector2(0, TILE_SIZE - 2), Vector2(TILE_SIZE, 2)), Color(0.25, 0.18, 0.1), true)  # Bottom shadow
+				Tile.BUILDING:
+					# Stone brick pattern
+					draw_rect(Rect2(pos + Vector2(0, TILE_SIZE / 2.0), Vector2(TILE_SIZE, 1)), Color(0.0, 0.0, 0.0, 0.1), true)
+					draw_rect(Rect2(pos + Vector2(TILE_SIZE / 2.0, 0), Vector2(1, TILE_SIZE)), Color(0.0, 0.0, 0.0, 0.08), true)
+				Tile.PATH:
+					# Dirt path with pebble dots
+					if (x * 13 + y * 7) % 4 == 0:
+						draw_rect(Rect2(pos + Vector2(10, 14), Vector2(3, 3)), Color(0.42, 0.36, 0.25), true)
+					if (x * 3 + y * 11) % 5 == 0:
+						draw_rect(Rect2(pos + Vector2(22, 6), Vector2(2, 2)), Color(0.45, 0.38, 0.28), true)
+				Tile.DOOR:
+					# Door detail — handle
+					draw_rect(Rect2(pos + Vector2(TILE_SIZE - 8, TILE_SIZE / 2.0 - 2), Vector2(3, 4)), Color(0.7, 0.5, 0.2), true)
+			
+			# Subtle grid
+			draw_rect(rect, Color(0.0, 0.0, 0.0, 0.06), false)
 	
-	# Draw labels above buildings
-	# (We can't easily draw text in _draw, so we'll use Label nodes instead)
 	_draw_building_labels()
 
 

@@ -113,11 +113,34 @@ func _create_enemy_marker(tile_pos: Vector2i) -> void:
 	marker.name = "EnemyMarker_%d_%d" % [tile_pos.x, tile_pos.y]
 	marker.position = Vector2(tile_pos.x * 32 + 16, tile_pos.y * 32 + 16)
 	marker.set_meta("tile_pos", tile_pos)
-	var visual := ColorRect.new()
-	visual.size = Vector2(20, 20)
-	visual.position = Vector2(-10, -10)
-	visual.color = Color(0.9, 0.2, 0.2, 0.8)
-	marker.add_child(visual)
+	
+	# Shadow under the enemy
+	var shadow := ColorRect.new()
+	shadow.size = Vector2(18, 8)
+	shadow.position = Vector2(-9, 2)
+	shadow.color = Color(0.0, 0.0, 0.0, 0.3)
+	marker.add_child(shadow)
+	
+	# Body — reddish enemy blob
+	var body := ColorRect.new()
+	body.size = Vector2(16, 18)
+	body.position = Vector2(-8, -12)
+	body.color = Color(0.85, 0.15, 0.15, 0.9)
+	marker.add_child(body)
+	
+	# Eyes — two small white dots
+	var eye_l := ColorRect.new()
+	eye_l.size = Vector2(3, 3)
+	eye_l.position = Vector2(-5, -8)
+	eye_l.color = Color(1.0, 1.0, 1.0, 0.9)
+	marker.add_child(eye_l)
+	
+	var eye_r := ColorRect.new()
+	eye_r.size = Vector2(3, 3)
+	eye_r.position = Vector2(2, -8)
+	eye_r.color = Color(1.0, 1.0, 1.0, 0.9)
+	marker.add_child(eye_r)
+	
 	add_child(marker)
 	enemy_markers.append(marker)
 
