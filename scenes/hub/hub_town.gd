@@ -107,8 +107,8 @@ func _create_walls() -> void:
 			if town_map[y][x] == Tile.WALL or town_map[y][x] == Tile.BUILDING:
 				var body := StaticBody2D.new()
 				body.position = Vector2(
-					x * TILE_SIZE + TILE_SIZE / 2,
-					y * TILE_SIZE + TILE_SIZE / 2
+					x * TILE_SIZE + TILE_SIZE / 2.0,
+					y * TILE_SIZE + TILE_SIZE / 2.0
 				)
 				var shape := CollisionShape2D.new()
 				var rect := RectangleShape2D.new()
@@ -173,8 +173,8 @@ func _create_npc(npc_name: String, grid_pos: Vector2, color: Color, dialogue: Ar
 	var npc := Area2D.new()
 	npc.name = npc_name.replace(" ", "")  # Node names can't have spaces
 	npc.position = Vector2(
-		grid_pos.x * TILE_SIZE + TILE_SIZE / 2,
-		grid_pos.y * TILE_SIZE + TILE_SIZE / 2
+		grid_pos.x * TILE_SIZE + TILE_SIZE / 2.0,
+		grid_pos.y * TILE_SIZE + TILE_SIZE / 2.0
 	)
 	
 	# Store dialogue as metadata on the node
@@ -189,7 +189,7 @@ func _create_npc(npc_name: String, grid_pos: Vector2, color: Color, dialogue: Ar
 	# Visual — colored square for the NPC
 	var visual := ColorRect.new()
 	visual.size = Vector2(TILE_SIZE - 4, TILE_SIZE - 4)
-	visual.position = Vector2(-(TILE_SIZE - 4) / 2, -(TILE_SIZE - 4) / 2)
+	visual.position = Vector2(-(TILE_SIZE - 4) / 2.0, -(TILE_SIZE - 4) / 2.0)
 	visual.color = color
 	npc.add_child(visual)
 	
@@ -228,7 +228,7 @@ func _spawn_player() -> void:
 		return
 	
 	var player: Node = player_scene.instantiate()
-	player.position = Vector2(10 * TILE_SIZE + TILE_SIZE / 2, 8 * TILE_SIZE + TILE_SIZE / 2)
+	player.position = Vector2(10 * TILE_SIZE + TILE_SIZE / 2.0, 8 * TILE_SIZE + TILE_SIZE / 2.0)
 	add_child(player)  # Add player to Town node (same level as walls/NPCs)
 	
 	# Attach NPC interaction system to the player

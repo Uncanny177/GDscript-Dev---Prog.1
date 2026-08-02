@@ -33,7 +33,7 @@ func _create_wall_collisions() -> void:
 		for x in range(generator.floor_width):
 			if generator.get_tile(x, y) == RoomTemplate.WALL:
 				var body := StaticBody2D.new()
-				body.position = Vector2(x * TILE_SIZE + TILE_SIZE / 2, y * TILE_SIZE + TILE_SIZE / 2)
+				body.position = Vector2(x * TILE_SIZE + TILE_SIZE / 2.0, y * TILE_SIZE + TILE_SIZE / 2.0)
 				var shape := CollisionShape2D.new()
 				var rect := RectangleShape2D.new()
 				rect.size = Vector2(TILE_SIZE, TILE_SIZE)

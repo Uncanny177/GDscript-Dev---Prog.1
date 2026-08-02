@@ -50,7 +50,7 @@ func _draw_party() -> void:
 		var pos := Vector2(PARTY_X, START_Y + i * SPACING_Y)
 		
 		# Sprite (colored square)
-		var sprite_rect := Rect2(pos - Vector2(SPRITE_SIZE / 2, SPRITE_SIZE / 2), Vector2(SPRITE_SIZE, SPRITE_SIZE))
+		var sprite_rect := Rect2(pos - Vector2(SPRITE_SIZE / 2.0, SPRITE_SIZE / 2.0), Vector2(SPRITE_SIZE, SPRITE_SIZE))
 		var color: Color = combatant.sprite_color
 		if not combatant.is_alive:
 			color = Color(0.3, 0.3, 0.3, 0.5)  # Gray out dead members
@@ -61,10 +61,10 @@ func _draw_party() -> void:
 		
 		# Name
 		var font: Font = ThemeDB.fallback_font
-		draw_string(font, pos + Vector2(-SPRITE_SIZE / 2, -SPRITE_SIZE / 2 - 4), combatant.display_name, HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color.WHITE)
+		draw_string(font, pos + Vector2(-SPRITE_SIZE / 2.0, -SPRITE_SIZE / 2.0 - 4), combatant.display_name, HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color.WHITE)
 		
 		# HP bar
-		var bar_pos := pos + Vector2(-BAR_WIDTH / 2, BAR_OFFSET_Y)
+		var bar_pos := pos + Vector2(-BAR_WIDTH / 2.0, BAR_OFFSET_Y)
 		_draw_bar(bar_pos, combatant.current_hp, combatant.get_max_hp(), Color(0.2, 0.8, 0.2), Color(0.8, 0.2, 0.2))
 		
 		# HP text
@@ -83,7 +83,7 @@ func _draw_enemies() -> void:
 		var pos := Vector2(ENEMY_X, START_Y + i * SPACING_Y)
 		
 		# Sprite (colored square)
-		var sprite_rect := Rect2(pos - Vector2(SPRITE_SIZE / 2, SPRITE_SIZE / 2), Vector2(SPRITE_SIZE, SPRITE_SIZE))
+		var sprite_rect := Rect2(pos - Vector2(SPRITE_SIZE / 2.0, SPRITE_SIZE / 2.0), Vector2(SPRITE_SIZE, SPRITE_SIZE))
 		var color: Color = combatant.sprite_color
 		if not combatant.is_alive:
 			color = Color(0.3, 0.3, 0.3, 0.3)  # Faded for dead
@@ -93,15 +93,15 @@ func _draw_enemies() -> void:
 		if i == highlighted_target and combatant.is_alive:
 			draw_rect(sprite_rect.grow(4), Color(1.0, 1.0, 0.3, 0.8), false, 2.0)
 			# Draw arrow indicator
-			var arrow_pos := pos + Vector2(-SPRITE_SIZE / 2 - 12, 0)
+			var arrow_pos := pos + Vector2(-SPRITE_SIZE / 2.0 - 12, 0)
 			draw_string(ThemeDB.fallback_font, arrow_pos, ">", HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Color(1.0, 1.0, 0.3))
 		
 		# Name
 		var font: Font = ThemeDB.fallback_font
-		draw_string(font, pos + Vector2(-SPRITE_SIZE / 2, -SPRITE_SIZE / 2 - 4), combatant.display_name, HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color.WHITE)
+		draw_string(font, pos + Vector2(-SPRITE_SIZE / 2.0, -SPRITE_SIZE / 2.0 - 4), combatant.display_name, HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color.WHITE)
 		
 		# HP bar
-		var bar_pos := pos + Vector2(-BAR_WIDTH / 2, BAR_OFFSET_Y)
+		var bar_pos := pos + Vector2(-BAR_WIDTH / 2.0, BAR_OFFSET_Y)
 		_draw_bar(bar_pos, combatant.current_hp, combatant.get_max_hp(), Color(0.8, 0.2, 0.2), Color(0.3, 0.1, 0.1))
 		
 		# HP text

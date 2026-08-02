@@ -50,7 +50,7 @@ func _place_rooms(count: int, floor_number: int) -> void:
 	var exit_rooms: Array = RoomTemplatesData.get_exit_rooms()
 	var boss_rooms: Array = RoomTemplatesData.get_boss_rooms()
 	
-	var center := Vector2i(grid_size / 2, grid_size / 2)
+	var center := Vector2i(grid_size / 2, grid_size / 2)  # Integer division intentional
 	var start_template: RoomTemplate = start_rooms[rng.randi() % start_rooms.size()]
 	_place_room_at(start_template, center)
 	occupied[center] = 0
@@ -193,7 +193,7 @@ func _build_floor_tiles() -> void:
 		var start_room: Dictionary = placed_rooms[0]
 		var offset: Vector2i = start_room["world_offset"]
 		var template: RoomTemplate = start_room["template"]
-		player_start = Vector2i(offset.x + template.width / 2, offset.y + template.height / 2)
+		player_start = Vector2i(offset.x + template.width / 2, offset.y + template.height / 2)  # Integer division intentional
 	
 	_connect_rooms()
 

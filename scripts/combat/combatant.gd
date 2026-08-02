@@ -138,7 +138,7 @@ func take_damage(amount: int) -> int:
 	var actual: int = amount
 	
 	if is_defending:
-		actual = maxi(actual / 2, 1)
+		actual = maxi(actual / 2, 1)  # Integer division intentional (halve damage)
 	
 	actual = mini(actual, current_hp)  # Can't deal more than remaining HP
 	current_hp -= actual

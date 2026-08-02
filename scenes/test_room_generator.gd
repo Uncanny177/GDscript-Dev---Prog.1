@@ -91,7 +91,7 @@ func _create_wall(x: int, y: int) -> void:
 	## We also use _draw() below to render all tiles visually.
 	
 	var body := StaticBody2D.new()  # .new() = instantiate (like Python's ClassName())
-	body.position = Vector2(x * tile_size + tile_size / 2, y * tile_size + tile_size / 2)
+	body.position = Vector2(x * tile_size + tile_size / 2.0, y * tile_size + tile_size / 2.0)
 	
 	var shape := CollisionShape2D.new()
 	var rect := RectangleShape2D.new()
