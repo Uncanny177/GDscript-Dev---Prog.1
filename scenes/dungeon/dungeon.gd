@@ -62,13 +62,10 @@ func _apply_difficulty_scaling() -> void:
 
 
 func _get_floor_description() -> String:
-	match GameManager.current_floor:
-		1: return "The entrance is damp and cold..."
-		2: return "You descend deeper into darkness."
-		3: return "Strange sounds echo from below."
-		4: return "The air grows thick with danger."
-		5: return "The boss awaits on this floor!"
-		_: return "Uncharted depths..."
+	var biome: BiomeData = BiomeDatabase.get_biome_for_floor(GameManager.current_floor)
+	if biome:
+		return biome.description
+	return "Uncharted depths..."
 
 
 func _generate_and_render_floor() -> void:
@@ -82,7 +79,7 @@ func _generate_and_render_floor() -> void:
 		dungeon_renderer.name = "DungeonRenderer"
 		dungeon_renderer.set_script(renderer_script)
 		add_child(dungeon_renderer)
-		dungeon_renderer.setup(floor_gen)
+		dungeon_renderer.setup(floor_gen, BiomeDatabase.get_biome_for_floor(GameManager.current_floor))
 	
 	_spawn_player()
 

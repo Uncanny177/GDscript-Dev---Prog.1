@@ -178,3 +178,263 @@ func _create_enemies() -> void:
 	
 	enemies["Dark Knight"] = dark_knight
 	tier_3.append(dark_knight)
+
+
+	# ─── CAVE BIOME: New enemies ───────────────────────────────────
+	
+	# CAVE BAT — Fast, weak. Annoyance enemy.
+	var bat_stats := StatBlock.new()
+	bat_stats.max_hp = 20
+	bat_stats.max_mp = 0
+	bat_stats.atk = 7
+	bat_stats.def_stat = 3
+	bat_stats.mag = 2
+	bat_stats.res_stat = 2
+	bat_stats.spd = 15
+	
+	var bat_bite := SkillData.new()
+	bat_bite.skill_name = "Bite"
+	bat_bite.mp_cost = 0
+	bat_bite.target_type = SkillData.TargetType.SINGLE_ENEMY
+	bat_bite.damage_type = SkillData.DamageType.PHYSICAL
+	bat_bite.power_multiplier = 1.0
+	
+	var bat := EnemyData.new()
+	bat.enemy_name = "Cave Bat"
+	bat.stats = bat_stats
+	bat.skills = [bat_bite]
+	bat.skill_weights = [1]
+	bat.gold_reward = 2
+	bat.xp_reward = 3
+	bat.sprite_color = Color(0.3, 0.2, 0.35)
+	
+	enemies["Cave Bat"] = bat
+	tier_1.append(bat)
+	
+	# MUSHROOM — Poisonous, slow. Can apply poison.
+	var mush_stats := StatBlock.new()
+	mush_stats.max_hp = 35
+	mush_stats.max_mp = 10
+	mush_stats.atk = 6
+	mush_stats.def_stat = 8
+	mush_stats.mag = 5
+	mush_stats.res_stat = 6
+	mush_stats.spd = 4
+	
+	var spore_cloud := SkillData.new()
+	spore_cloud.skill_name = "Spore Cloud"
+	spore_cloud.mp_cost = 0
+	spore_cloud.target_type = SkillData.TargetType.SINGLE_ENEMY
+	spore_cloud.damage_type = SkillData.DamageType.PHYSICAL
+	spore_cloud.power_multiplier = 0.8
+	spore_cloud.status_on_hit = {"type": StatusEffect.Type.POISON, "duration": 3, "potency": 8, "chance": 50}
+	
+	var mushroom := EnemyData.new()
+	mushroom.enemy_name = "Mushroom"
+	mushroom.stats = mush_stats
+	mushroom.skills = [spore_cloud]
+	mushroom.skill_weights = [1]
+	mushroom.gold_reward = 4
+	mushroom.xp_reward = 6
+	mushroom.sprite_color = Color(0.5, 0.3, 0.6)
+	
+	enemies["Mushroom"] = mushroom
+	tier_1.append(mushroom)
+	
+	# ─── CRYPT BIOME: New enemies ──────────────────────────────────
+	
+	# GHOST — Magical, partially resistant to physical. High RES.
+	var ghost_stats := StatBlock.new()
+	ghost_stats.max_hp = 50
+	ghost_stats.max_mp = 20
+	ghost_stats.atk = 8
+	ghost_stats.def_stat = 4
+	ghost_stats.mag = 14
+	ghost_stats.res_stat = 14
+	ghost_stats.spd = 12
+	
+	var spectral_touch := SkillData.new()
+	spectral_touch.skill_name = "Spectral Touch"
+	spectral_touch.mp_cost = 0
+	spectral_touch.target_type = SkillData.TargetType.SINGLE_ENEMY
+	spectral_touch.damage_type = SkillData.DamageType.MAGICAL
+	spectral_touch.power_multiplier = 1.1
+	
+	var ghost := EnemyData.new()
+	ghost.enemy_name = "Ghost"
+	ghost.stats = ghost_stats
+	ghost.skills = [spectral_touch]
+	ghost.skill_weights = [1]
+	ghost.gold_reward = 8
+	ghost.xp_reward = 12
+	ghost.sprite_color = Color(0.7, 0.7, 0.85, 0.7)
+	
+	enemies["Ghost"] = ghost
+	tier_2.append(ghost)
+	
+	# ZOMBIE — Slow, tanky, hits hard. Low SPD.
+	var zombie_stats := StatBlock.new()
+	zombie_stats.max_hp = 90
+	zombie_stats.max_mp = 0
+	zombie_stats.atk = 16
+	zombie_stats.def_stat = 10
+	zombie_stats.mag = 2
+	zombie_stats.res_stat = 4
+	zombie_stats.spd = 4
+	
+	var zombie_slam := SkillData.new()
+	zombie_slam.skill_name = "Slam"
+	zombie_slam.mp_cost = 0
+	zombie_slam.target_type = SkillData.TargetType.SINGLE_ENEMY
+	zombie_slam.damage_type = SkillData.DamageType.PHYSICAL
+	zombie_slam.power_multiplier = 1.2
+	
+	var zombie := EnemyData.new()
+	zombie.enemy_name = "Zombie"
+	zombie.stats = zombie_stats
+	zombie.skills = [zombie_slam]
+	zombie.skill_weights = [1]
+	zombie.gold_reward = 9
+	zombie.xp_reward = 14
+	zombie.sprite_color = Color(0.35, 0.5, 0.3)
+	
+	enemies["Zombie"] = zombie
+	tier_2.append(zombie)
+	
+	# BONE MAGE — Caster skeleton. AOE magic.
+	var bm_stats := StatBlock.new()
+	bm_stats.max_hp = 55
+	bm_stats.max_mp = 30
+	bm_stats.atk = 6
+	bm_stats.def_stat = 8
+	bm_stats.mag = 16
+	bm_stats.res_stat = 12
+	bm_stats.spd = 10
+	
+	var bone_bolt := SkillData.new()
+	bone_bolt.skill_name = "Bone Bolt"
+	bone_bolt.mp_cost = 5
+	bone_bolt.target_type = SkillData.TargetType.SINGLE_ENEMY
+	bone_bolt.damage_type = SkillData.DamageType.MAGICAL
+	bone_bolt.power_multiplier = 1.3
+	
+	var death_wave := SkillData.new()
+	death_wave.skill_name = "Death Wave"
+	death_wave.mp_cost = 10
+	death_wave.target_type = SkillData.TargetType.ALL_ENEMIES
+	death_wave.damage_type = SkillData.DamageType.MAGICAL
+	death_wave.power_multiplier = 0.9
+	death_wave.element = "dark"
+	
+	var bone_mage := EnemyData.new()
+	bone_mage.enemy_name = "Bone Mage"
+	bone_mage.stats = bm_stats
+	bone_mage.skills = [bone_bolt, death_wave]
+	bone_mage.skill_weights = [3, 1]
+	bone_mage.gold_reward = 12
+	bone_mage.xp_reward = 18
+	bone_mage.sprite_color = Color(0.8, 0.8, 0.6)
+	
+	enemies["Bone Mage"] = bone_mage
+	tier_2.append(bone_mage)
+	
+	# ─── INFERNO BIOME: New enemies ────────────────────────────────
+	
+	# FIRE IMP — Small, fast, burns.
+	var imp_stats := StatBlock.new()
+	imp_stats.max_hp = 60
+	imp_stats.max_mp = 15
+	imp_stats.atk = 10
+	imp_stats.def_stat = 8
+	imp_stats.mag = 14
+	imp_stats.res_stat = 12
+	imp_stats.spd = 14
+	
+	var fireball_imp := SkillData.new()
+	fireball_imp.skill_name = "Fire Spit"
+	fireball_imp.mp_cost = 3
+	fireball_imp.target_type = SkillData.TargetType.SINGLE_ENEMY
+	fireball_imp.damage_type = SkillData.DamageType.MAGICAL
+	fireball_imp.power_multiplier = 1.2
+	fireball_imp.element = "fire"
+	fireball_imp.status_on_hit = {"type": StatusEffect.Type.BURN, "duration": 2, "potency": 6, "chance": 40}
+	
+	var fire_imp := EnemyData.new()
+	fire_imp.enemy_name = "Fire Imp"
+	fire_imp.stats = imp_stats
+	fire_imp.skills = [fireball_imp]
+	fire_imp.skill_weights = [1]
+	fire_imp.gold_reward = 15
+	fire_imp.xp_reward = 22
+	fire_imp.sprite_color = Color(1.0, 0.4, 0.1)
+	
+	enemies["Fire Imp"] = fire_imp
+	tier_3.append(fire_imp)
+	
+	# LAVA HOUND — Beefy fire beast.
+	var hound_stats := StatBlock.new()
+	hound_stats.max_hp = 110
+	hound_stats.max_mp = 10
+	hound_stats.atk = 18
+	hound_stats.def_stat = 14
+	hound_stats.mag = 10
+	hound_stats.res_stat = 16
+	hound_stats.spd = 8
+	
+	var flame_bite := SkillData.new()
+	flame_bite.skill_name = "Flame Bite"
+	flame_bite.mp_cost = 0
+	flame_bite.target_type = SkillData.TargetType.SINGLE_ENEMY
+	flame_bite.damage_type = SkillData.DamageType.PHYSICAL
+	flame_bite.power_multiplier = 1.3
+	flame_bite.status_on_hit = {"type": StatusEffect.Type.BURN, "duration": 2, "potency": 8, "chance": 50}
+	
+	var lava_hound := EnemyData.new()
+	lava_hound.enemy_name = "Lava Hound"
+	lava_hound.stats = hound_stats
+	lava_hound.skills = [flame_bite]
+	lava_hound.skill_weights = [1]
+	lava_hound.gold_reward = 18
+	lava_hound.xp_reward = 28
+	lava_hound.sprite_color = Color(0.8, 0.3, 0.05)
+	
+	enemies["Lava Hound"] = lava_hound
+	tier_3.append(lava_hound)
+	
+	# DEMON — High stats all around. Mini-boss feel.
+	var demon_stats := StatBlock.new()
+	demon_stats.max_hp = 140
+	demon_stats.max_mp = 25
+	demon_stats.atk = 20
+	demon_stats.def_stat = 16
+	demon_stats.mag = 15
+	demon_stats.res_stat = 14
+	demon_stats.spd = 10
+	
+	var demon_claw := SkillData.new()
+	demon_claw.skill_name = "Demon Claw"
+	demon_claw.mp_cost = 0
+	demon_claw.target_type = SkillData.TargetType.SINGLE_ENEMY
+	demon_claw.damage_type = SkillData.DamageType.PHYSICAL
+	demon_claw.power_multiplier = 1.4
+	
+	var hellfire := SkillData.new()
+	hellfire.skill_name = "Hellfire"
+	hellfire.mp_cost = 10
+	hellfire.target_type = SkillData.TargetType.ALL_ENEMIES
+	hellfire.damage_type = SkillData.DamageType.MAGICAL
+	hellfire.power_multiplier = 1.1
+	hellfire.element = "fire"
+	hellfire.status_on_hit = {"type": StatusEffect.Type.BURN, "duration": 3, "potency": 10, "chance": 70}
+	
+	var demon := EnemyData.new()
+	demon.enemy_name = "Demon"
+	demon.stats = demon_stats
+	demon.skills = [demon_claw, hellfire]
+	demon.skill_weights = [3, 1]
+	demon.gold_reward = 25
+	demon.xp_reward = 35
+	demon.sprite_color = Color(0.5, 0.1, 0.15)
+	
+	enemies["Demon"] = demon
+	tier_3.append(demon)
