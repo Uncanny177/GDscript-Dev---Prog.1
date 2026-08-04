@@ -9,6 +9,8 @@ var is_active: bool = false
 var panel: PanelContainer = null
 var content_label: Label = null
 var current_event: DungeonEvent = null
+var _showing_result: bool = false
+var _last_result_type: String = ""
 
 
 func _ready() -> void:
@@ -89,10 +91,11 @@ func _unhandled_input(event: InputEvent) -> void:
 		_make_choice(num)
 
 
-var _showing_result: bool = false
-
 func _make_choice(choice_index: int) -> void:
 	var result: Dictionary = current_event.resolve_choice(choice_index)
+	
+	# Store result type for ambush detection on close
+	_last_result_type = result.get("type", "nothing")
 	
 	# Apply the result
 	_apply_result(result, choice_index)
@@ -164,11 +167,6 @@ func _close() -> void:
 	panel.hide()
 	is_active = false
 	
-	# Check if the result was an ambush — trigger combat
-	var last_result_type: String = ""
-	if current_event:
-		# We need to pass the result type to the caller
-		pass
-	
-	event_resolved.emit({"type": last_result_type})
+	event_resolved.emit({"type": _last_result_type})
+	_last_result_type = ""
 	current_event = null

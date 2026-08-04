@@ -297,10 +297,14 @@ func _on_reach_event(event_pos: Vector2i) -> void:
 
 func _on_event_resolved(result: Dictionary) -> void:
 	## Called when the player finishes an event choice.
-	## Check if it triggered an ambush.
 	_update_ui()
-	# If the event result was an ambush, trigger combat
-	# (The event_ui already applied all other effects)
+	
+	# If the event triggered an ambush, start combat
+	if result.get("type", "") == "ambush":
+		transitioning = true
+		_add_message("Ambush!")
+		GameManager.current_state = GameManager.GameState.COMBAT
+		GameManager.change_scene("res://scenes/combat/combat.tscn")
 
 
 func _add_message(text: String) -> void:
