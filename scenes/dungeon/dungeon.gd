@@ -31,9 +31,13 @@ var transitioning: bool = false
 ## Floor seed for reproducibility
 var current_seed: int = 0
 
-## Boss fight flag — set by GameManager or dungeon when entering boss floor
+## Boss fight flag
 var is_boss_fight: bool = false
 var boss_combatant: BossCombatant = null
+
+## Event system
+var event_ui: Node = null
+var event_tiles: Array[Vector2i] = []  # Track event tile positions
 
 ## Track player's last tile to detect movement
 var last_player_tile: Vector2i = Vector2i(-1, -1)
@@ -43,6 +47,7 @@ func _ready() -> void:
 	_apply_difficulty_scaling()
 	_generate_and_render_floor()
 	_spawn_visible_enemies()
+	_create_event_ui()
 	_update_ui()
 	_add_message("Floor %d — %s" % [GameManager.current_floor, _get_floor_description()])
 
@@ -145,9 +150,38 @@ func _create_enemy_marker(tile_pos: Vector2i) -> void:
 	enemy_markers.append(marker)
 
 
+func _create_event_ui() -> void:
+	## Create the event UI overlay and collect event tile positions.
+	var event_script: Script = load("res://scenes/dungeon/event_ui.gd")
+	if event_script:
+		event_ui = CanvasLayer.new()
+		event_ui.name = "EventUI"
+		event_ui.set_script(event_script)
+		add_child(event_ui)
+		event_ui.event_resolved.connect(_on_event_resolved)
+	
+	# Collect event tile positions from the generator
+	# (Event tiles that aren't the exit — exit is handled separately)
+	if floor_gen:
+		for room in floor_gen.placed_rooms:
+			var template: RoomTemplate = room["template"]
+			var offset: Vector2i = room["world_offset"]
+			# Only non-exit/non-boss rooms have interactive events
+			if template.room_type == RoomTemplate.RoomType.LARGE:
+				# Find ? tiles in this room
+				for y in range(template.height):
+					for x in range(template.width):
+						if template.get_tile(x, y) == RoomTemplate.EVENT:
+							var world_pos := Vector2i(offset.x + x, offset.y + y)
+							if world_pos != floor_gen.exit_position:
+								event_tiles.append(world_pos)
+
+
 func _process(_delta: float) -> void:
 	if not player_node or not floor_gen or transitioning:
 		return
+	if event_ui and event_ui.is_active:
+		return  # Don't process movement/events during event display
 	var player_tile := Vector2i(
 		floori(player_node.position.x / 32.0),
 		floori(player_node.position.y / 32.0)
@@ -166,6 +200,9 @@ func _check_tile_events(player_tile: Vector2i) -> void:
 		return
 	if player_tile in floor_gen.chest_spawn_points:
 		_on_reach_chest(player_tile)
+		return
+	if player_tile in event_tiles:
+		_on_reach_event(player_tile)
 
 
 func _check_visible_enemy_contact(player_tile: Vector2i) -> void:
@@ -247,6 +284,23 @@ func _on_reach_chest(chest_pos: Vector2i) -> void:
 	if dungeon_renderer:
 		dungeon_renderer.queue_redraw()
 	_update_ui()
+
+
+func _on_reach_event(event_pos: Vector2i) -> void:
+	## Player stepped on an event tile. Trigger a random event.
+	event_tiles.erase(event_pos)  # Don't trigger again
+	
+	var event: DungeonEvent = EventDatabase.get_random_event()
+	if event and event_ui:
+		event_ui.show_event(event)
+
+
+func _on_event_resolved(result: Dictionary) -> void:
+	## Called when the player finishes an event choice.
+	## Check if it triggered an ambush.
+	_update_ui()
+	# If the event result was an ambush, trigger combat
+	# (The event_ui already applied all other effects)
 
 
 func _add_message(text: String) -> void:
