@@ -272,6 +272,11 @@ func _load_settings() -> void:
 			for key in data:
 				if settings.has(key):
 					settings[key] = data[key]
+			# JSON loads numbers as floats — cast ints back
+			settings["master_volume"] = int(settings["master_volume"])
+			settings["music_volume"] = int(settings["music_volume"])
+			settings["sfx_volume"] = int(settings["sfx_volume"])
+			settings["resolution_index"] = int(settings["resolution_index"])
 			_apply_volume()
 			if settings["fullscreen"]:
 				_apply_fullscreen()
