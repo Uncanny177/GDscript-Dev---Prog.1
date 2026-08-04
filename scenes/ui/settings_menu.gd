@@ -25,19 +25,36 @@ var settings: Dictionary = {
 	"music_volume": 80,
 	"sfx_volume": 100,
 	"fullscreen": false,
+	"resolution_index": 1,  # Index into RESOLUTIONS array
 	"screen_shake": true,
 	"show_damage_numbers": true,
 }
+
+## Available resolution presets (window sizes)
+const RESOLUTIONS: Array[Vector2i] = [
+	Vector2i(640, 480),    # 1x (native)
+	Vector2i(960, 720),    # 1.5x
+	Vector2i(1280, 960),   # 2x
+	Vector2i(1600, 1200),  # 2.5x
+	Vector2i(1920, 1440),  # 3x
+]
+const RESOLUTION_NAMES: Array[String] = [
+	"640x480 (1x)",
+	"960x720 (1.5x)",
+	"1280x960 (2x)",
+	"1600x1200 (2.5x)",
+	"1920x1440 (3x)",
+]
 
 ## Which setting is currently selected (for keyboard navigation)
 var selected_index: int = 0
 const SETTING_KEYS: Array[String] = [
 	"master_volume", "music_volume", "sfx_volume",
-	"fullscreen", "screen_shake", "show_damage_numbers"
+	"fullscreen", "resolution_index", "screen_shake", "show_damage_numbers"
 ]
 const SETTING_NAMES: Array[String] = [
 	"Master Volume", "Music Volume", "SFX Volume",
-	"Window Mode", "Screen Shake", "Damage Numbers"
+	"Window Mode", "Resolution", "Screen Shake", "Damage Numbers"
 ]
 
 const SAVE_PATH: String = "user://settings.json"
@@ -106,6 +123,9 @@ func _get_value_display(key: String) -> String:
 			return "%s %d%%" % [bar, value]
 		"fullscreen":
 			return "Fullscreen" if value else "Windowed"
+		"resolution_index":
+			var idx: int = clampi(value, 0, RESOLUTION_NAMES.size() - 1)
+			return "< %s >" % RESOLUTION_NAMES[idx]
 		"screen_shake":
 			return "ON" if value else "OFF"
 		"show_damage_numbers":
@@ -161,6 +181,9 @@ func _adjust_setting(direction: int) -> void:
 		"fullscreen":
 			settings[key] = not settings[key]
 			_apply_fullscreen()
+		"resolution_index":
+			settings[key] = clampi(settings[key] + direction, 0, RESOLUTIONS.size() - 1)
+			_apply_resolution()
 		"screen_shake", "show_damage_numbers":
 			settings[key] = not settings[key]
 
@@ -189,6 +212,27 @@ func _apply_fullscreen() -> void:
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
 	else:
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
+		# When leaving fullscreen, apply the selected resolution
+		_apply_resolution()
+
+
+func _apply_resolution() -> void:
+	## Set window size to the selected resolution preset.
+	## Only applies in windowed mode (fullscreen ignores this).
+	if settings["fullscreen"]:
+		return  # Don't resize in fullscreen
+	
+	var idx: int = clampi(settings["resolution_index"], 0, RESOLUTIONS.size() - 1)
+	var res: Vector2i = RESOLUTIONS[idx]
+	
+	DisplayServer.window_set_size(res)
+	
+	# Center window on screen
+	var screen_size: Vector2i = DisplayServer.screen_get_size()
+	var window_pos: Vector2i = (screen_size - res) / 2  # Integer division intentional
+	DisplayServer.window_set_position(window_pos)
+	
+	print("[Settings] Resolution set to %dx%d" % [res.x, res.y])
 
 
 func _save_and_close() -> void:
@@ -231,6 +275,8 @@ func _load_settings() -> void:
 			_apply_volume()
 			if settings["fullscreen"]:
 				_apply_fullscreen()
+			else:
+				_apply_resolution()
 			print("[Settings] Loaded")
 
 
