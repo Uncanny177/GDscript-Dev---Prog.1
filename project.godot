@@ -29,6 +29,8 @@ BossDatabase="*res://scripts/data/boss_database.gd"
 ItemDatabase="*res://scripts/data/item_database.gd"
 PartyManager="*res://scripts/data/party_manager.gd"
 SettingsMenu="*res://scenes/ui/settings_menu.gd"
+StatsTracker="*res://scripts/managers/stats_tracker.gd"
+StatsScreen="*res://scenes/ui/stats_screen.gd"
 
 [display]
 

@@ -26,6 +26,7 @@ func _ready() -> void:
 		menu_items.append("Continue")
 	menu_items.append("New Game")
 	menu_items.append("Settings")
+	menu_items.append("Stats")
 	menu_items.append("Quit")
 	
 	selected_index = 0
@@ -89,6 +90,8 @@ func _draw() -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if SettingsMenu.is_active:
 		return
+	if StatsScreen.is_active:
+		return
 	if not event is InputEventKey or not event.pressed:
 		return
 	
@@ -118,6 +121,8 @@ func _select_item() -> void:
 			_new_game()
 		"Settings":
 			SettingsMenu.open_settings()
+		"Stats":
+			StatsScreen.open_stats()
 		"Quit":
 			get_tree().quit()
 

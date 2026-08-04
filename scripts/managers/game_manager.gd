@@ -128,6 +128,7 @@ func start_run() -> void:
 	
 	total_runs += 1
 	current_state = GameState.DUNGEON
+	StatsTracker.start_run()
 	print("[GameManager] Run #%d started — %s" % [total_runs, str(inventory)])
 
 
@@ -156,6 +157,9 @@ func end_run(victory: bool) -> void:
 		print("[GameManager] Defeated on floor %d. Earned %d meta-crystals" % [current_floor, earned])
 	
 	current_state = GameState.HUB
+	
+	# Record run in stats tracker
+	StatsTracker.end_run(victory, current_floor, current_gold, 5 + current_floor if victory else current_floor)
 	
 	# Auto-save meta progression on every return to hub
 	SaveManager.save_meta()
