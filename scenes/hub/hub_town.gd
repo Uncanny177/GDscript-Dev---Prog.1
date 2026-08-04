@@ -46,6 +46,15 @@ func _ready() -> void:
 		print("[Hub] Run save detected — player can resume")
 
 
+func _unhandled_input(event: InputEvent) -> void:
+	## ESC opens settings menu from the hub.
+	if not event is InputEventKey or not event.pressed:
+		return
+	if event.keycode == KEY_ESCAPE:
+		if not SettingsMenu.is_active:
+			SettingsMenu.open_settings()
+
+
 func _build_town_map() -> void:
 	## Define the town layout. This is a simple grid where each cell
 	## is a tile type. Walls block movement, everything else is walkable.

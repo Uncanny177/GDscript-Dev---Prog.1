@@ -28,6 +28,7 @@ EnemyDatabase="*res://scripts/data/enemy_database.gd"
 BossDatabase="*res://scripts/data/boss_database.gd"
 ItemDatabase="*res://scripts/data/item_database.gd"
 PartyManager="*res://scripts/data/party_manager.gd"
+SettingsMenu="*res://scenes/ui/settings_menu.gd"
 
 [display]
 
