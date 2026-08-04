@@ -947,17 +947,24 @@ func _on_action_executed(_attacker: Combatant, target: Combatant, damage: int, a
 	## Called when any action resolves. Updates the combat log and visuals.
 	if action_name == "Attack":
 		_add_log("%s → %s: %d dmg" % [_attacker.display_name, target.display_name, damage])
-		
-		# Show damage number on the target
-		if battle_renderer and damage > 0:
-			if target.is_player:
-				var idx: int = player_combatants.find(target)
-				battle_renderer.show_damage_on_player(idx, damage)
-			else:
-				var idx: int = enemy_combatants.find(target)
-				battle_renderer.show_damage_on_enemy(idx, damage)
 	elif action_name == "Defend":
 		_add_log("%s defends" % _attacker.display_name)
+	else:
+		# Named skill (from enemy AI)
+		_add_log("%s uses %s → %s: %d dmg" % [_attacker.display_name, action_name, target.display_name, damage])
+		# Apply status effect from enemy skill if applicable
+		if turn_manager.last_enemy_skill and not turn_manager.last_enemy_skill.status_on_hit.is_empty():
+			_try_apply_status(turn_manager.last_enemy_skill, target, _attacker)
+			turn_manager.last_enemy_skill = null
+	
+	# Show damage number on the target
+	if battle_renderer and damage > 0:
+		if target.is_player:
+			var idx: int = player_combatants.find(target)
+			battle_renderer.show_damage_on_player(idx, damage)
+		else:
+			var idx: int = enemy_combatants.find(target)
+			battle_renderer.show_damage_on_enemy(idx, damage)
 	
 	# Refresh visuals (HP bars, death states)
 	if battle_renderer:

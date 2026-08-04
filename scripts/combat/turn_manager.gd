@@ -41,6 +41,9 @@ var current_combatant: Combatant = null
 ## Is the battle still going?
 var is_battle_active: bool = false
 
+## Last skill used by an enemy (for status effect application by combat.gd)
+var last_enemy_skill: SkillData = null
+
 
 func setup_battle(party: Array[Combatant], enemies: Array[Combatant]) -> void:
 	## Initialize a battle with the given parties.
@@ -119,7 +122,7 @@ func execute_defend(combatant: Combatant) -> void:
 
 func execute_enemy_turn(enemy: Combatant) -> void:
 	## AI decides what to do for an enemy combatant.
-	## For now: always attacks a random alive player character.
+	## Uses weighted skill selection from enemy data. Falls back to basic attack.
 	
 	var targets: Array[Combatant] = get_alive_players()
 	
@@ -127,9 +130,31 @@ func execute_enemy_turn(enemy: Combatant) -> void:
 		check_battle_end()
 		return
 	
-	# Pick a random target
-	var target: Combatant = targets[randi() % targets.size()]
+	# Try to use a skill from the enemy's skill list
+	if enemy.enemy_data and not enemy.enemy_data.skills.is_empty():
+		var skill: SkillData = enemy.enemy_data.pick_skill()
+		if skill and (skill.mp_cost == 0 or enemy.current_mp >= skill.mp_cost):
+			if skill.mp_cost > 0:
+				enemy.current_mp -= skill.mp_cost
+			
+			last_enemy_skill = skill  # Store for status application
+			var target: Combatant = targets[randi() % targets.size()]
+			var damage: int = DamageCalculator.calculate_skill_damage(enemy, target, skill)
+			var actual: int = target.take_damage(damage)
+			
+			action_executed.emit(enemy, target, actual, skill.skill_name)
+			print("[Combat] %s uses %s on %s for %d damage!" % [enemy.display_name, skill.skill_name, target.display_name, actual])
+			
+			if not target.is_alive:
+				combatant_died.emit(target)
+			
+			check_battle_end()
+			if is_battle_active:
+				advance_index()
+			return
 	
+	# Fallback: basic attack on random target
+	var target: Combatant = targets[randi() % targets.size()]
 	execute_attack(enemy, target)
 
 
