@@ -50,9 +50,10 @@ func _unhandled_input(event: InputEvent) -> void:
 	## ESC opens settings menu from the hub.
 	if not event is InputEventKey or not event.pressed:
 		return
+	if SettingsMenu.is_active:
+		return  # Let settings menu handle its own ESC
 	if event.keycode == KEY_ESCAPE:
-		if not SettingsMenu.is_active:
-			SettingsMenu.open_settings()
+		SettingsMenu.open_settings()
 
 
 func _build_town_map() -> void:
