@@ -20,6 +20,7 @@ extends Node2D
 ## References set by combat.gd after creating the renderer
 var player_combatants: Array = []
 var enemy_combatants: Array = []
+var status_manager: StatusManager = null  # Set by combat.gd for status icon display
 
 ## Which enemy is currently targeted? -1 = none
 var highlighted_target: int = -1
@@ -80,6 +81,12 @@ func _draw_party() -> void:
 		# MP bar (smaller, below HP)
 		var mp_pos := bar_pos + Vector2(0, BAR_HEIGHT + 16)
 		_draw_bar(mp_pos, combatant.current_mp, combatant.get_max_mp(), Color(0.25, 0.4, 0.9), Color(0.1, 0.1, 0.25))
+		
+		# Status effect icons
+		if status_manager:
+			var icons: String = status_manager.get_status_icons(combatant)
+			if icons != "":
+				draw_string(font, mp_pos + Vector2(0, BAR_HEIGHT + 12), icons, HORIZONTAL_ALIGNMENT_LEFT, -1, 9, Color(0.9, 0.8, 0.3))
 
 
 func _draw_enemies() -> void:

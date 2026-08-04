@@ -61,6 +61,11 @@ enum DamageType {
 ## Optional: element type for future elemental weakness system
 @export var element: String = "none"
 
+## Optional: status effect applied on hit
+## Format: {"type": StatusEffect.Type, "duration": int, "potency": int, "chance": int}
+## chance = percentage (0-100) that the effect applies on hit
+var status_on_hit: Dictionary = {}
+
 
 func can_afford(current_mp: int) -> bool:
 	## Check if the caster has enough MP to use this skill.

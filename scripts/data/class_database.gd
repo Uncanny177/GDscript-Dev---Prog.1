@@ -156,11 +156,12 @@ func _create_rogue() -> void:
 	
 	var poison_strike := SkillData.new()
 	poison_strike.skill_name = "Poison Strike"
-	poison_strike.description = "Venomous attack. (DoT effect planned for later)"
+	poison_strike.description = "Venomous attack that poisons the target."
 	poison_strike.mp_cost = 4
 	poison_strike.target_type = SkillData.TargetType.SINGLE_ENEMY
 	poison_strike.damage_type = SkillData.DamageType.PHYSICAL
 	poison_strike.power_multiplier = 1.2
+	poison_strike.status_on_hit = {"type": StatusEffect.Type.POISON, "duration": 3, "potency": 10, "chance": 80}
 	
 	var rogue := ClassData.new()
 	rogue.class_name_text = "Rogue"

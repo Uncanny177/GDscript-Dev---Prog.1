@@ -55,6 +55,9 @@ const MAX_LOG_LINES: int = 6
 var is_boss_fight: bool = false
 var boss: BossCombatant = null
 
+## Status effect system
+var status_manager: StatusManager = null
+
 ## Pause between actions for readability (seconds)
 const ACTION_DELAY: float = 0.8
 
@@ -91,6 +94,9 @@ func _setup_battle() -> void:
 	turn_manager.action_executed.connect(_on_action_executed)
 	turn_manager.setup_battle(player_combatants, enemy_combatants)
 	
+	# Set up status effect manager
+	status_manager = StatusManager.new()
+	
 	if is_boss_fight:
 		_add_log("BOSS BATTLE: %s!" % boss.display_name)
 	
@@ -102,6 +108,7 @@ func _setup_battle() -> void:
 		battle_renderer.set_script(renderer_script)
 		battle_renderer.player_combatants = player_combatants
 		battle_renderer.enemy_combatants = enemy_combatants
+		battle_renderer.status_manager = status_manager
 		add_child(battle_renderer)
 	
 	_add_log("Battle start!")
@@ -171,6 +178,44 @@ func _start_next_turn() -> void:
 	
 	if not active:
 		return
+	
+	# Process status effects at start of this combatant's turn
+	if status_manager:
+		var tick_results: Array = status_manager.process_turn_start(active)
+		for result in tick_results:
+			if result["message"] != "":
+				_add_log(result["message"])
+			if result["damage"] > 0 and battle_renderer:
+				if active.is_player:
+					var idx: int = player_combatants.find(active)
+					battle_renderer.show_damage_on_player(idx, result["damage"])
+				else:
+					var idx: int = enemy_combatants.find(active)
+					battle_renderer.show_damage_on_enemy(idx, result["damage"])
+			if result["heal"] > 0 and battle_renderer:
+				var idx: int = player_combatants.find(active)
+				battle_renderer.show_heal_on_player(idx, result["heal"])
+		
+		# Check if combatant died from status damage
+		if not active.is_alive:
+			turn_manager.combatant_died.emit(active)
+			turn_manager.check_battle_end()
+			if not turn_manager.is_battle_active:
+				return
+			turn_manager.advance_index()
+			_update_ui()
+			await get_tree().create_timer(ACTION_DELAY).timeout
+			_start_next_turn()
+			return
+		
+		# Check if stunned (skip turn)
+		if status_manager.is_stunned(active):
+			_add_log("%s is stunned!" % active.display_name)
+			_update_ui()
+			turn_manager.advance_index()
+			await get_tree().create_timer(ACTION_DELAY).timeout
+			_start_next_turn()
+			return
 	
 	_update_ui()
 	
@@ -484,6 +529,9 @@ func _execute_skill_on_target(target: Combatant) -> void:
 	if battle_renderer:
 		var idx: int = enemy_combatants.find(target)
 		battle_renderer.show_damage_on_enemy(idx, actual)
+	
+	# Apply status effect if skill has one
+	_try_apply_status(pending_skill, target, caster)
 	
 	if not target.is_alive:
 		turn_manager.combatant_died.emit(target)
@@ -861,6 +909,28 @@ func _boss_use_skill(active: Combatant, skill: SkillData) -> void:
 	turn_manager.check_battle_end()
 	if turn_manager.is_battle_active:
 		turn_manager.advance_index()
+
+
+func _try_apply_status(skill: SkillData, target: Combatant, caster: Combatant) -> void:
+	## Check if a skill has a status_on_hit and roll to apply it.
+	if not skill or skill.status_on_hit.is_empty():
+		return
+	if not target.is_alive:
+		return
+	if not status_manager:
+		return
+	
+	var chance: int = skill.status_on_hit.get("chance", 100)
+	if randi() % 100 >= chance:
+		return  # Failed the roll
+	
+	var effect_type: int = skill.status_on_hit.get("type", 0)
+	var duration: int = skill.status_on_hit.get("duration", 3)
+	var potency: int = skill.status_on_hit.get("potency", 10)
+	
+	var effect: StatusEffect = StatusEffect.create(effect_type, duration, potency, caster.display_name)
+	status_manager.add_effect(target, effect)
+	_add_log("%s is now %s!" % [target.display_name, effect.get_name().to_lower() + "ed"])
 
 
 func _continue_after_action() -> void:
