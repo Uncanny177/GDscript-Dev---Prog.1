@@ -21,6 +21,9 @@ func _ready() -> void:
 	_create_warrior()
 	_create_mage()
 	_create_rogue()
+	_create_paladin()
+	_create_archer()
+	_create_necromancer()
 	print("[ClassDatabase] Loaded %d classes" % classes.size())
 
 
@@ -171,3 +174,162 @@ func _create_rogue() -> void:
 	rogue.sprite_color = Color(0.2, 0.8, 0.3)  # Green
 	
 	classes["Rogue"] = rogue
+
+
+func _create_paladin() -> void:
+	## PALADIN — The holy knight. Balanced tank/healer hybrid.
+	## Role: Absorbs damage like Warrior but can heal allies. Lower ATK.
+	
+	var stats := StatBlock.new()
+	stats.max_hp = 140
+	stats.max_mp = 35
+	stats.atk = 14
+	stats.def_stat = 16
+	stats.mag = 12
+	stats.res_stat = 14
+	stats.spd = 7
+	
+	# Paladin skills
+	var holy_strike := SkillData.new()
+	holy_strike.skill_name = "Holy Strike"
+	holy_strike.description = "A blessed attack that deals physical and light damage."
+	holy_strike.mp_cost = 5
+	holy_strike.target_type = SkillData.TargetType.SINGLE_ENEMY
+	holy_strike.damage_type = SkillData.DamageType.PHYSICAL
+	holy_strike.power_multiplier = 1.4
+	holy_strike.element = "light"
+	
+	var divine_shield := SkillData.new()
+	divine_shield.skill_name = "Divine Shield"
+	divine_shield.description = "Blesses an ally, reducing damage taken."
+	divine_shield.mp_cost = 8
+	divine_shield.target_type = SkillData.TargetType.SINGLE_ALLY
+	divine_shield.damage_type = SkillData.DamageType.NONE
+	divine_shield.power_multiplier = 0.0
+	
+	var lay_on_hands := SkillData.new()
+	lay_on_hands.skill_name = "Lay on Hands"
+	lay_on_hands.description = "Heals an ally with holy power."
+	lay_on_hands.mp_cost = 10
+	lay_on_hands.target_type = SkillData.TargetType.SINGLE_ALLY
+	lay_on_hands.damage_type = SkillData.DamageType.HEALING
+	lay_on_hands.power_multiplier = 1.8
+	
+	var paladin := ClassData.new()
+	paladin.class_name_text = "Paladin"
+	paladin.description = "A holy knight who protects allies and smites evil."
+	paladin.base_stats = stats
+	paladin.skills = [holy_strike, divine_shield, lay_on_hands]
+	paladin.sprite_color = Color(0.9, 0.85, 0.3)  # Gold
+	
+	classes["Paladin"] = paladin
+
+
+func _create_archer() -> void:
+	## ARCHER — Ranged attacker. High SPD and ATK, low DEF.
+	## Role: Hits hard and fast from range. Multi-target and crit skills.
+	
+	var stats := StatBlock.new()
+	stats.max_hp = 95
+	stats.max_mp = 30
+	stats.atk = 17
+	stats.def_stat = 7
+	stats.mag = 6
+	stats.res_stat = 8
+	stats.spd = 16
+	
+	# Archer skills
+	var precise_shot := SkillData.new()
+	precise_shot.skill_name = "Precise Shot"
+	precise_shot.description = "A carefully aimed shot. High damage to one target."
+	precise_shot.mp_cost = 4
+	precise_shot.target_type = SkillData.TargetType.SINGLE_ENEMY
+	precise_shot.damage_type = SkillData.DamageType.PHYSICAL
+	precise_shot.power_multiplier = 1.7
+	
+	var volley := SkillData.new()
+	volley.skill_name = "Arrow Volley"
+	volley.description = "Rain arrows on all enemies."
+	volley.mp_cost = 10
+	volley.target_type = SkillData.TargetType.ALL_ENEMIES
+	volley.damage_type = SkillData.DamageType.PHYSICAL
+	volley.power_multiplier = 0.9
+	
+	var poison_arrow := SkillData.new()
+	poison_arrow.skill_name = "Poison Arrow"
+	poison_arrow.description = "A toxic arrow that poisons the target."
+	poison_arrow.mp_cost = 6
+	poison_arrow.target_type = SkillData.TargetType.SINGLE_ENEMY
+	poison_arrow.damage_type = SkillData.DamageType.PHYSICAL
+	poison_arrow.power_multiplier = 1.1
+	poison_arrow.status_on_hit = {"type": StatusEffect.Type.POISON, "duration": 3, "potency": 12, "chance": 90}
+	
+	var archer := ClassData.new()
+	archer.class_name_text = "Archer"
+	archer.description = "A swift marksman who strikes from afar."
+	archer.base_stats = stats
+	archer.skills = [precise_shot, volley, poison_arrow]
+	archer.sprite_color = Color(0.2, 0.7, 0.3)  # Forest green
+	
+	classes["Archer"] = archer
+
+
+func _create_necromancer() -> void:
+	## NECROMANCER — Dark magic caster. High MAG, debuffs enemies.
+	## Role: Deals magic damage and weakens enemies with status effects.
+	
+	var stats := StatBlock.new()
+	stats.max_hp = 75
+	stats.max_mp = 65
+	stats.atk = 5
+	stats.def_stat = 6
+	stats.mag = 22
+	stats.res_stat = 16
+	stats.spd = 9
+	
+	# Necromancer skills
+	var shadow_bolt := SkillData.new()
+	shadow_bolt.skill_name = "Shadow Bolt"
+	shadow_bolt.description = "A bolt of dark energy strikes one enemy."
+	shadow_bolt.mp_cost = 6
+	shadow_bolt.target_type = SkillData.TargetType.SINGLE_ENEMY
+	shadow_bolt.damage_type = SkillData.DamageType.MAGICAL
+	shadow_bolt.power_multiplier = 1.5
+	shadow_bolt.element = "dark"
+	
+	var curse := SkillData.new()
+	curse.skill_name = "Curse"
+	curse.description = "Weakens an enemy's defense."
+	curse.mp_cost = 8
+	curse.target_type = SkillData.TargetType.SINGLE_ENEMY
+	curse.damage_type = SkillData.DamageType.NONE
+	curse.power_multiplier = 0.0
+	curse.status_on_hit = {"type": StatusEffect.Type.DEF_DOWN, "duration": 3, "potency": 30, "chance": 100}
+	
+	var drain_life := SkillData.new()
+	drain_life.skill_name = "Drain Life"
+	drain_life.description = "Steals HP from an enemy to heal yourself."
+	drain_life.mp_cost = 12
+	drain_life.target_type = SkillData.TargetType.SINGLE_ENEMY
+	drain_life.damage_type = SkillData.DamageType.MAGICAL
+	drain_life.power_multiplier = 1.3
+	drain_life.element = "dark"
+	
+	var soul_fire := SkillData.new()
+	soul_fire.skill_name = "Soul Fire"
+	soul_fire.description = "Burns all enemies with ghostly flames."
+	soul_fire.mp_cost = 15
+	soul_fire.target_type = SkillData.TargetType.ALL_ENEMIES
+	soul_fire.damage_type = SkillData.DamageType.MAGICAL
+	soul_fire.power_multiplier = 1.2
+	soul_fire.element = "dark"
+	soul_fire.status_on_hit = {"type": StatusEffect.Type.BURN, "duration": 2, "potency": 8, "chance": 60}
+	
+	var necromancer := ClassData.new()
+	necromancer.class_name_text = "Necromancer"
+	necromancer.description = "A dark mage who drains life and curses foes."
+	necromancer.base_stats = stats
+	necromancer.skills = [shadow_bolt, curse, drain_life, soul_fire]
+	necromancer.sprite_color = Color(0.4, 0.1, 0.5)  # Dark purple
+	
+	classes["Necromancer"] = necromancer
