@@ -34,12 +34,19 @@ static func calculate_healing(caster: Combatant, multiplier: float = 1.0) -> int
 
 static func calculate_skill_damage(attacker: Combatant, target: Combatant, skill: SkillData) -> int:
 	## Calculate damage for a specific skill based on its type.
+	## Applies elemental multiplier if skill has an element.
+	var base_damage: int = 0
 	match skill.damage_type:
 		SkillData.DamageType.PHYSICAL:
-			return calculate_physical(attacker, target, skill.power_multiplier)
+			base_damage = calculate_physical(attacker, target, skill.power_multiplier)
 		SkillData.DamageType.MAGICAL:
-			return calculate_magical(attacker, target, skill.power_multiplier)
+			base_damage = calculate_magical(attacker, target, skill.power_multiplier)
 		SkillData.DamageType.HEALING:
 			return calculate_healing(attacker, skill.power_multiplier)
 		_:
 			return 0
+	
+	# Apply elemental multiplier
+	var element_mult: float = ElementSystem.get_multiplier(skill.element, target.element)
+	base_damage = int(float(base_damage) * element_mult)
+	return maxi(base_damage, 1)

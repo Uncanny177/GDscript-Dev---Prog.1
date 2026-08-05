@@ -30,6 +30,10 @@ extends Resource
 ## Placeholder sprite color (until we have art)
 @export var sprite_color: Color = Color.RED
 
+## Elemental affinity of this enemy (determines weakness/resistance)
+## "none", "fire", "ice", "dark", "light"
+@export var element: String = "none"
+
 ## How many meta-crystals this enemy drops (usually 0, bosses drop more)
 @export var meta_crystal_drop: int = 0
 

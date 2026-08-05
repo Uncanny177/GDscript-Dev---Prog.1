@@ -40,6 +40,9 @@ var display_name: String = "???"
 ## Visual color for placeholder rendering
 var sprite_color: Color = Color.WHITE
 
+## Elemental affinity (for weakness/resistance checks)
+var element: String = "none"
+
 
 ## ─── STATIC CONSTRUCTORS ────────────────────────────────────────
 ## These create Combatant instances from our existing data types.
@@ -68,6 +71,7 @@ static func from_enemy(data: EnemyData) -> Combatant:
 	c.is_alive = true
 	c.display_name = data.enemy_name
 	c.sprite_color = data.sprite_color
+	c.element = data.element
 	return c
 
 

@@ -438,3 +438,23 @@ func _create_enemies() -> void:
 	
 	enemies["Demon"] = demon
 	tier_3.append(demon)
+
+	# ─── SET ELEMENTAL AFFINITIES ──────────────────────────────────
+	# Cave enemies: mostly no element
+	# Crypt enemies: dark
+	# Inferno enemies: fire
+	
+	if enemies.has("Ghost"):
+		enemies["Ghost"].element = "dark"
+	if enemies.has("Bone Mage"):
+		enemies["Bone Mage"].element = "dark"
+	if enemies.has("Skeleton"):
+		enemies["Skeleton"].element = "dark"
+	if enemies.has("Fire Imp"):
+		enemies["Fire Imp"].element = "fire"
+	if enemies.has("Lava Hound"):
+		enemies["Lava Hound"].element = "fire"
+	if enemies.has("Demon"):
+		enemies["Demon"].element = "fire"
+	if enemies.has("Mushroom"):
+		enemies["Mushroom"].element = "ice"
