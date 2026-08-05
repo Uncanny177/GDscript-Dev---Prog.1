@@ -58,6 +58,9 @@ var boss: BossCombatant = null
 ## Status effect system
 var status_manager: StatusManager = null
 
+## Visual effects layer
+var combat_effects: Node2D = null
+
 ## Pause between actions for readability (seconds)
 const ACTION_DELAY: float = 0.8
 
@@ -96,6 +99,14 @@ func _setup_battle() -> void:
 	
 	# Set up status effect manager
 	status_manager = StatusManager.new()
+	
+	# Set up visual combat effects
+	var effects_script: Script = load("res://scripts/combat/combat_effects.gd")
+	if effects_script:
+		combat_effects = Node2D.new()
+		combat_effects.name = "CombatEffects"
+		combat_effects.set_script(effects_script)
+		add_child(combat_effects)
 	
 	if is_boss_fight:
 		_add_log("BOSS BATTLE: %s!" % boss.display_name)
@@ -529,6 +540,10 @@ func _execute_skill_on_target(target: Combatant) -> void:
 	if battle_renderer:
 		var idx: int = enemy_combatants.find(target)
 		battle_renderer.show_damage_on_enemy(idx, actual)
+		# Play skill visual effect
+		if combat_effects:
+			var target_pos := Vector2(500.0, 60.0 + idx * 80.0)
+			combat_effects.play_skill(target_pos, pending_skill.element)
 	
 	# Apply status effect if skill has one
 	_try_apply_status(pending_skill, target, caster)
@@ -607,6 +622,9 @@ func _execute_skill_on_ally(target: Combatant) -> void:
 	if battle_renderer:
 		var idx: int = player_combatants.find(target)
 		battle_renderer.show_heal_on_player(idx, actual_heal)
+		if combat_effects:
+			var heal_pos := Vector2(80.0, 60.0 + idx * 80.0)
+			combat_effects.play_heal(heal_pos)
 	
 	turn_manager.advance_index()
 	pending_skill = null
@@ -962,9 +980,20 @@ func _on_action_executed(_attacker: Combatant, target: Combatant, damage: int, a
 		if target.is_player:
 			var idx: int = player_combatants.find(target)
 			battle_renderer.show_damage_on_player(idx, damage)
+			# Visual effect: hit flash on player
+			if combat_effects:
+				var hit_pos := Vector2(80.0, 60.0 + idx * 80.0)
+				combat_effects.play_hit_flash(hit_pos)
 		else:
 			var idx: int = enemy_combatants.find(target)
 			battle_renderer.show_damage_on_enemy(idx, damage)
+			# Visual effect based on action type
+			if combat_effects:
+				var hit_pos := Vector2(500.0, 60.0 + idx * 80.0)
+				if action_name == "Attack":
+					combat_effects.play_attack(Vector2(80.0, 60.0), hit_pos)
+				else:
+					combat_effects.play_hit_flash(hit_pos)
 	
 	# Refresh visuals (HP bars, death states)
 	if battle_renderer:
