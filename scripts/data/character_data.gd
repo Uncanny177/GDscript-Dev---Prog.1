@@ -33,6 +33,13 @@ var current_mp: int = 0
 ## Is this character currently alive?
 var is_alive: bool = true
 
+## Level and XP
+var level: int = 1
+var xp: int = 0
+
+## Stat bonuses from leveling (added on top of base class stats)
+var stat_bonuses: StatBlock = StatBlock.new()
+
 ## Equipment slots (hold ItemData references — null = empty slot)
 var weapon: ItemData = null
 var armor: ItemData = null
@@ -59,19 +66,19 @@ func get_stats() -> StatBlock:
 	else:
 		return StatBlock.new()
 	
-	# If no equipment, just return base stats (avoid creating new object)
-	if not weapon and not armor and not accessory:
+	# If no equipment and no level bonuses, just return base stats
+	if not weapon and not armor and not accessory and level <= 1:
 		return base
 	
-	# Combine base + equipment bonuses into a new StatBlock
+	# Combine base + level bonuses + equipment bonuses
 	var result := StatBlock.new()
-	result.max_hp = base.max_hp
-	result.max_mp = base.max_mp
-	result.atk = base.atk
-	result.def_stat = base.def_stat
-	result.mag = base.mag
-	result.res_stat = base.res_stat
-	result.spd = base.spd
+	result.max_hp = base.max_hp + stat_bonuses.max_hp
+	result.max_mp = base.max_mp + stat_bonuses.max_mp
+	result.atk = base.atk + stat_bonuses.atk
+	result.def_stat = base.def_stat + stat_bonuses.def_stat
+	result.mag = base.mag + stat_bonuses.mag
+	result.res_stat = base.res_stat + stat_bonuses.res_stat
+	result.spd = base.spd + stat_bonuses.spd
 	
 	# Add weapon bonus
 	if weapon and weapon.stat_bonus:
@@ -131,8 +138,8 @@ func full_heal() -> void:
 
 func _to_string() -> String:
 	var class_str: String = character_class.class_name_text if character_class else "No Class"
-	return "%s (%s) HP:%d/%d MP:%d/%d" % [
-		character_name, class_str,
+	return "%s Lv%d (%s) HP:%d/%d MP:%d/%d" % [
+		character_name, level, class_str,
 		current_hp, get_stats().max_hp,
 		current_mp, get_stats().max_mp
 	]

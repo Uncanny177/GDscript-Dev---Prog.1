@@ -1026,6 +1026,15 @@ func _on_battle_won() -> void:
 	if crystals_earned > 0:
 		GameManager.meta_crystals += crystals_earned
 	
+	# Grant XP to party
+	var xp_per_enemy: int = 5 + GameManager.current_floor * 3
+	var total_xp: int = xp_per_enemy * enemy_combatants.size()
+	var level_messages: Array[String] = []
+	for member in PartyManager.active_party:
+		if member.is_alive:
+			var msgs: Array[String] = LevelSystem.grant_xp(member, total_xp)
+			level_messages.append_array(msgs)
+	
 	# Build reward summary
 	var reward_text: String = "VICTORY!\n\n"
 	if gold_earned > 0:
@@ -1034,6 +1043,11 @@ func _on_battle_won() -> void:
 		reward_text += "+%d meta-crystal%s\n" % [crystals_earned, "s" if crystals_earned > 1 else ""]
 	for item_name in items_found:
 		reward_text += "+1 %s\n" % item_name
+	if not level_messages.is_empty():
+		reward_text += "\n"
+		for msg in level_messages:
+			reward_text += "%s\n" % msg
+	reward_text += "+%d XP\n" % total_xp
 	if gold_earned == 0 and crystals_earned == 0 and items_found.is_empty():
 		reward_text += "No drops this time.\n"
 	reward_text += "\n[ENTER] Continue"

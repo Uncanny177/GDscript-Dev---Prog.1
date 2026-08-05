@@ -173,6 +173,17 @@ func _serialize_character(character: CharacterData) -> Dictionary:
 		"current_hp": character.current_hp,
 		"current_mp": character.current_mp,
 		"is_alive": character.is_alive,
+		"level": character.level,
+		"xp": character.xp,
+		"stat_bonuses": {
+			"max_hp": character.stat_bonuses.max_hp,
+			"max_mp": character.stat_bonuses.max_mp,
+			"atk": character.stat_bonuses.atk,
+			"def": character.stat_bonuses.def_stat,
+			"mag": character.stat_bonuses.mag,
+			"res": character.stat_bonuses.res_stat,
+			"spd": character.stat_bonuses.spd,
+		},
 	}
 	
 	# Equipment
@@ -223,9 +234,24 @@ func _deserialize_character(data: Dictionary) -> CharacterData:
 	
 	character.initialize()  # Sets HP/MP to max
 	
+	# Restore level and XP
+	character.level = int(data.get("level", 1))
+	character.xp = int(data.get("xp", 0))
+	
+	# Restore stat bonuses from leveling
+	var bonuses: Dictionary = data.get("stat_bonuses", {})
+	if not bonuses.is_empty():
+		character.stat_bonuses.max_hp = int(bonuses.get("max_hp", 0))
+		character.stat_bonuses.max_mp = int(bonuses.get("max_mp", 0))
+		character.stat_bonuses.atk = int(bonuses.get("atk", 0))
+		character.stat_bonuses.def_stat = int(bonuses.get("def", 0))
+		character.stat_bonuses.mag = int(bonuses.get("mag", 0))
+		character.stat_bonuses.res_stat = int(bonuses.get("res", 0))
+		character.stat_bonuses.spd = int(bonuses.get("spd", 0))
+	
 	# Override with saved HP/MP (might be damaged)
-	character.current_hp = data.get("current_hp", character.current_hp)
-	character.current_mp = data.get("current_mp", character.current_mp)
+	character.current_hp = int(data.get("current_hp", character.get_stats().max_hp))
+	character.current_mp = int(data.get("current_mp", character.get_stats().max_mp))
 	character.is_alive = data.get("is_alive", true)
 	
 	# Restore equipment
