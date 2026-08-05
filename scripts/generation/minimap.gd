@@ -61,14 +61,27 @@ func setup(gen: FloorGenerator, player: Node2D) -> void:
 		draw_node.queue_redraw()
 
 
+var _last_draw_tile: Vector2i = Vector2i(-1, -1)
+
 func _process(_delta: float) -> void:
-	## Refresh minimap to track player position.
-	if is_visible and draw_node and player_node:
+	## Refresh minimap only when player moves to a new tile.
+	if not is_visible or not draw_node or not player_node:
+		return
+	var current_tile := Vector2i(
+		floori(player_node.position.x / 32.0),
+		floori(player_node.position.y / 32.0)
+	)
+	if current_tile != _last_draw_tile:
+		_last_draw_tile = current_tile
 		draw_node.queue_redraw()
 
 
 func _unhandled_input(event: InputEvent) -> void:
 	## TAB toggles minimap visibility.
-	if event is InputEventKey and event.pressed and event.keycode == KEY_TAB:
+	if not event is InputEventKey or not event.pressed:
+		return
+	if event.keycode == KEY_TAB:
+		if SettingsMenu.is_active:
+			return
 		is_visible = not is_visible
 		draw_node.visible = is_visible
