@@ -244,16 +244,14 @@ func _on_reach_exit() -> void:
 	GameManager.current_floor += 1
 	if GameManager.current_floor > 5:
 		GameManager.end_run(true)
-		GameManager.change_scene("res://scenes/hub/hub.tscn")
+		TransitionManager.transition_to("res://scenes/hub/hub.tscn")
 	else:
-		# Check if next floor is a boss floor (floors 3 and 5)
 		if GameManager.current_floor in [3, 5]:
-			# Boss fight! Set flag and enter combat directly
 			GameManager.current_state = GameManager.GameState.COMBAT
 			GameManager.set_meta("boss_fight", true)
 			GameManager.change_scene("res://scenes/combat/combat.tscn")
 		else:
-			GameManager.change_scene("res://scenes/dungeon/dungeon.tscn")
+			TransitionManager.transition_to("res://scenes/dungeon/dungeon.tscn")
 
 
 func _on_reach_chest(chest_pos: Vector2i) -> void:

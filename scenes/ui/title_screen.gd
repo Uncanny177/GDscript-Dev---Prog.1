@@ -129,9 +129,7 @@ func _select_item() -> void:
 
 func _continue_game() -> void:
 	## Load saved progress and go to hub.
-	# GameManager._ready() already loads meta on startup.
-	# Just transition to hub.
-	GameManager.change_scene("res://scenes/hub/hub.tscn")
+	TransitionManager.transition_to("res://scenes/hub/hub.tscn")
 
 
 func _new_game() -> void:
@@ -163,4 +161,4 @@ func _new_game() -> void:
 	PartyManager._create_default_party()
 	
 	# Go to hub
-	GameManager.change_scene("res://scenes/hub/hub.tscn")
+	TransitionManager.transition_to("res://scenes/hub/hub.tscn")

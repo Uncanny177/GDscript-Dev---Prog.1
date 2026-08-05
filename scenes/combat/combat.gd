@@ -1062,15 +1062,12 @@ func _on_battle_won() -> void:
 	await _wait_for_confirm()
 	
 	if is_boss_fight:
-		# Boss defeated — advance floor and continue or end run
 		if GameManager.current_floor >= 5:
-			# Final boss defeated — run complete!
 			GameManager.end_run(true)
-			GameManager.change_scene("res://scenes/hub/hub.tscn")
+			TransitionManager.transition_to("res://scenes/hub/hub.tscn")
 		else:
-			# Mini-boss — continue to next floor
 			GameManager.current_state = GameManager.GameState.DUNGEON
-			GameManager.change_scene("res://scenes/dungeon/dungeon.tscn")
+			TransitionManager.transition_to("res://scenes/dungeon/dungeon.tscn")
 	else:
 		GameManager.current_state = GameManager.GameState.DUNGEON
 		GameManager.go_back()
@@ -1087,7 +1084,7 @@ func _on_battle_lost() -> void:
 	awaiting_player_input = false
 	await _wait_for_confirm()
 	GameManager.end_run(false)
-	GameManager.change_scene("res://scenes/hub/hub.tscn")
+	TransitionManager.transition_to("res://scenes/hub/hub.tscn")
 
 
 func _wait_for_confirm() -> void:

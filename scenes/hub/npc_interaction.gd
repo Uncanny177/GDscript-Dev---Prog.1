@@ -109,7 +109,7 @@ func _interact_with_npc(npc: Area2D) -> void:
 			SaveManager.load_run()
 		else:
 			GameManager.start_run()
-		GameManager.change_scene("res://scenes/dungeon/dungeon.tscn")
+		TransitionManager.transition_to("res://scenes/dungeon/dungeon.tscn")
 		return
 	
 	if is_shop and shop_ui:
