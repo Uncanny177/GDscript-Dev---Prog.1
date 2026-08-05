@@ -37,7 +37,10 @@ var boss_combatant: BossCombatant = null
 
 ## Event system
 var event_ui: Node = null
-var event_tiles: Array[Vector2i] = []  # Track event tile positions
+var event_tiles: Array[Vector2i] = []
+
+## Minimap
+var minimap: Node = null  # Track event tile positions
 
 ## Track player's last tile to detect movement
 var last_player_tile: Vector2i = Vector2i(-1, -1)
@@ -48,6 +51,7 @@ func _ready() -> void:
 	_generate_and_render_floor()
 	_spawn_visible_enemies()
 	_create_event_ui()
+	_create_minimap()
 	_update_ui()
 	_add_message("Floor %d — %s" % [GameManager.current_floor, _get_floor_description()])
 
@@ -279,6 +283,17 @@ func _on_reach_chest(chest_pos: Vector2i) -> void:
 	if dungeon_renderer:
 		dungeon_renderer.queue_redraw()
 	_update_ui()
+
+
+func _create_minimap() -> void:
+	## Create the minimap overlay.
+	var minimap_script: Script = load("res://scripts/generation/minimap.gd")
+	if minimap_script and floor_gen and player_node:
+		minimap = CanvasLayer.new()
+		minimap.name = "Minimap"
+		minimap.set_script(minimap_script)
+		add_child(minimap)
+		minimap.setup(floor_gen, player_node)
 
 
 func _on_reach_event(event_pos: Vector2i) -> void:
