@@ -33,6 +33,7 @@ PartyManager="*res://scripts/data/party_manager.gd"
 SettingsMenu="*res://scenes/ui/settings_menu.gd"
 StatsTracker="*res://scripts/managers/stats_tracker.gd"
 TransitionManager="*res://scripts/managers/transition_manager.gd"
+AudioManager="*res://scripts/managers/audio_manager.gd"
 StatsScreen="*res://scenes/ui/stats_screen.gd"
 
 [display]
