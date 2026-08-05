@@ -68,7 +68,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	if not event is InputEventKey or not event.pressed:
 		return
 	
-	if event.keycode == KEY_E or event.keycode == KEY_ENTER:
+	if event.keycode == KEY_E or event.keycode == KEY_ENTER or Input.is_action_just_pressed("interact"):
 		if nearby_npc:
 			_interact_with_npc(nearby_npc)
 

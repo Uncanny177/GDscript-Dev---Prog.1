@@ -47,12 +47,14 @@ func _ready() -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	## ESC opens settings menu from the hub.
-	if not event is InputEventKey or not event.pressed:
+	## ESC/Start opens settings menu from the hub.
+	if not event is InputEventKey and not event is InputEventJoypadButton:
+		return
+	if not event.is_pressed():
 		return
 	if SettingsMenu.is_active:
-		return  # Let settings menu handle its own ESC
-	if event.keycode == KEY_ESCAPE:
+		return
+	if Input.is_action_just_pressed("pause") or (event is InputEventKey and event.keycode == KEY_ESCAPE):
 		SettingsMenu.open_settings()
 
 
