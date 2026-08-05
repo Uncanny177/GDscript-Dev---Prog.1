@@ -38,7 +38,7 @@ var level: int = 1
 var xp: int = 0
 
 ## Stat bonuses from leveling (added on top of base class stats)
-var stat_bonuses: StatBlock = StatBlock.new()
+var stat_bonuses: StatBlock = null
 
 ## Equipment slots (hold ItemData references — null = empty slot)
 var weapon: ItemData = null
@@ -53,6 +53,8 @@ func initialize() -> void:
 		current_hp = character_class.base_stats.max_hp
 		current_mp = character_class.base_stats.max_mp
 		is_alive = true
+		if stat_bonuses == null:
+			stat_bonuses = StatBlock.new()  # Fresh per-instance stat bonuses
 	else:
 		push_error("[CharacterData] Cannot initialize — no class or stats assigned")
 
@@ -67,18 +69,27 @@ func get_stats() -> StatBlock:
 		return StatBlock.new()
 	
 	# If no equipment and no level bonuses, just return base stats
-	if not weapon and not armor and not accessory and level <= 1:
+	if not weapon and not armor and not accessory and (stat_bonuses == null or level <= 1):
 		return base
 	
 	# Combine base + level bonuses + equipment bonuses
 	var result := StatBlock.new()
-	result.max_hp = base.max_hp + stat_bonuses.max_hp
-	result.max_mp = base.max_mp + stat_bonuses.max_mp
-	result.atk = base.atk + stat_bonuses.atk
-	result.def_stat = base.def_stat + stat_bonuses.def_stat
-	result.mag = base.mag + stat_bonuses.mag
-	result.res_stat = base.res_stat + stat_bonuses.res_stat
-	result.spd = base.spd + stat_bonuses.spd
+	if stat_bonuses:
+		result.max_hp = base.max_hp + stat_bonuses.max_hp
+		result.max_mp = base.max_mp + stat_bonuses.max_mp
+		result.atk = base.atk + stat_bonuses.atk
+		result.def_stat = base.def_stat + stat_bonuses.def_stat
+		result.mag = base.mag + stat_bonuses.mag
+		result.res_stat = base.res_stat + stat_bonuses.res_stat
+		result.spd = base.spd + stat_bonuses.spd
+	else:
+		result.max_hp = base.max_hp
+		result.max_mp = base.max_mp
+		result.atk = base.atk
+		result.def_stat = base.def_stat
+		result.mag = base.mag
+		result.res_stat = base.res_stat
+		result.spd = base.spd
 	
 	# Add weapon bonus
 	if weapon and weapon.stat_bonus:

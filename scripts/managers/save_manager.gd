@@ -241,6 +241,8 @@ func _deserialize_character(data: Dictionary) -> CharacterData:
 	# Restore stat bonuses from leveling
 	var bonuses: Dictionary = data.get("stat_bonuses", {})
 	if not bonuses.is_empty():
+		if character.stat_bonuses == null:
+			character.stat_bonuses = StatBlock.new()
 		character.stat_bonuses.max_hp = int(bonuses.get("max_hp", 0))
 		character.stat_bonuses.max_mp = int(bonuses.get("max_mp", 0))
 		character.stat_bonuses.atk = int(bonuses.get("atk", 0))

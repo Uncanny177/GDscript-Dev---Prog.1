@@ -65,9 +65,12 @@ static func grant_xp(character: CharacterData, amount: int) -> Array[String]:
 
 static func _apply_stat_growth(character: CharacterData) -> void:
 	## Apply stat increases based on class growth rates.
-	## Each class emphasizes different stats.
 	if not character.character_class or not character.character_class.base_stats:
 		return
+	
+	# Ensure stat_bonuses exists
+	if character.stat_bonuses == null:
+		character.stat_bonuses = StatBlock.new()
 	
 	var growth: Dictionary = _get_growth_rates(character.character_class.class_name_text)
 	
