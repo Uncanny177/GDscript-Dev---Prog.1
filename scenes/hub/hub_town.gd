@@ -162,7 +162,7 @@ func _spawn_npcs() -> void:
 		"The dungeon entrance is to the north.",
 		"Be careful — each floor gets harder.",
 		"If you fall, you'll lose your gold... but not your progress."
-	])
+	], false, false, false, false, false, true)  # is_training=true
 	
 	# Dungeon entrance trigger
 	_create_npc("Dungeon Gate", Vector2(10, 1), Color(0.3, 0.1, 0.1), [
@@ -171,7 +171,7 @@ func _spawn_npcs() -> void:
 	], true)  # is_dungeon_entrance = true
 
 
-func _create_npc(npc_name: String, grid_pos: Vector2, color: Color, dialogue: Array, is_dungeon_entrance: bool = false, is_shop: bool = false, is_guild: bool = false, is_town_hall: bool = false, is_blacksmith: bool = false) -> void:
+func _create_npc(npc_name: String, grid_pos: Vector2, color: Color, dialogue: Array, is_dungeon_entrance: bool = false, is_shop: bool = false, is_guild: bool = false, is_town_hall: bool = false, is_blacksmith: bool = false, is_training: bool = false) -> void:
 	## Creates an NPC node with:
 	##   - Area2D (detects player proximity)
 	##   - ColorRect (visual placeholder)
@@ -198,6 +198,7 @@ func _create_npc(npc_name: String, grid_pos: Vector2, color: Color, dialogue: Ar
 	npc.set_meta("is_guild", is_guild)
 	npc.set_meta("is_town_hall", is_town_hall)
 	npc.set_meta("is_blacksmith", is_blacksmith)
+	npc.set_meta("is_training", is_training)
 	
 	# Visual — colored square for the NPC
 	var visual := ColorRect.new()
@@ -304,6 +305,15 @@ func _spawn_player() -> void:
 		blacksmith_ui.set_script(blacksmith_script)
 		add_child(blacksmith_ui)
 		interaction.blacksmith_ui = blacksmith_ui
+	
+	# Create training ground UI
+	var training_script: Script = load("res://scenes/hub/training_ground_ui.gd")
+	if training_script:
+		var training_ui := CanvasLayer.new()
+		training_ui.name = "TrainingUI"
+		training_ui.set_script(training_script)
+		add_child(training_ui)
+		interaction.training_ui = training_ui
 
 
 func _draw() -> void:

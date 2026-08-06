@@ -69,6 +69,8 @@ func _physics_process(_delta: float) -> void:
 		return
 	if interaction and interaction.blacksmith_ui and interaction.blacksmith_ui.is_active:
 		return
+	if interaction and interaction.training_ui and interaction.training_ui.is_active:
+		return
 	if SettingsMenu.is_active:
 		return
 	
