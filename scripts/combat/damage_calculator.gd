@@ -16,20 +16,20 @@ extends RefCounted
 
 static func calculate_physical(attacker: Combatant, target: Combatant, multiplier: float = 1.0) -> int:
 	## Physical damage: ATK * multiplier - DEF, minimum 1.
-	var raw: float = attacker.get_atk() * multiplier - target.get_def()
-	return maxi(int(raw), 1)
+	var raw: float = maxf(attacker.get_atk() * multiplier - target.get_def(), 1.0)
+	return int(round(raw))
 
 
 static func calculate_magical(attacker: Combatant, target: Combatant, multiplier: float = 1.0) -> int:
 	## Magical damage: MAG * multiplier - RES, minimum 1.
-	var raw: float = attacker.get_mag() * multiplier - target.get_res()
-	return maxi(int(raw), 1)
+	var raw: float = maxf(attacker.get_mag() * multiplier - target.get_res(), 1.0)
+	return int(round(raw))
 
 
 static func calculate_healing(caster: Combatant, multiplier: float = 1.0) -> int:
 	## Healing amount: MAG * multiplier. No resistance check.
-	var raw: float = caster.get_mag() * multiplier
-	return maxi(int(raw), 1)
+	var raw: float = maxf(caster.get_mag() * multiplier, 1.0)
+	return int(round(raw))
 
 
 static func calculate_skill_damage(attacker: Combatant, target: Combatant, skill: SkillData) -> int:
@@ -48,5 +48,5 @@ static func calculate_skill_damage(attacker: Combatant, target: Combatant, skill
 	
 	# Apply elemental multiplier
 	var element_mult: float = ElementSystem.get_multiplier(skill.element, target.element)
-	base_damage = int(float(base_damage) * element_mult)
+	base_damage = int(round(float(base_damage) * element_mult))
 	return maxi(base_damage, 1)
