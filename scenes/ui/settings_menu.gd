@@ -102,10 +102,10 @@ func _refresh_display() -> void:
 	
 	for i in range(SETTING_KEYS.size()):
 		var key: String = SETTING_KEYS[i]
-		var name: String = SETTING_NAMES[i]
+		var setting_name: String = SETTING_NAMES[i]
 		var marker: String = "> " if i == selected_index else "  "
 		var value_str: String = _get_value_display(key)
-		text += "%s%s: %s\n" % [marker, name, value_str]
+		text += "%s%s: %s\n" % [marker, setting_name, value_str]
 	
 	text += "\n── Controls ──\n"
 	text += "  [UP/DOWN] Select option\n"
@@ -116,7 +116,7 @@ func _refresh_display() -> void:
 
 
 func _get_value_display(key: String) -> String:
-	var value = settings[key]
+	var value: Variant = settings[key]
 	match key:
 		"master_volume", "music_volume", "sfx_volume":
 			var bar: String = _make_bar(value, 100)
@@ -229,7 +229,7 @@ func _apply_resolution() -> void:
 	
 	# Center window on screen
 	var screen_size: Vector2i = DisplayServer.screen_get_size()
-	var window_pos: Vector2i = (screen_size - res) / 2  # Integer division intentional
+	var window_pos: Vector2i = (screen_size - res) / 2
 	DisplayServer.window_set_position(window_pos)
 	
 	print("[Settings] Resolution set to %dx%d" % [res.x, res.y])
@@ -266,7 +266,7 @@ func _load_settings() -> void:
 	
 	var json := JSON.new()
 	if json.parse(json_string) == OK:
-		var data = json.get_data()
+		var data: Variant = json.get_data()
 		if data is Dictionary:
 			# Merge loaded values (preserves defaults for new settings)
 			for key in data:

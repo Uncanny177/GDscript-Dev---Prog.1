@@ -125,7 +125,7 @@ static func create_chest_table(floor_number: int) -> LootTable:
 		table.add_entry(LootType.ITEM, 1, 1, "Elixir")
 	
 	# Meta crystals
-	var crystal_amount: int = 1 + floor_number / 2
+	var crystal_amount: int = 1 + int(floor_number / 2.0)
 	table.add_entry(LootType.META_CRYSTAL, crystal_amount, 1)
 	
 	return table

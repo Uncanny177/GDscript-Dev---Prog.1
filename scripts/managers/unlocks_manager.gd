@@ -201,7 +201,11 @@ func from_dict(data: Dictionary) -> void:
 	shop_tier = data.get("shop_tier", 1)
 	blacksmith_tier = data.get("blacksmith_tier", 0)
 	training_ground_tier = data.get("training_ground_tier", 0)
-	unlocked_classes = data.get("unlocked_classes", ["Warrior", "Mage", "Rogue"])
+	var loaded_classes: Array = data.get("unlocked_classes", ["Warrior", "Mage", "Rogue"])
+	unlocked_classes = []
+	for class_name_key in loaded_classes:
+		if class_name_key is String:
+			unlocked_classes.append(class_name_key)
 	highest_floor_reached = data.get("highest_floor_reached", 0)
 	total_bosses_defeated = data.get("total_bosses_defeated", 0)
 	total_enemies_defeated = data.get("total_enemies_defeated", 0)

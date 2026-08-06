@@ -99,6 +99,7 @@ func save_run() -> void:
 		"version": 1,
 		"current_floor": GameManager.current_floor,
 		"current_gold": GameManager.current_gold,
+		"player_tile": _serialize_vector2i(GameManager.get_dungeon_player_position_for_floor(GameManager.current_floor)),
 		"party_state": _serialize_party_combat_state(),
 		"inventory": _serialize_inventory(),
 	}
@@ -122,6 +123,9 @@ func load_run() -> bool:
 	GameManager.current_gold = data.get("current_gold", 0)
 	GameManager.is_run_active = true
 	GameManager.current_state = GameManager.GameState.DUNGEON
+	var saved_player_tile: Vector2i = _deserialize_vector2i(data.get("player_tile", {}))
+	if saved_player_tile != Vector2i(-1, -1):
+		GameManager.set_dungeon_player_position(saved_player_tile)
 	
 	# Restore party HP/MP
 	var party_state: Array = data.get("party_state", [])
@@ -226,11 +230,11 @@ func _deserialize_character(data: Dictionary) -> CharacterData:
 	character.character_name = data.get("name", "Unknown")
 	
 	var class_name_str: String = data.get("class", "Warrior")
-	character.character_class = ClassDatabase.get_class(class_name_str)
+	character.character_class = ClassDatabase.get_class_data(class_name_str)
 	
 	if not character.character_class:
 		push_warning("[SaveManager] Unknown class '%s' — defaulting to Warrior" % class_name_str)
-		character.character_class = ClassDatabase.get_class("Warrior")
+		character.character_class = ClassDatabase.get_class_data("Warrior")
 	
 	character.initialize()  # Sets HP/MP to max
 	
@@ -289,6 +293,18 @@ func _deserialize_party_combat_state(data: Array) -> void:
 		member.current_hp = data[i].get("current_hp", member.current_hp)
 		member.current_mp = data[i].get("current_mp", member.current_mp)
 		member.is_alive = data[i].get("is_alive", true)
+
+
+func _serialize_vector2i(vector: Vector2i) -> Dictionary:
+	## Serialize a Vector2i into a simple dictionary for JSON.
+	return {"x": vector.x, "y": vector.y}
+
+
+func _deserialize_vector2i(data: Dictionary) -> Vector2i:
+	## Restore a Vector2i from a dictionary.
+	if data.is_empty():
+		return Vector2i(-1, -1)
+	return Vector2i(int(data.get("x", -1)), int(data.get("y", -1)))
 
 
 func _serialize_inventory() -> Array:

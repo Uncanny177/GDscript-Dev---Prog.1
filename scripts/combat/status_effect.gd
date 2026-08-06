@@ -92,7 +92,7 @@ func tick(target: Combatant) -> Dictionary:
 	
 	match type:
 		Type.POISON:
-			var dmg: int = maxi(target.get_max_hp() * potency / 100, 1)  # Integer division intentional
+			var dmg: int = maxi(int(float(target.get_max_hp()) * float(potency) / 100.0), 1)
 			# Poison doesn't kill — leave at 1 HP
 			dmg = mini(dmg, target.current_hp - 1)
 			if dmg > 0:

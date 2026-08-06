@@ -72,7 +72,7 @@ func get_spd() -> int:
 func take_damage(amount: int) -> int:
 	var actual: int = amount
 	if is_defending:
-		actual = maxi(actual / 2, 1)  # Integer division intentional
+		actual = maxi(int(actual / 2.0), 1)
 	actual = mini(actual, current_hp)
 	current_hp -= actual
 	if current_hp <= 0:

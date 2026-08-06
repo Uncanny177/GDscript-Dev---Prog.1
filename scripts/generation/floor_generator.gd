@@ -193,7 +193,7 @@ func _build_floor_tiles() -> void:
 		var start_room: Dictionary = placed_rooms[0]
 		var offset: Vector2i = start_room["world_offset"]
 		var template: RoomTemplate = start_room["template"]
-		player_start = Vector2i(offset.x + template.width / 2, offset.y + template.height / 2)  # Integer division intentional
+		player_start = Vector2i(offset.x + template.width / 2, offset.y + template.height / 2)
 	
 	_connect_rooms()
 

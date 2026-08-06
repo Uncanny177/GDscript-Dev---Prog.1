@@ -54,12 +54,13 @@ func _ready() -> void:
 	_create_minimap()
 	_update_ui()
 	_add_message("Floor %d — %s" % [GameManager.current_floor, _get_floor_description()])
+	_show_transition_flash()
 
 
 func _apply_difficulty_scaling() -> void:
 	var floor_num: int = GameManager.current_floor
-	encounter_check_interval = maxi(6 - floor_num, 3)
-	encounter_chance = minf(0.20 + floor_num * 0.05, 0.45)
+	encounter_check_interval = maxi(8 - floor_num, 6)
+	encounter_chance = minf(0.08 + floor_num * 0.04, 0.20)
 	print("[Dungeon] Floor %d difficulty — check every %d steps, %.0f%% chance" % [
 		floor_num, encounter_check_interval, encounter_chance * 100
 	])
@@ -74,7 +75,9 @@ func _get_floor_description() -> String:
 
 func _generate_and_render_floor() -> void:
 	floor_gen = FloorGenerator.new()
-	current_seed = randi()
+	if GameManager.current_dungeon_seed < 0:
+		GameManager.current_dungeon_seed = randi()
+	current_seed = GameManager.current_dungeon_seed
 	floor_gen.generate_floor(GameManager.current_floor, current_seed)
 	
 	var renderer_script: Script = load("res://scripts/generation/dungeon_renderer.gd")
@@ -95,10 +98,13 @@ func _spawn_player() -> void:
 		return
 	
 	player_node = player_scene.instantiate()
-	var start_pos: Vector2i = floor_gen.player_start if floor_gen else Vector2i(5, 5)
+	var start_pos: Vector2i = GameManager.get_dungeon_player_position_for_floor(GameManager.current_floor)
+	if start_pos == Vector2i(-1, -1):
+		start_pos = floor_gen.player_start if floor_gen else Vector2i(5, 5)
 	player_node.position = Vector2(start_pos.x * 32 + 16, start_pos.y * 32 + 16)
 	add_child(player_node)
 	last_player_tile = start_pos
+	GameManager.set_dungeon_player_position(start_pos)
 
 
 func _spawn_visible_enemies() -> void:
@@ -189,6 +195,7 @@ func _process(_delta: float) -> void:
 	)
 	if player_tile != last_player_tile:
 		last_player_tile = player_tile
+		GameManager.set_dungeon_player_position(player_tile)
 		_check_tile_events(player_tile)
 		_check_visible_enemy_contact(player_tile)
 
@@ -245,7 +252,7 @@ func _check_random_encounter() -> void:
 
 func _on_reach_exit() -> void:
 	transitioning = true
-	GameManager.current_floor += 1
+	GameManager.advance_to_next_floor()
 	if GameManager.current_floor > 5:
 		GameManager.end_run(true)
 		TransitionManager.transition_to("res://scenes/hub/hub.tscn")
@@ -255,7 +262,7 @@ func _on_reach_exit() -> void:
 			GameManager.set_meta("boss_fight", true)
 			GameManager.change_scene("res://scenes/combat/combat.tscn")
 		else:
-			TransitionManager.transition_to("res://scenes/dungeon/dungeon.tscn")
+			GameManager.change_scene("res://scenes/dungeon/dungeon.tscn")
 
 
 func _on_reach_chest(chest_pos: Vector2i) -> void:
@@ -315,6 +322,22 @@ func _on_event_resolved(result: Dictionary) -> void:
 		_add_message("Ambush!")
 		GameManager.current_state = GameManager.GameState.COMBAT
 		GameManager.change_scene("res://scenes/combat/combat.tscn")
+
+
+func _show_transition_flash() -> void:
+	var overlay := ColorRect.new()
+	overlay.name = "FloorTransitionFlash"
+	overlay.color = Color(0.0, 0.0, 0.0, 0.0)
+	overlay.anchor_left = 0.0
+	overlay.anchor_right = 1.0
+	overlay.anchor_top = 0.0
+	overlay.anchor_bottom = 1.0
+	overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(overlay)
+	var tween: Tween = create_tween()
+	tween.tween_property(overlay, "color:a", 0.25, 0.08)
+	tween.tween_property(overlay, "color:a", 0.0, 0.18)
+	tween.tween_callback(overlay.queue_free)
 
 
 func _add_message(text: String) -> void:

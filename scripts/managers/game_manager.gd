@@ -40,6 +40,8 @@ var current_state: GameState = GameState.HUB
 
 var current_gold: int = 0
 var current_floor: int = 1
+var current_dungeon_seed: int = -1
+var dungeon_player_positions: Dictionary = {}
 var is_run_active: bool = false
 var inventory: Inventory = Inventory.new()  # Items carried during a run
 
@@ -116,7 +118,16 @@ func start_run() -> void:
 	is_run_active = true
 	current_gold = 0
 	current_floor = 1
+	dungeon_player_positions.clear()
 	inventory = Inventory.new()  # Fresh inventory each run
+
+
+func advance_to_next_floor() -> void:
+	## Advance to the next dungeon floor and reset the floor seed.
+	current_floor += 1
+	current_dungeon_seed = -1
+	current_state = GameState.DUNGEON
+	print("[GameManager] Advanced to floor %d" % current_floor)
 	
 	# Give starter items for each run
 	var health_pot: ItemData = ItemDatabase.get_item("Health Potion")
@@ -168,6 +179,20 @@ func end_run(victory: bool) -> void:
 
 
 ## ─── CURRENCY ───────────────────────────────────────────────────
+
+func set_dungeon_player_position(tile: Vector2i) -> void:
+	## Remember the player's tile for the current floor so dungeon reloads resume there.
+	dungeon_player_positions[current_floor] = tile
+
+
+func get_dungeon_player_position_for_floor(floor_number: int) -> Vector2i:
+	## Returns the saved tile for a floor if one exists, otherwise an invalid tile.
+	if dungeon_player_positions.has(floor_number):
+		var tile: Variant = dungeon_player_positions[floor_number]
+		if tile is Vector2i:
+			return tile
+	return Vector2i(-1, -1)
+
 
 func add_gold(amount: int) -> void:
 	## Add run-gold (from enemies, chests). Only meaningful during a run.
