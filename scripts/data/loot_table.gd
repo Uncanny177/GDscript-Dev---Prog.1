@@ -99,6 +99,24 @@ static func create_enemy_table(floor_number: int) -> LootTable:
 	if floor_number >= 2:
 		table.add_entry(LootType.META_CRYSTAL, 1, 1)
 	
+	# Crafting materials (biome-appropriate)
+	if floor_number <= 2:
+		# Cave: basic materials
+		table.add_entry(LootType.ITEM, 1, 2, "Iron Ore")
+		table.add_entry(LootType.ITEM, 1, 1, "Coal")
+		table.add_entry(LootType.ITEM, 1, 1, "Leather")
+		table.add_entry(LootType.ITEM, 1, 1, "Wood")
+	elif floor_number <= 4:
+		# Crypt: dark materials
+		table.add_entry(LootType.ITEM, 1, 2, "Dark Crystal")
+		table.add_entry(LootType.ITEM, 1, 1, "Iron Ore")
+		table.add_entry(LootType.ITEM, 1, 1, "Ice Shard")
+	else:
+		# Inferno: fire materials
+		table.add_entry(LootType.ITEM, 1, 2, "Fire Essence")
+		table.add_entry(LootType.ITEM, 1, 1, "Wind Essence")
+		table.add_entry(LootType.ITEM, 1, 1, "Iron Ore")
+	
 	return table
 
 

@@ -150,7 +150,7 @@ func _spawn_npcs() -> void:
 		"*clang clang*",
 		"Bring me materials from the dungeon...",
 		"...and I'll forge you something special."
-	])
+	], false, false, false, false, true)  # is_blacksmith=true
 	
 	# Town Hall NPC — spend meta-crystals on upgrades
 	_create_npc("Mayor", Vector2(10, 10), Color(0.8, 0.8, 0.3), [
@@ -171,7 +171,7 @@ func _spawn_npcs() -> void:
 	], true)  # is_dungeon_entrance = true
 
 
-func _create_npc(npc_name: String, grid_pos: Vector2, color: Color, dialogue: Array, is_dungeon_entrance: bool = false, is_shop: bool = false, is_guild: bool = false, is_town_hall: bool = false) -> void:
+func _create_npc(npc_name: String, grid_pos: Vector2, color: Color, dialogue: Array, is_dungeon_entrance: bool = false, is_shop: bool = false, is_guild: bool = false, is_town_hall: bool = false, is_blacksmith: bool = false) -> void:
 	## Creates an NPC node with:
 	##   - Area2D (detects player proximity)
 	##   - ColorRect (visual placeholder)
@@ -197,6 +197,7 @@ func _create_npc(npc_name: String, grid_pos: Vector2, color: Color, dialogue: Ar
 	npc.set_meta("is_shop", is_shop)
 	npc.set_meta("is_guild", is_guild)
 	npc.set_meta("is_town_hall", is_town_hall)
+	npc.set_meta("is_blacksmith", is_blacksmith)
 	
 	# Visual — colored square for the NPC
 	var visual := ColorRect.new()
@@ -294,6 +295,15 @@ func _spawn_player() -> void:
 		town_hall_ui.set_script(town_hall_script)
 		add_child(town_hall_ui)
 		interaction.town_hall_ui = town_hall_ui
+	
+	# Create blacksmith UI
+	var blacksmith_script: Script = load("res://scenes/hub/blacksmith_ui.gd")
+	if blacksmith_script:
+		var blacksmith_ui := CanvasLayer.new()
+		blacksmith_ui.name = "BlacksmithUI"
+		blacksmith_ui.set_script(blacksmith_script)
+		add_child(blacksmith_ui)
+		interaction.blacksmith_ui = blacksmith_ui
 
 
 func _draw() -> void:

@@ -27,6 +27,9 @@ var guild_ui: Node = null
 ## Reference to the town hall UI (set by hub scene after spawning)
 var town_hall_ui: Node = null
 
+## Reference to the blacksmith UI (set by hub scene after spawning)
+var blacksmith_ui: Node = null
+
 ## The NPC we're currently close enough to talk to (or null)
 var nearby_npc: Area2D = null
 
@@ -49,6 +52,8 @@ func _process(_delta: float) -> void:
 		return
 	if town_hall_ui and town_hall_ui.is_active:
 		return
+	if blacksmith_ui and blacksmith_ui.is_active:
+		return
 	
 	_find_nearby_npc()
 
@@ -63,6 +68,8 @@ func _unhandled_input(event: InputEvent) -> void:
 	if guild_ui and guild_ui.is_active:
 		return
 	if town_hall_ui and town_hall_ui.is_active:
+		return
+	if blacksmith_ui and blacksmith_ui.is_active:
 		return
 	
 	if not event is InputEventKey and not event is InputEventJoypadButton:
@@ -104,6 +111,7 @@ func _interact_with_npc(npc: Area2D) -> void:
 	var is_shop: bool = npc.get_meta("is_shop", false)
 	var is_guild: bool = npc.get_meta("is_guild", false)
 	var is_town_hall: bool = npc.get_meta("is_town_hall", false)
+	var is_blacksmith: bool = npc.get_meta("is_blacksmith", false)
 	
 	if is_entrance:
 		# Check if resuming a saved run
@@ -124,6 +132,10 @@ func _interact_with_npc(npc: Area2D) -> void:
 	
 	if is_town_hall and town_hall_ui:
 		town_hall_ui.open_town_hall()
+		return
+	
+	if is_blacksmith and blacksmith_ui:
+		blacksmith_ui.open_blacksmith()
 		return
 	
 	# Default: normal dialogue
