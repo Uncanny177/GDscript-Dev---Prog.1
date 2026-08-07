@@ -147,6 +147,14 @@ func end_run(victory: bool) -> void:
 	## Called on death or boss victory. Handles what carries over.
 	is_run_active = false
 	
+	# End daily challenge if active
+	if DailyChallenge.is_challenge_active:
+		DailyChallenge.end_challenge(
+			current_floor,
+			StatsTracker.current_run.get("enemies_killed", 0),
+			current_gold
+		)
+	
 	# Track milestones
 	UnlocksManager.record_floor_reached(current_floor)
 	

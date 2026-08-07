@@ -28,6 +28,10 @@ var has_played_today: bool = false
 var is_challenge_active: bool = false
 var challenge_score: int = 0
 
+## Backup of player's real party (restored after challenge)
+var _backup_party: Array = []
+var _backup_reserve: Array = []
+
 
 func _ready() -> void:
 	_calculate_today()
@@ -65,6 +69,8 @@ func start_challenge() -> void:
 		GameManager.inventory.add_item(potion, 3)
 	
 	# Set up a fixed party (override current party temporarily)
+	_backup_party = PartyManager.active_party.duplicate()
+	_backup_reserve = PartyManager.reserve.duplicate()
 	_setup_challenge_party()
 	
 	print("[DailyChallenge] Challenge started — seed: %d" % today_seed)
@@ -81,6 +87,13 @@ func end_challenge(floor_reached: int, enemies_killed: int, gold_earned: int) ->
 	if challenge_score > best_score:
 		best_score = challenge_score
 		best_floor = floor_reached
+	
+	# Restore player's real party
+	if not _backup_party.is_empty():
+		PartyManager.active_party = _backup_party
+		PartyManager.reserve = _backup_reserve
+		_backup_party = []
+		_backup_reserve = []
 	
 	_save()
 	print("[DailyChallenge] Challenge ended — Score: %d (Best: %d)" % [challenge_score, best_score])
