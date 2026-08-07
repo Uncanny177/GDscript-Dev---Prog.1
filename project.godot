@@ -38,6 +38,7 @@ PauseMenu="*res://scenes/ui/pause_menu.gd"
 DailyChallenge="*res://scripts/managers/daily_challenge.gd"
 NewGamePlus="*res://scripts/managers/new_game_plus.gd"
 Achievements="*res://scripts/managers/achievement_system.gd"
+Tooltip="*res://scenes/ui/tooltip.gd"
 StatsScreen="*res://scenes/ui/stats_screen.gd"
 
 [display]
