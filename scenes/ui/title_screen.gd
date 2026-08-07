@@ -26,6 +26,8 @@ func _ready() -> void:
 		menu_items.append("Continue")
 	menu_items.append("New Game")
 	menu_items.append("Daily Challenge")
+	if NewGamePlus.has_cleared_game:
+		menu_items.append("New Game+")
 	menu_items.append("Settings")
 	menu_items.append("Stats")
 	menu_items.append("Quit")
@@ -120,6 +122,8 @@ func _select_item() -> void:
 			_continue_game()
 		"New Game":
 			_new_game()
+		"New Game+":
+			_start_ng_plus()
 		"Daily Challenge":
 			_start_daily()
 		"Settings":
@@ -170,4 +174,11 @@ func _new_game() -> void:
 func _start_daily() -> void:
 	## Start the daily challenge run.
 	DailyChallenge.start_challenge()
+	TransitionManager.transition_to("res://scenes/dungeon/dungeon.tscn")
+
+
+func _start_ng_plus() -> void:
+	## Enter the next NG+ tier and start a new run.
+	NewGamePlus.enter_new_game_plus()
+	GameManager.start_run()
 	TransitionManager.transition_to("res://scenes/dungeon/dungeon.tscn")

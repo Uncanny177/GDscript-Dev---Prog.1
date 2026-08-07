@@ -193,6 +193,7 @@ func to_dict() -> Dictionary:
 		"total_bosses_defeated": total_bosses_defeated,
 		"total_enemies_defeated": total_enemies_defeated,
 		"total_runs_completed": total_runs_completed,
+		"ng_plus": NewGamePlus.to_dict(),
 	}
 
 
@@ -210,3 +211,8 @@ func from_dict(data: Dictionary) -> void:
 	total_bosses_defeated = data.get("total_bosses_defeated", 0)
 	total_enemies_defeated = data.get("total_enemies_defeated", 0)
 	total_runs_completed = data.get("total_runs_completed", 0)
+	
+	# Restore NG+ state
+	var ng_data: Dictionary = data.get("ng_plus", {})
+	if not ng_data.is_empty():
+		NewGamePlus.from_dict(ng_data)

@@ -62,12 +62,16 @@ static func from_character(data: CharacterData) -> Combatant:
 
 
 static func from_enemy(data: EnemyData) -> Combatant:
-	## Create an enemy combatant from EnemyData.
+	## Create an enemy combatant from EnemyData. Applies NG+ scaling.
 	var c := Combatant.new()
 	c.is_player = false
 	c.enemy_data = data
-	c.current_hp = data.stats.max_hp
-	c.current_mp = data.stats.max_mp if data.stats else 0
+	
+	# Apply NG+ stat scaling
+	var scale: float = NewGamePlus.get_enemy_stat_multiplier()
+	c.current_hp = int(data.stats.max_hp * scale)
+	c.current_mp = int(data.stats.max_mp * scale) if data.stats else 0
+	
 	c.is_alive = true
 	c.display_name = data.enemy_name
 	c.sprite_color = data.sprite_color

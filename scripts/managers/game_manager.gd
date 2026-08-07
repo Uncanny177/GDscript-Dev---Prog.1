@@ -164,6 +164,11 @@ func end_run(victory: bool) -> void:
 		meta_crystals_changed.emit(meta_crystals)
 		UnlocksManager.record_run_completed()
 		UnlocksManager.record_boss_defeated()
+		
+		# Check if this is a full game clear (floor 5+ boss beaten)
+		if current_floor >= 5:
+			NewGamePlus.mark_game_cleared()
+		
 		print("[GameManager] Victory! Earned %d meta-crystals" % (5 + current_floor))
 	else:
 		# Lose run gold on death, still get some meta-crystals for progress
