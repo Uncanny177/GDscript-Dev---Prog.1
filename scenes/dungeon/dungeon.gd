@@ -75,9 +75,14 @@ func _get_floor_description() -> String:
 
 func _generate_and_render_floor() -> void:
 	floor_gen = FloorGenerator.new()
-	if GameManager.current_dungeon_seed < 0:
+	# Use daily challenge seed if active, otherwise GameManager seed
+	if DailyChallenge.is_challenge_active:
+		current_seed = DailyChallenge.get_today_seed() + GameManager.current_floor
+	elif GameManager.current_dungeon_seed < 0:
 		GameManager.current_dungeon_seed = randi()
-	current_seed = GameManager.current_dungeon_seed
+		current_seed = GameManager.current_dungeon_seed
+	else:
+		current_seed = GameManager.current_dungeon_seed
 	floor_gen.generate_floor(GameManager.current_floor, current_seed)
 	
 	var renderer_script: Script = load("res://scripts/generation/dungeon_renderer.gd")

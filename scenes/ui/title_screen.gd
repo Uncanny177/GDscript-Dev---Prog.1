@@ -25,6 +25,7 @@ func _ready() -> void:
 	if has_save:
 		menu_items.append("Continue")
 	menu_items.append("New Game")
+	menu_items.append("Daily Challenge")
 	menu_items.append("Settings")
 	menu_items.append("Stats")
 	menu_items.append("Quit")
@@ -119,6 +120,8 @@ func _select_item() -> void:
 			_continue_game()
 		"New Game":
 			_new_game()
+		"Daily Challenge":
+			_start_daily()
 		"Settings":
 			SettingsMenu.open_settings()
 		"Stats":
@@ -162,3 +165,9 @@ func _new_game() -> void:
 	
 	# Go to hub
 	TransitionManager.transition_to("res://scenes/hub/hub.tscn")
+
+
+func _start_daily() -> void:
+	## Start the daily challenge run.
+	DailyChallenge.start_challenge()
+	TransitionManager.transition_to("res://scenes/dungeon/dungeon.tscn")
