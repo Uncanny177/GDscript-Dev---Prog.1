@@ -93,6 +93,30 @@ func clear() -> void:
 	items.clear()
 
 
+func get_total_items() -> int:
+	## Returns total number of items (sum of all stacks).
+	var total: int = 0
+	for key in items:
+		total += int(items[key]["count"])
+	return total
+
+
+func remove_random_item() -> String:
+	## Remove one random item from inventory. Returns the item name removed.
+	## Used by ritual altars as a sacrifice cost.
+	var available: Array = []
+	for key in items:
+		if items[key]["count"] > 0:
+			available.append(key)
+	if available.is_empty():
+		return "nothing"
+	var chosen_key: String = available[randi() % available.size()]
+	items[chosen_key]["count"] -= 1
+	if items[chosen_key]["count"] <= 0:
+		items.erase(chosen_key)
+	return chosen_key
+
+
 func _to_string() -> String:
 	var parts: Array = []
 	for key in items:
