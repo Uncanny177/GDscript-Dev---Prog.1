@@ -86,7 +86,7 @@ func get_max_hp() -> int:
 	if is_player and character_data:
 		return character_data.get_stats().max_hp
 	elif enemy_data and enemy_data.stats:
-		return enemy_data.stats.max_hp
+		return int(enemy_data.stats.max_hp * NewGamePlus.get_enemy_stat_multiplier())
 	return 1
 
 
@@ -94,7 +94,7 @@ func get_max_mp() -> int:
 	if is_player and character_data:
 		return character_data.get_stats().max_mp
 	elif enemy_data and enemy_data.stats:
-		return enemy_data.stats.max_mp
+		return int(enemy_data.stats.max_mp * NewGamePlus.get_enemy_stat_multiplier())
 	return 0
 
 
@@ -102,7 +102,7 @@ func get_atk() -> int:
 	if is_player and character_data:
 		return character_data.get_stats().atk
 	elif enemy_data and enemy_data.stats:
-		return enemy_data.stats.atk
+		return int(enemy_data.stats.atk * NewGamePlus.get_enemy_stat_multiplier())
 	return 1
 
 
@@ -110,7 +110,7 @@ func get_def() -> int:
 	if is_player and character_data:
 		return character_data.get_stats().def_stat
 	elif enemy_data and enemy_data.stats:
-		return enemy_data.stats.def_stat
+		return int(enemy_data.stats.def_stat * NewGamePlus.get_enemy_stat_multiplier())
 	return 0
 
 
@@ -118,7 +118,7 @@ func get_mag() -> int:
 	if is_player and character_data:
 		return character_data.get_stats().mag
 	elif enemy_data and enemy_data.stats:
-		return enemy_data.stats.mag
+		return int(enemy_data.stats.mag * NewGamePlus.get_enemy_stat_multiplier())
 	return 1
 
 
@@ -126,7 +126,7 @@ func get_res() -> int:
 	if is_player and character_data:
 		return character_data.get_stats().res_stat
 	elif enemy_data and enemy_data.stats:
-		return enemy_data.stats.res_stat
+		return int(enemy_data.stats.res_stat * NewGamePlus.get_enemy_stat_multiplier())
 	return 0
 
 
@@ -134,7 +134,7 @@ func get_spd() -> int:
 	if is_player and character_data:
 		return character_data.get_stats().spd
 	elif enemy_data and enemy_data.stats:
-		return enemy_data.stats.spd
+		return int(enemy_data.stats.spd * NewGamePlus.get_enemy_stat_multiplier())
 	return 1
 
 
