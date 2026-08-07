@@ -11,6 +11,8 @@ var panel: PanelContainer = null
 var content_label: Label = null
 var selected_index: int = 0
 
+## Dark overlay reference
+var overlay: ColorRect = null
 const MENU_ITEMS: Array[String] = ["Resume", "Settings", "Save & Quit to Hub"]
 
 
@@ -19,11 +21,12 @@ func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS  # Runs even when tree is paused
 	_build_ui()
 	panel.hide()
+	overlay.hide()
 
 
 func _build_ui() -> void:
 	# Dark overlay behind the menu
-	var overlay := ColorRect.new()
+	overlay = ColorRect.new()
 	overlay.name = "PauseOverlay"
 	overlay.color = Color(0.0, 0.0, 0.0, 0.6)
 	overlay.anchor_right = 1.0
@@ -52,6 +55,7 @@ func _build_ui() -> void:
 	margin.add_child(content_label)
 	
 	panel.hide()
+	overlay.hide()
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -113,14 +117,15 @@ func _open() -> void:
 	get_tree().paused = true
 	_refresh()
 	panel.show()
-	panel.get_parent().get_child(0).show()  # Show overlay
+	overlay.show()
 
 
 func _close() -> void:
 	is_active = false
 	get_tree().paused = false
 	panel.hide()
-	panel.get_parent().get_child(0).hide()  # Hide overlay
+	overlay.hide()
+	overlay.hide()
 
 
 func _refresh() -> void:
@@ -140,8 +145,15 @@ func _select_item() -> void:
 		"Resume":
 			_close()
 		"Settings":
-			_close()
+			# Unpause temporarily so settings menu can function, then re-pause after
+			get_tree().paused = false
+			panel.hide()
+	overlay.hide()
+			overlay.hide()
+			is_active = false
 			SettingsMenu.open_settings()
+			# When settings closes, we don't automatically re-open pause
+			# (player is back in the game — they can ESC to pause again)
 		"Save & Quit to Hub":
 			_close()
 			# Save run state so player can resume later
