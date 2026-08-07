@@ -41,6 +41,7 @@ Achievements="*res://scripts/managers/achievement_system.gd"
 Tooltip="*res://scenes/ui/tooltip.gd"
 SanitySystem="*res://scripts/managers/sanity_system.gd"
 PermadeathSystem="*res://scripts/managers/permadeath_system.gd"
+BestiarySystem="*res://scripts/managers/bestiary_system.gd"
 StatsScreen="*res://scenes/ui/stats_screen.gd"
 
 [display]

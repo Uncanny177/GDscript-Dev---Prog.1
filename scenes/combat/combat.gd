@@ -158,6 +158,8 @@ func _setup_normal_encounter() -> void:
 		if enemy_count > 1:
 			combatant.display_name += " " + char(65 + i)
 		enemy_combatants.append(combatant)
+		# Track encounter in bestiary
+		BestiarySystem.on_enemy_encountered(enemy_data.get_id(), GameManager.current_floor)
 
 
 func _setup_boss_encounter() -> void:
@@ -1087,6 +1089,11 @@ func _on_battle_won() -> void:
 		if member.is_alive:
 			var msgs: Array[String] = LevelSystem.grant_xp(member, total_xp)
 			level_messages.append_array(msgs)
+	
+	# Track defeated enemies in bestiary
+	for enemy in enemy_combatants:
+		if enemy.enemy_data:
+			BestiarySystem.on_enemy_defeated(enemy.enemy_data.get_id())
 	
 	# Build reward summary
 	var reward_text: String = "VICTORY!\n\n"

@@ -14,6 +14,9 @@ extends Resource
 ## Display name in combat UI
 @export var enemy_name: String = "Unknown Enemy"
 
+## Unique identifier for bestiary/save tracking (auto-generated from name if empty)
+@export var enemy_id: String = ""
+
 ## Base stats (same structure as characters — HP, ATK, DEF, etc.)
 @export var stats: StatBlock = null
 
@@ -36,6 +39,13 @@ extends Resource
 
 ## How many meta-crystals this enemy drops (usually 0, bosses drop more)
 @export var meta_crystal_drop: int = 0
+
+
+func get_id() -> String:
+	## Returns the enemy_id, auto-generating from name if empty.
+	if enemy_id == "":
+		return enemy_name.to_lower().replace(" ", "_")
+	return enemy_id
 
 
 func pick_skill() -> SkillData:
