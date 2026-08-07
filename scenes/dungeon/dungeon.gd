@@ -262,7 +262,9 @@ func _on_reach_exit() -> void:
 		GameManager.end_run(true)
 		TransitionManager.transition_to("res://scenes/hub/hub.tscn")
 	else:
-		if GameManager.current_floor in [3, 5]:
+		# Check if there's a boss defined for this floor
+		var boss_check: BossData = BossDatabase.get_boss_for_floor(GameManager.current_floor)
+		if boss_check:
 			GameManager.current_state = GameManager.GameState.COMBAT
 			GameManager.set_meta("boss_fight", true)
 			GameManager.change_scene("res://scenes/combat/combat.tscn")
