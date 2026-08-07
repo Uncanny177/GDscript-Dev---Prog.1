@@ -140,6 +140,7 @@ func advance_to_next_floor() -> void:
 	total_runs += 1
 	current_state = GameState.DUNGEON
 	StatsTracker.start_run()
+	PermadeathSystem.on_run_start()
 	print("[GameManager] Run #%d started — %s" % [total_runs, str(inventory)])
 
 
@@ -185,6 +186,9 @@ func end_run(victory: bool) -> void:
 	
 	# Recover sanity on returning to hub
 	SanitySystem.on_hub_return()
+	
+	# Handle permadeath / revival
+	PermadeathSystem.on_run_end()
 	
 	# Check achievements (use gold before reset for accurate tracking)
 	Achievements.check_run_end(victory, current_floor, _run_gold_before_reset)
