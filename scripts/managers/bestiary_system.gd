@@ -27,7 +27,7 @@ enum KnowledgeTier { UNKNOWN, ENCOUNTERED, STUDIED, MASTERED }
 class BestiaryEntry:
 	var enemy_id: String = ""
 	var enemy_name: String = "???"
-	var tier: int = KnowledgeTier.UNKNOWN
+	var tier: int = 0  # Uses KnowledgeTier values (0=UNKNOWN, 1=ENCOUNTERED, 2=STUDIED, 3=MASTERED)
 	var times_encountered: int = 0
 	var times_defeated: int = 0
 	var first_seen_floor: int = 0
@@ -43,18 +43,18 @@ class BestiaryEntry:
 			"times_defeated": times_defeated,
 			"first_seen_floor": first_seen_floor,
 			"patron_god": patron_god,
-			"notes": notes,
+			"notes": notes.duplicate(),
 		}
 	
 	func from_dict(data: Dictionary) -> void:
 		enemy_id = data.get("enemy_id", "")
 		enemy_name = data.get("enemy_name", "???")
-		tier = int(data.get("tier", KnowledgeTier.UNKNOWN))
+		tier = int(data.get("tier", 0))
 		times_encountered = int(data.get("times_encountered", 0))
 		times_defeated = int(data.get("times_defeated", 0))
 		first_seen_floor = int(data.get("first_seen_floor", 0))
 		patron_god = data.get("patron_god", "")
-		notes.clear()
+		notes = []
 		for note in data.get("notes", []):
 			if note is String:
 				notes.append(note)

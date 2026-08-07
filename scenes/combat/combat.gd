@@ -192,6 +192,9 @@ func _setup_boss_encounter() -> void:
 	boss_combatant.enemy_data = fake_enemy
 	
 	enemy_combatants.append(boss_combatant)
+	
+	# Track boss encounter in bestiary
+	BestiarySystem.on_enemy_encountered(fake_enemy.get_id(), GameManager.current_floor)
 
 
 func _start_next_turn() -> void:
