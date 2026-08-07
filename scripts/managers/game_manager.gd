@@ -182,6 +182,10 @@ func end_run(victory: bool) -> void:
 	
 	current_state = GameState.HUB
 	
+	# Check achievements
+	Achievements.check_run_end(victory, current_floor, current_gold)
+	Achievements.check_party()
+	
 	# Record run in stats tracker
 	StatsTracker.end_run(victory, current_floor, current_gold, 5 + current_floor if victory else current_floor)
 	
