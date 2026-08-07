@@ -249,3 +249,112 @@ func _create_items() -> void:
 	lp_stats.max_hp = 30
 	life_pendant.stat_bonus = lp_stats
 	items["Life Pendant"] = life_pendant
+
+	# ─── RARE EQUIPMENT (boss drops, chest rare finds) ───────────
+	
+	var void_blade := ItemData.new()
+	void_blade.item_name = "Void Blade"
+	void_blade.description = "Forged from nothing. +12 ATK +3 SPD, dark element."
+	void_blade.item_type = ItemData.ItemType.EQUIPMENT
+	void_blade.equip_slot = ItemData.EquipSlot.WEAPON
+	void_blade.buy_price = 250
+	void_blade.sellable = false
+	var vb_stats := StatBlock.new()
+	vb_stats.atk = 12
+	vb_stats.spd = 3
+	void_blade.stat_bonus = vb_stats
+	items["Void Blade"] = void_blade
+	
+	var frost_staff := ItemData.new()
+	frost_staff.item_name = "Frost Staff"
+	frost_staff.description = "Channels frozen power. +10 MAG +3 RES, ice element."
+	frost_staff.item_type = ItemData.ItemType.EQUIPMENT
+	frost_staff.equip_slot = ItemData.EquipSlot.WEAPON
+	frost_staff.buy_price = 240
+	frost_staff.sellable = false
+	var fs_stats := StatBlock.new()
+	fs_stats.mag = 10
+	fs_stats.res_stat = 3
+	frost_staff.stat_bonus = fs_stats
+	items["Frost Staff"] = frost_staff
+	
+	var bone_crown := ItemData.new()
+	bone_crown.item_name = "Bone Crown"
+	bone_crown.description = "The Lich's crown. +8 MAG +5 DEF +20 MP."
+	bone_crown.item_type = ItemData.ItemType.EQUIPMENT
+	bone_crown.equip_slot = ItemData.EquipSlot.ACCESSORY
+	bone_crown.buy_price = 300
+	bone_crown.sellable = false
+	var bc_stats := StatBlock.new()
+	bc_stats.mag = 8
+	bc_stats.def_stat = 5
+	bc_stats.max_mp = 20
+	bone_crown.stat_bonus = bc_stats
+	items["Bone Crown"] = bone_crown
+	
+	var wyrm_scale := ItemData.new()
+	wyrm_scale.item_name = "Wyrm Scale Armor"
+	wyrm_scale.description = "Scales of the Cave Wyrm. +10 DEF +4 RES +15 HP."
+	wyrm_scale.item_type = ItemData.ItemType.EQUIPMENT
+	wyrm_scale.equip_slot = ItemData.EquipSlot.ARMOR
+	wyrm_scale.buy_price = 280
+	wyrm_scale.sellable = false
+	var ws_stats := StatBlock.new()
+	ws_stats.def_stat = 10
+	ws_stats.res_stat = 4
+	ws_stats.max_hp = 15
+	wyrm_scale.stat_bonus = ws_stats
+	items["Wyrm Scale Armor"] = wyrm_scale
+	
+	var shadow_ring := ItemData.new()
+	shadow_ring.item_name = "Ring of Shadows"
+	shadow_ring.description = "Whispers in darkness. +6 SPD +4 ATK +3 MAG."
+	shadow_ring.item_type = ItemData.ItemType.EQUIPMENT
+	shadow_ring.equip_slot = ItemData.EquipSlot.ACCESSORY
+	shadow_ring.buy_price = 220
+	shadow_ring.sellable = false
+	var sr_stats := StatBlock.new()
+	sr_stats.spd = 6
+	sr_stats.atk = 4
+	sr_stats.mag = 3
+	shadow_ring.stat_bonus = sr_stats
+	items["Ring of Shadows"] = shadow_ring
+	
+	var inferno_blade := ItemData.new()
+	inferno_blade.item_name = "Inferno Blade"
+	inferno_blade.description = "Burns with eternal flame. +14 ATK, fire element."
+	inferno_blade.item_type = ItemData.ItemType.EQUIPMENT
+	inferno_blade.equip_slot = ItemData.EquipSlot.WEAPON
+	inferno_blade.buy_price = 320
+	inferno_blade.sellable = false
+	var ib_stats := StatBlock.new()
+	ib_stats.atk = 14
+	inferno_blade.stat_bonus = ib_stats
+	items["Inferno Blade"] = inferno_blade
+	
+	var aegis_plate := ItemData.new()
+	aegis_plate.item_name = "Aegis Plate"
+	aegis_plate.description = "Divine protection. +12 DEF +8 RES +25 HP."
+	aegis_plate.item_type = ItemData.ItemType.EQUIPMENT
+	aegis_plate.equip_slot = ItemData.EquipSlot.ARMOR
+	aegis_plate.buy_price = 350
+	aegis_plate.sellable = false
+	var ap_stats := StatBlock.new()
+	ap_stats.def_stat = 12
+	ap_stats.res_stat = 8
+	ap_stats.max_hp = 25
+	aegis_plate.stat_bonus = ap_stats
+	items["Aegis Plate"] = aegis_plate
+	
+	var soul_amulet := ItemData.new()
+	soul_amulet.item_name = "Soul Amulet"
+	soul_amulet.description = "Trapped souls empower you. +40 HP +20 MP."
+	soul_amulet.item_type = ItemData.ItemType.EQUIPMENT
+	soul_amulet.equip_slot = ItemData.EquipSlot.ACCESSORY
+	soul_amulet.buy_price = 260
+	soul_amulet.sellable = false
+	var sa_stats := StatBlock.new()
+	sa_stats.max_hp = 40
+	sa_stats.max_mp = 20
+	soul_amulet.stat_bonus = sa_stats
+	items["Soul Amulet"] = soul_amulet

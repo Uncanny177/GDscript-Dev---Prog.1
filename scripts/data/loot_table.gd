@@ -150,7 +150,7 @@ static func create_chest_table(floor_number: int) -> LootTable:
 
 
 static func create_boss_table(floor_number: int) -> LootTable:
-	## Factory: boss drops are always generous.
+	## Factory: boss drops are always generous + guaranteed rare equipment.
 	var table := LootTable.new()
 	
 	# Guaranteed gold
@@ -159,8 +159,28 @@ static func create_boss_table(floor_number: int) -> LootTable:
 	# Guaranteed meta crystals
 	table.add_entry(LootType.META_CRYSTAL, 3 + floor_number, 3)
 	
-	# Good items
+	# Good consumables
 	table.add_entry(LootType.ITEM, 1, 2, "Mega Potion")
 	table.add_entry(LootType.ITEM, 1, 1, "Elixir")
+	
+	# Boss-specific rare equipment drops
+	match floor_number:
+		1:
+			table.add_entry(LootType.ITEM, 1, 2, "Swift Boots")
+		2:
+			table.add_entry(LootType.ITEM, 1, 2, "Wyrm Scale Armor")
+		3:
+			table.add_entry(LootType.ITEM, 1, 2, "Ring of Shadows")
+		4:
+			table.add_entry(LootType.ITEM, 1, 2, "Bone Crown")
+			table.add_entry(LootType.ITEM, 1, 1, "Frost Staff")
+		5:
+			table.add_entry(LootType.ITEM, 1, 2, "Void Blade")
+			table.add_entry(LootType.ITEM, 1, 1, "Aegis Plate")
+			table.add_entry(LootType.ITEM, 1, 1, "Soul Amulet")
+		_:
+			# NG+ floors: random legendary
+			table.add_entry(LootType.ITEM, 1, 1, "Inferno Blade")
+			table.add_entry(LootType.ITEM, 1, 1, "Void Blade")
 	
 	return table
