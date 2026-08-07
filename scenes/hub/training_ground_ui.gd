@@ -194,3 +194,22 @@ func _close() -> void:
 	panel.hide()
 	is_active = false
 	training_closed.emit()
+
+
+static func restore_learned_skills() -> void:
+	## Called on game load to re-apply all previously learned skills to class definitions.
+	## Since SkillData objects are created fresh each time, we rebuild them from IDs.
+	var learned: Array = UnlocksManager.unlocks.get("learned_skills", [])
+	if learned.is_empty():
+		return
+	
+	var all_classes: Array = ClassDatabase.get_all_classes()
+	for class_data in all_classes:
+		var learnable: Array[Dictionary] = SkillTree.get_learnable_skills(class_data.class_name_text)
+		for entry in learnable:
+			if entry["id"] in learned:
+				var skill: SkillData = entry["skill"]
+				if skill not in class_data.skills:
+					class_data.skills.append(skill)
+	
+	print("[Training] Restored %d learned skills from save" % learned.size())

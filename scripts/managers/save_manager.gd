@@ -76,6 +76,9 @@ func load_meta() -> bool:
 	if not unlocks_data.is_empty():
 		UnlocksManager.from_dict(unlocks_data)
 	
+	# Restore learned skills to class definitions
+	SkillTree.restore_learned_skills_from_save()
+	
 	# Restore party
 	var party_data: Dictionary = data.get("party", {})
 	if not party_data.is_empty():

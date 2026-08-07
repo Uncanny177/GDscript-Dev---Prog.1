@@ -58,3 +58,21 @@ static func _make_skill(id: String, skill_name: String, desc: String, mp_cost: i
 		"cost": crystal_cost,
 		"level_req": level_req,
 	}
+
+
+static func restore_learned_skills_from_save() -> void:
+	## Called on game load to re-apply all learned skills to class definitions.
+	var learned: Array = UnlocksManager.unlocks.get("learned_skills", [])
+	if learned.is_empty():
+		return
+	
+	var all_classes: Array = ClassDatabase.get_all_classes()
+	for class_data in all_classes:
+		var learnable: Array[Dictionary] = get_learnable_skills(class_data.class_name_text)
+		for entry in learnable:
+			if entry["id"] in learned:
+				var skill: SkillData = entry["skill"]
+				if skill not in class_data.skills:
+					class_data.skills.append(skill)
+	
+	print("[SkillTree] Restored %d learned skills from save" % learned.size())
