@@ -146,6 +146,7 @@ func advance_to_next_floor() -> void:
 func end_run(victory: bool) -> void:
 	## Called on death or boss victory. Handles what carries over.
 	is_run_active = false
+	var _run_gold_before_reset: int = current_gold  # Capture for achievements
 	
 	# End daily challenge if active
 	if DailyChallenge.is_challenge_active:
@@ -182,8 +183,8 @@ func end_run(victory: bool) -> void:
 	
 	current_state = GameState.HUB
 	
-	# Check achievements
-	Achievements.check_run_end(victory, current_floor, current_gold)
+	# Check achievements (use gold before reset for accurate tracking)
+	Achievements.check_run_end(victory, current_floor, _run_gold_before_reset)
 	Achievements.check_party()
 	
 	# Record run in stats tracker
