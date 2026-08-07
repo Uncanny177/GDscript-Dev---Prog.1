@@ -61,6 +61,10 @@ var status_manager: StatusManager = null
 ## Visual effects layer
 var combat_effects: Node2D = null
 
+## Death recap data (populated during combat, shown on defeat)
+var death_recap: DeathRecap = DeathRecap.new()
+var total_turns: int = 0
+
 ## Pause between actions for readability (seconds)
 const ACTION_DELAY: float = 0.8
 
@@ -185,6 +189,7 @@ func _start_next_turn() -> void:
 		return
 	
 	turn_manager.start_next_turn()
+	total_turns += 1
 	var active: Combatant = turn_manager.current_combatant
 	
 	if not active:
@@ -995,6 +1000,10 @@ func _on_action_executed(_attacker: Combatant, target: Combatant, damage: int, a
 				else:
 					combat_effects.play_hit_flash(hit_pos)
 	
+	# Track killing blow for death recap
+	if damage > 0 and target.is_player and not target.is_alive:
+		death_recap.record_killing_blow(_attacker.display_name, action_name, damage, target.display_name)
+	
 	# Refresh visuals (HP bars, death states)
 	if battle_renderer:
 		battle_renderer.refresh()
@@ -1103,12 +1112,26 @@ func _on_battle_won() -> void:
 
 
 func _on_battle_lost() -> void:
-	## All party members dead. End the run.
+	## All party members dead. Show death recap then return to hub.
 	_add_log("DEFEAT...")
+	
+	# Populate death recap with run stats
+	death_recap.record_run_stats(
+		GameManager.current_floor,
+		StatsTracker.current_run.get("enemies_killed", 0),
+		GameManager.current_gold,
+		total_turns,
+		StatsTracker.current_run.get("damage_dealt", 0),
+		StatsTracker.current_run.get("damage_taken", 0),
+		StatsTracker.current_run.get("items_used", 0)
+	)
+	death_recap.record_party_state(PartyManager.active_party)
+	
 	_update_ui()
 	
+	# Show death recap on the info label
 	if info_label:
-		info_label.text = "DEFEAT...\n\nYour party has fallen.\n\n[ENTER] Return to Hub"
+		info_label.text = death_recap.get_display_text()
 	
 	awaiting_player_input = false
 	await _wait_for_confirm()
