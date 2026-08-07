@@ -61,6 +61,9 @@ var status_manager: StatusManager = null
 ## Visual effects layer
 var combat_effects: Node2D = null
 
+## Turn order display
+var turn_order_display: Node = null
+
 ## Death recap data (populated during combat, shown on defeat)
 var death_recap: DeathRecap = DeathRecap.new()
 var total_turns: int = 0
@@ -111,6 +114,14 @@ func _setup_battle() -> void:
 		combat_effects.name = "CombatEffects"
 		combat_effects.set_script(effects_script)
 		add_child(combat_effects)
+	
+	# Set up turn order display
+	var tod_script: Script = load("res://scripts/combat/turn_order_display.gd")
+	if tod_script:
+		turn_order_display = CanvasLayer.new()
+		turn_order_display.name = "TurnOrderDisplay"
+		turn_order_display.set_script(tod_script)
+		add_child(turn_order_display)
 	
 	if is_boss_fight:
 		_add_log("BOSS BATTLE: %s!" % boss.display_name)
@@ -194,6 +205,10 @@ func _start_next_turn() -> void:
 	
 	if not active:
 		return
+	
+	# Update turn order display
+	if turn_order_display:
+		turn_order_display.update_order(turn_manager.turn_order, turn_manager.current_turn_index)
 	
 	# Process status effects at start of this combatant's turn
 	if status_manager:
