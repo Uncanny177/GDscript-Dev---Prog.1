@@ -180,6 +180,7 @@ func _serialize_character(character: CharacterData) -> Dictionary:
 		"current_hp": character.current_hp,
 		"current_mp": character.current_mp,
 		"is_alive": character.is_alive,
+		"sanity": character.sanity,
 		"level": character.level,
 		"xp": character.xp,
 		"stat_bonuses": {
@@ -262,6 +263,7 @@ func _deserialize_character(data: Dictionary) -> CharacterData:
 	character.current_hp = int(data.get("current_hp", character.get_stats().max_hp))
 	character.current_mp = int(data.get("current_mp", character.get_stats().max_mp))
 	character.is_alive = data.get("is_alive", true)
+	character.sanity = int(data.get("sanity", 100))
 	
 	# Restore equipment
 	var weapon_name: String = data.get("weapon", "")

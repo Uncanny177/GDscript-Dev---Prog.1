@@ -183,6 +183,9 @@ func end_run(victory: bool) -> void:
 	
 	current_state = GameState.HUB
 	
+	# Recover sanity on returning to hub
+	SanitySystem.on_hub_return()
+	
 	# Check achievements (use gold before reset for accurate tracking)
 	Achievements.check_run_end(victory, current_floor, _run_gold_before_reset)
 	Achievements.check_party()

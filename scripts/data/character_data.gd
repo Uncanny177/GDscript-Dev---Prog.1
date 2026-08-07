@@ -37,6 +37,9 @@ var is_alive: bool = true
 var level: int = 1
 var xp: int = 0
 
+## Sanity (0-100, drops from horror/dark magic, recovers at safe zones)
+var sanity: int = 100
+
 ## Stat bonuses from leveling (added on top of base class stats)
 var stat_bonuses: StatBlock = null
 
