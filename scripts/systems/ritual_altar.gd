@@ -217,7 +217,7 @@ func _grant_benefit(offering: RitualOffering, character: CharacterData) -> Strin
 				member.current_mp = member.get_stats().max_mp
 			return "Party fully healed"
 		BenefitType.GRANT_KNOWLEDGE:
-			BestiarySystem.grant_knowledge(offering.benefit_value, KnowledgeTier.MASTERED)
+			BestiarySystem.grant_knowledge(offering.benefit_value, BestiarySystem.KnowledgeTier.MASTERED)
 			return "Gained mastery knowledge of %s" % offering.benefit_value
 		BenefitType.LEARN_SKILL:
 			# TODO: Implement skill learning from altars (Task 52+)

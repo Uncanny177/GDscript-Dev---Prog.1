@@ -82,6 +82,20 @@ When you fix an issue, add a short entry with: Date, Area, Problem, Fix, Status,
 - **Status**: Fixed
 - **Notes**: CanvasLayer.set_visible() is a built-in that the engine calls. Custom UI methods should have distinct names like `set_display_visible()`, `toggle_display()`, etc.
 
+### 2026-08-08 — Pause menu indentation error in match statement
+- **Area**: Pause menu UI
+- **Problem**: `pause_menu.gd:152` had malformed indentation in `_select_item()` match statement. `overlay.hide()` was at wrong indent level and duplicated, breaking match syntax.
+- **Fix**: Corrected indentation levels for all match arms. "Settings" case now properly indented with all statements at correct level.
+- **Status**: Fixed
+- **Notes**: Double-check indentation in match/if statements when errors say "Expected statement, found Indent".
+
+### 2026-08-08 — Ritual altar incorrect enum reference
+- **Area**: Ritual Altar system
+- **Problem**: `ritual_altar.gd:220` used `KnowledgeTier.MASTERED` but the local constant was `const KnowledgeTier = 3` (integer). Should reference `BestiarySystem.KnowledgeTier.MASTERED` (the actual enum).
+- **Fix**: Changed `KnowledgeTier.MASTERED` to `BestiarySystem.KnowledgeTier.MASTERED`.
+- **Status**: Fixed
+- **Notes**: When using external enums, fully qualify with the owning class/autoload name.
+
 ### 2025-08-05 — Player respawned at floor entrance after combat
 - **Area**: Dungeon progression
 - **Problem**: Player position lost on combat scene change → dungeon reload.

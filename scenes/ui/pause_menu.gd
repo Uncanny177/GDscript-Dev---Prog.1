@@ -148,7 +148,7 @@ func _select_item() -> void:
 			# Unpause temporarily so settings menu can function, then re-pause after
 			get_tree().paused = false
 			panel.hide()
-	overlay.hide()
+
 			overlay.hide()
 			is_active = false
 			SettingsMenu.open_settings()
