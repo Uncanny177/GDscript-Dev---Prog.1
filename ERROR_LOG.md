@@ -68,6 +68,20 @@ When you fix an issue, add a short entry with: Date, Area, Problem, Fix, Status,
 - **Fix**: Added `if SettingsMenu.is_active: return` guard at top of hub's _unhandled_input.
 - **Status**: Fixed
 
+### 2026-08-08 — Daily challenge method collision with Godot's get_class()
+- **Area**: Daily Challenge system
+- **Problem**: `daily_challenge.gd:125` called `ClassDatabase.get_class(classes[i])` which collides with Godot's native `get_class()` method (no args). Caused "Too many arguments" error.
+- **Fix**: Changed to `ClassDatabase.get_class_data(classes[i])` (method renamed during earlier refactoring to avoid collision).
+- **Status**: Fixed
+- **Notes**: This is the same collision fix applied to character_data.gd earlier. Ensure all Class lookups use `get_class_data()`.
+
+### 2026-08-08 — TurnOrderDisplay method collision with CanvasLayer's set_visible()
+- **Area**: Combat UI / Turn Order Display
+- **Problem**: `turn_order_display.gd:49` overrode CanvasLayer's native `set_visible()` method. Native method takes no args; custom method took 1 arg. Caused compile warning-as-error.
+- **Fix**: Renamed `func set_visible()` to `func set_display_visible()` to avoid native override.
+- **Status**: Fixed
+- **Notes**: CanvasLayer.set_visible() is a built-in that the engine calls. Custom UI methods should have distinct names like `set_display_visible()`, `toggle_display()`, etc.
+
 ### 2025-08-05 — Player respawned at floor entrance after combat
 - **Area**: Dungeon progression
 - **Problem**: Player position lost on combat scene change → dungeon reload.

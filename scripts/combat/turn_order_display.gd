@@ -46,7 +46,7 @@ func update_order(order: Array, active_index: int) -> void:
 		draw_node.queue_redraw()
 
 
-func set_visible(visible: bool) -> void:
+func set_display_visible(visible: bool) -> void:
 	is_visible = visible
 	if draw_node:
 		draw_node.visible = visible

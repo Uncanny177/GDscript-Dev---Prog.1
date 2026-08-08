@@ -122,7 +122,7 @@ func _setup_challenge_party() -> void:
 	for i in range(3):
 		var character := CharacterData.new()
 		character.character_name = names[i]
-		character.character_class = ClassDatabase.get_class(classes[i])
+		character.character_class = ClassDatabase.get_class_data(classes[i])
 		character.level = 3
 		character.initialize()
 		# Give some level bonuses manually (simulate being level 3)
