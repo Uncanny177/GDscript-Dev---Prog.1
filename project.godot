@@ -44,6 +44,7 @@ PermadeathSystem="*res://scripts/managers/permadeath_system.gd"
 BestiarySystem="*res://scripts/managers/bestiary_system.gd"
 RitualAltar="*res://scripts/systems/ritual_altar.gd"
 SafeZone="*res://scripts/systems/safe_zone.gd"
+CharacterRoster="*res://scripts/data/character_roster.gd"
 StatsScreen="*res://scenes/ui/stats_screen.gd"
 
 [display]
