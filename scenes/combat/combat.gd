@@ -570,6 +570,10 @@ func _execute_skill_on_target(target: Combatant) -> void:
 	
 	# Calculate and apply damage
 	var damage: int = DamageCalculator.calculate_skill_damage(caster, target, pending_skill)
+	# Apply knowledge-based weakness bonus
+	if target.enemy_data:
+		var w_mult: float = WeaknessSystem.get_damage_multiplier("", pending_skill, target.enemy_data.get_id())
+		damage = maxi(int(round(float(damage) * w_mult)), 1)
 	var actual: int = target.take_damage(damage)
 	
 	_add_log("%s uses %s → %s: %d dmg" % [caster.display_name, pending_skill.skill_name, target.display_name, actual])
@@ -618,6 +622,9 @@ func _execute_skill_aoe_enemies() -> void:
 	
 	for enemy in enemies:
 		var damage: int = DamageCalculator.calculate_skill_damage(caster, enemy, pending_skill)
+		if enemy.enemy_data:
+			var w_mult: float = WeaknessSystem.get_damage_multiplier("", pending_skill, enemy.enemy_data.get_id())
+			damage = maxi(int(round(float(damage) * w_mult)), 1)
 		var actual: int = enemy.take_damage(damage)
 		
 		if battle_renderer:
