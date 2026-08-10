@@ -47,6 +47,9 @@ enum DamageType {
 ## MP cost to use this skill. 0 = free (basic attack could be a "skill" with 0 cost)
 @export var mp_cost: int = 5
 
+## HP cost to use this skill (Blood Mage spells). 0 = no HP cost.
+@export var hp_cost: int = 0
+
 ## Who can this skill target?
 @export var target_type: TargetType = TargetType.SINGLE_ENEMY
 

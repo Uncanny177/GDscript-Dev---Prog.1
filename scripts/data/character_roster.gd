@@ -99,7 +99,7 @@ func _build_roster() -> void:
 	var sera := CharacterProfile.new()
 	sera.id = "sera"
 	sera.character_name = "Sera Brighthollow"
-	sera.class_name_key = "Mage"
+	sera.class_name_key = "Occultist"
 	sera.age = 28
 	sera.personality = "Curious, reckless, brilliant"
 	sera.backstory = "University researcher who found references to this place in forbidden texts. She funded an expedition with stolen grant money. Knowledge is worth any price — she believes that absolutely."
@@ -229,7 +229,7 @@ func _build_roster() -> void:
 	var kira := CharacterProfile.new()
 	kira.id = "kira"
 	kira.character_name = "Kira Ozan"
-	kira.class_name_key = "Warrior"
+	kira.class_name_key = "Blood Mage"
 	kira.age = 29
 	kira.personality = "Professional, pragmatic, unexpectedly kind"
 	kira.backstory = "Hired to escort the scholar (Sera) into the dungeon. The money was too good to question. Now the client is deeper in and Kira's contract says 'alive extraction.' Professional pride won't let her quit."
@@ -255,7 +255,7 @@ func _build_roster() -> void:
 	var moth := CharacterProfile.new()
 	moth.id = "moth"
 	moth.character_name = "Moth"
-	moth.class_name_key = "Mage"
+	moth.class_name_key = "Druid"
 	moth.age = 33
 	moth.personality = "Eerie, gentle, speaks in half-truths"
 	moth.backstory = "Claims they were 'called' here by dreams. Has been having visions of the dungeon since childhood. Seems to know things they shouldn't. The others find them unsettling but useful."
@@ -281,7 +281,7 @@ func _build_roster() -> void:
 	var patch := CharacterProfile.new()
 	patch.id = "patch"
 	patch.character_name = "Patch"
-	patch.class_name_key = "Paladin"
+	patch.class_name_key = "Monk"
 	patch.age = 38
 	patch.personality = "Warm, tired, darkly funny"
 	patch.backstory = "Former battlefield medic. Lost their license after a 'creative' treatment saved a patient but broke twelve laws. Came to the dungeon because someone said there were people trapped inside who needed help."
@@ -307,7 +307,7 @@ func _build_roster() -> void:
 	var silas := CharacterProfile.new()
 	silas.id = "silas"
 	silas.character_name = "Silas Crane"
-	silas.class_name_key = "Rogue"
+	silas.class_name_key = "Alchemist"
 	silas.age = 45
 	silas.personality = "Charming, selfish, slowly developing a conscience"
 	silas.backstory = "Professional relic hunter. Has raided tombs across three continents. This was supposed to be the big score — artifacts worth kingdoms. Now he's in too deep and can't find the way out."
@@ -333,7 +333,7 @@ func _build_roster() -> void:
 	var echo := CharacterProfile.new()
 	echo.id = "echo"
 	echo.character_name = "Echo"
-	echo.class_name_key = "Archer"
+	echo.class_name_key = "Engineer"
 	echo.age = 26
 	echo.personality = "Skittish, loyal once trusted, survivor"
 	echo.backstory = "Was part of a previous expedition that went wrong. Everyone else died. Echo survived by hiding. They've been living in the upper floors for weeks, too afraid to go deeper, too lost to find the exit."
@@ -359,7 +359,7 @@ func _build_roster() -> void:
 	var finch := CharacterProfile.new()
 	finch.id = "finch"
 	finch.character_name = "Dr. Finch"
-	finch.class_name_key = "Necromancer"
+	finch.class_name_key = "Psion"
 	finch.age = 48
 	finch.personality = "Nervous, apologetic, trying to atone"
 	finch.backstory = "Was a cultist of Neth'zarr. Participated in the rituals that opened this dungeon. When they saw what came through, they fled. Now they're back to undo what they helped create — if that's even possible."
