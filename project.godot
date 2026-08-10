@@ -43,6 +43,7 @@ SanitySystem="*res://scripts/managers/sanity_system.gd"
 PermadeathSystem="*res://scripts/managers/permadeath_system.gd"
 BestiarySystem="*res://scripts/managers/bestiary_system.gd"
 RitualAltar="*res://scripts/systems/ritual_altar.gd"
+SafeZone="*res://scripts/systems/safe_zone.gd"
 StatsScreen="*res://scenes/ui/stats_screen.gd"
 
 [display]

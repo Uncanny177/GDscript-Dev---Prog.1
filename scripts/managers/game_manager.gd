@@ -141,6 +141,7 @@ func advance_to_next_floor() -> void:
 	current_state = GameState.DUNGEON
 	StatsTracker.start_run()
 	PermadeathSystem.on_run_start()
+	SafeZone.on_run_start()
 	print("[GameManager] Run #%d started — %s" % [total_runs, str(inventory)])
 
 
