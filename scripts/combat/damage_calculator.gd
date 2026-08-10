@@ -49,4 +49,12 @@ static func calculate_skill_damage(attacker: Combatant, target: Combatant, skill
 	# Apply elemental multiplier
 	var element_mult: float = ElementSystem.get_multiplier(skill.element, target.element)
 	base_damage = int(round(float(base_damage) * element_mult))
+	
+	# Apply knowledge-based weakness multiplier
+	var target_id: String = ""
+	if target.enemy_data:
+		target_id = target.enemy_data.get_id()
+	var weakness_mult: float = WeaknessSystem.get_damage_multiplier("", skill, target_id)
+	base_damage = int(round(float(base_damage) * weakness_mult))
+	
 	return maxi(base_damage, 1)
