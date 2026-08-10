@@ -378,7 +378,7 @@ func _get_zone_options(zone_type: ZoneType, _floor_num: int) -> Array[Dictionary
 	# Rest is always available
 	options.append({
 		"id": "rest",
-		"text": "Rest (Heal 30%% HP, 50%% MP, +10 Sanity)",
+		"text": "Rest (Heal 30% HP, 50% MP, +10 Sanity)",
 		"enabled": rests_used_this_run < MAX_RESTS_PER_ZONE,
 	})
 	

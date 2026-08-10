@@ -1,7 +1,7 @@
 # AGENTS.md — Cross-Agent Knowledge Base
 
 ## Project Summary
-Godot 4.7 2D roguelite RPG prototype in GDScript. Turn-based combat, procedural dungeons, hub town with meta-progression. 32 tasks completed.
+Godot 4.7 2D roguelite RPG prototype in GDScript. Turn-based combat, procedural dungeons, hub town with meta-progression. 50 tasks completed.
 
 ## Important Workflow
 - Keep bug reports and fixes documented in ERROR_LOG.md
@@ -28,7 +28,12 @@ Godot 4.7 2D roguelite RPG prototype in GDScript. Turn-based combat, procedural 
 12. StatsTracker — Run history and lifetime stats
 13. TransitionManager — Fade in/out screen transitions
 14. AudioManager — SFX pool + music crossfade (waiting for audio files)
-15. StatsScreen — Stats display UI
+15. SanitySystem — Sanity 0-100, states at 50/30/10/0 thresholds
+16. PermadeathSystem — Disabled/Soft/Hard modes + reset functions
+17. BestiarySystem — Enemy knowledge tiers + journal/lore entries
+18. RitualAltar — Elder god altars with cost/benefit offerings
+19. SafeZone — Safe rooms (rest, NPCs, merchants, scholars)
+20. StatsScreen — Stats display UI
 
 ### Key Patterns
 - Player movement: grid-based, RayCast2D for wall detection, Tween for smooth slide
@@ -81,6 +86,23 @@ Task 29: TileMap (skipped — needs art)
 Task 30: Gamepad Support
 Task 31: Pixel Art (skipped — needs art tools)
 Task 32: Elemental Weakness System
+Task 33: Rare/Legendary Gear
+Task 34: Crafting System
+Task 35: Skill Trees
+Task 36: Achievements
+Task 37: Daily Challenges
+Task 38: New Game Plus (NG+)
+Task 39: Pause Menu + Death Recap
+Task 40: Tooltips + Turn Order Display
+Task 41: Visual Polish (combat effects, transitions)
+Task 42: Story Outline (elder gods, cosmic horror, 12 characters)
+Task 43: Sanity System (0-100, 4 threshold states)
+Task 44: Permadeath System (Disabled/Soft/Hard modes + reset)
+Task 45: Visual Polish Pass 2
+Task 46: Permadeath wiring fix
+Task 47: Bestiary/Journal (knowledge tiers, 12 lore entries)
+Task 48: Ritual Altars (6 elder gods, 18 offerings)
+Task 49: Safe Zone Rooms (rest, merchants, scholars, shrines)
 
 ## Notes for Future Agents
 - The project uses autoloads for ALL core state

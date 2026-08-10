@@ -617,9 +617,6 @@ func _count_total_offerings() -> int:
 
 ## ─── INTEGRATION WITH EVENT SYSTEM ──────────────────────────────
 
-## The KnowledgeTier constant for granting mastery (mirrors BestiarySystem)
-const KnowledgeTier = 3  # MASTERED
-
 
 func get_altar_event_data(floor_num: int) -> Dictionary:
 	## Returns data formatted for the event/room system to display.
