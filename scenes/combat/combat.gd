@@ -439,8 +439,15 @@ func _show_skill_menu() -> void:
 	var text: String = "SKILLS (MP: %d/%d):\n\n" % [combatant.current_mp, combatant.get_max_mp()]
 	for i in range(skills.size()):
 		var skill: SkillData = skills[i]
-		var can_use: String = "" if skill.can_afford(combatant.current_mp) else " (no MP)"
-		text += "[%d] %s  MP:%d%s\n" % [i + 1, skill.skill_name, skill.mp_cost, can_use]
+		var can_use: String = "" if skill.can_afford(combatant.current_mp, combatant.current_hp) else " (can't)"
+		var cost_text: String = ""
+		if skill.mp_cost > 0:
+			cost_text = "MP:%d" % skill.mp_cost
+		if skill.hp_cost > 0:
+			cost_text += " HP:%d" % skill.hp_cost if cost_text != "" else "HP:%d" % skill.hp_cost
+		if cost_text == "":
+			cost_text = "Free"
+		text += "[%d] %s  %s%s\n" % [i + 1, skill.skill_name, cost_text, can_use]
 	text += "\n[ESC] Back"
 	
 	if info_label:
@@ -551,10 +558,15 @@ func _execute_skill_on_target(target: Combatant) -> void:
 	if not pending_skill:
 		return
 	
-	# Spend MP
+	# Spend MP and HP costs
 	caster.current_mp -= pending_skill.mp_cost
+	if pending_skill.hp_cost > 0:
+		caster.current_hp -= pending_skill.hp_cost
+		if caster.current_hp < 1:
+			caster.current_hp = 1
 	if caster.is_player and caster.character_data:
 		caster.character_data.current_mp = caster.current_mp
+		caster.character_data.current_hp = caster.current_hp
 	
 	# Calculate and apply damage
 	var damage: int = DamageCalculator.calculate_skill_damage(caster, target, pending_skill)
@@ -591,10 +603,15 @@ func _execute_skill_aoe_enemies() -> void:
 	
 	awaiting_player_input = false
 	
-	# Spend MP
+	# Spend MP and HP costs
 	caster.current_mp -= pending_skill.mp_cost
+	if pending_skill.hp_cost > 0:
+		caster.current_hp -= pending_skill.hp_cost
+		if caster.current_hp < 1:
+			caster.current_hp = 1
 	if caster.is_player and caster.character_data:
 		caster.character_data.current_mp = caster.current_mp
+		caster.character_data.current_hp = caster.current_hp
 	
 	var enemies: Array[Combatant] = turn_manager.get_alive_enemies()
 	_add_log("%s uses %s on all enemies!" % [caster.display_name, pending_skill.skill_name])
@@ -625,10 +642,15 @@ func _execute_skill_on_ally(target: Combatant) -> void:
 	if not pending_skill:
 		return
 	
-	# Spend MP
+	# Spend MP and HP costs
 	caster.current_mp -= pending_skill.mp_cost
+	if pending_skill.hp_cost > 0:
+		caster.current_hp -= pending_skill.hp_cost
+		if caster.current_hp < 1:
+			caster.current_hp = 1
 	if caster.is_player and caster.character_data:
 		caster.character_data.current_mp = caster.current_mp
+		caster.character_data.current_hp = caster.current_hp
 	
 	# Calculate heal amount
 	var heal_amount: int = DamageCalculator.calculate_healing(caster, pending_skill.power_multiplier)
@@ -663,10 +685,15 @@ func _execute_skill_aoe_allies() -> void:
 	
 	awaiting_player_input = false
 	
-	# Spend MP
+	# Spend MP and HP costs
 	caster.current_mp -= pending_skill.mp_cost
+	if pending_skill.hp_cost > 0:
+		caster.current_hp -= pending_skill.hp_cost
+		if caster.current_hp < 1:
+			caster.current_hp = 1
 	if caster.is_player and caster.character_data:
 		caster.character_data.current_mp = caster.current_mp
+		caster.character_data.current_hp = caster.current_hp
 	
 	var allies: Array[Combatant] = turn_manager.get_alive_players()
 	_add_log("%s uses %s on all allies!" % [caster.display_name, pending_skill.skill_name])

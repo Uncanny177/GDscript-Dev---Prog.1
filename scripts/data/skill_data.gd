@@ -70,9 +70,13 @@ enum DamageType {
 var status_on_hit: Dictionary = {}
 
 
-func can_afford(current_mp: int) -> bool:
-	## Check if the caster has enough MP to use this skill.
-	return current_mp >= mp_cost
+func can_afford(current_mp: int, current_hp: int = 999) -> bool:
+	## Check if the caster has enough MP and HP to use this skill.
+	if current_mp < mp_cost:
+		return false
+	if hp_cost > 0 and current_hp <= hp_cost:
+		return false  # Can't kill yourself with a skill
+	return true
 
 
 func get_target_description() -> String:
