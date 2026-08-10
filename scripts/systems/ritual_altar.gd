@@ -139,6 +139,10 @@ func perform_ritual(offering: RitualOffering, character: CharacterData) -> Dicti
 	# Sanity hit from performing dark rituals (small additional cost)
 	SanitySystem.lose_sanity(character, 3, "performed a dark ritual")
 	
+	# Increase favor with the patron god
+	var god_id: String = offering.patron_god.to_lower().replace("'", "")
+	ElderGodPantheon.change_favor(god_id, 5)
+	
 	return {
 		"success": true,
 		"message": "The ritual is complete. The god acknowledges your offering.",
