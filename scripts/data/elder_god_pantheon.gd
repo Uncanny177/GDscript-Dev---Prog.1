@@ -306,6 +306,22 @@ func _build_pantheon() -> void:
 	syrakal.floor_affinity = 0
 	gods["syrakal"] = syrakal
 
+	# 13. VAEL'KUR — The Mirror That Remembers
+	var vaelkur := ElderGod.new()
+	vaelkur.id = "vaelkur"
+	vaelkur.god_name = "Vael'kur"
+	vaelkur.title = "The Mirror That Remembers"
+	vaelkur.domain = "Memory, regret, alternate selves, permadeath"
+	vaelkur.element = "none"
+	vaelkur.attitude = "curious"
+	vaelkur.description = "Vael'kur collects the echoes of every choice not taken, every person who died, every timeline that collapsed. He is a gallery of ghosts — not of the dead, but of the never-were. Those who look into his mirrors see the versions of themselves that made different choices. Some find comfort. Most find horror."
+	vaelkur.servants = []
+	vaelkur.boon = "Undo a permadeath — bring one fallen character back (once)"
+	vaelkur.cost = "You see every failure, every death, every wrong turn. Massive sanity cost."
+	vaelkur.sigil_color = Color(0.6, 0.6, 0.7)  # Mirror silver
+	vaelkur.floor_affinity = 0
+	gods["vaelkur"] = vaelkur
+
 
 ## ─── QUERIES ────────────────────────────────────────────────────
 
