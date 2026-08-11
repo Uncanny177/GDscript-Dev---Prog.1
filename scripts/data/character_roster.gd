@@ -173,29 +173,29 @@ func _build_roster() -> void:
 	]
 	profiles["eleanor"] = eleanor
 
-	# ─── 5. WREN — The Hunter (Archer) ────────────────────────────
+	# ─── 5. WREN — The Demon Hunter (Demon Hunter) ──────────────────
 	var wren := CharacterProfile.new()
 	wren.id = "wren"
 	wren.character_name = "Wren"
 	wren.class_name_key = "Demon Hunter"
-	wren.age = 19
-	wren.personality = "Quiet, observant, unexpectedly brave"
-	wren.backstory = "Followed their older sibling into the dungeon. The sibling didn't come back out. Wren went in after them with nothing but a bow and stubborn hope."
-	wren.motivation = "Find their sibling (dead or alive)"
-	wren.fear = "Finding proof their sibling is gone"
+	wren.age = 29
+	wren.personality = "Chaotic good, grief-driven, relentless"
+	wren.backstory = "A demon killed his wife. He tracked it here. The nightmares started after — visions of the thing wearing her face, mocking him from the dark. He doesn't sleep anymore. He hunts."
+	wren.motivation = "Retribution — kill the specific demon that took everything from him"
+	wren.fear = "That the hallucinations are real, that his wife's killer is toying with him"
 	wren.known_connection = ""
 	wren.dialogue_healthy = [
-		"\"I thought I saw tracks. Could be Ash's. Could be...\"",
-		"\"I'm fine. I'm small. Things don't notice me.\"",
-		"\"...\" *Wren notches an arrow and watches the dark.*",
+		"\"It's here. I can feel it. Deeper.\"",
+		"\"Don't get between me and my target. I won't stop.\"",
+		"\"She deserved better. I'm going to make sure it knows that.\"",
 	]
 	wren.dialogue_stressed = [
-		"\"What if they're already... No. They're tough. They're alive.\"",
-		"\"I keep finding scraps of fabric. It's the same color Ash wore.\"",
+		"\"I saw her again last night. Smiling. Then it wasn't her face anymore.\"",
+		"\"It's taunting me. Leaving traces. It WANTS me to follow.\"",
 	]
 	wren.dialogue_breaking = [
-		"*Wren holds a torn piece of cloth and won't let go.*",
-		"\"I heard them calling. From below. It sounded like them. It has to be.\"",
+		"\"SHE'S RIGHT THERE. CAN'T YOU SEE HER?!\" *There's nothing there.*",
+		"*Wren talks to empty air, then turns to you, confused.* \"...She was just here.\"",
 	]
 	profiles["wren"] = wren
 
