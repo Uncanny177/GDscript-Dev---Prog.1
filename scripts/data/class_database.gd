@@ -21,16 +21,17 @@ func _ready() -> void:
 	_create_warrior()
 	_create_mage()
 	_create_rogue()
-	_create_paladin()
-	_create_archer()
+	_create_inquisitor()
+	_create_demon_hunter()
 	_create_necromancer()
 	_create_occultist()
 	_create_blood_mage()
-	_create_druid()
+	_create_summoner()
 	_create_engineer()
 	_create_alchemist()
 	_create_monk()
 	_create_psion()
+	_create_knight()
 	print("[ClassDatabase] Loaded %d classes" % classes.size())
 
 
@@ -183,102 +184,101 @@ func _create_rogue() -> void:
 	classes["Rogue"] = rogue
 
 
-func _create_paladin() -> void:
-	## PALADIN — The holy knight. Balanced tank/healer hybrid.
-	## Role: Absorbs damage like Warrior but can heal allies. Lower ATK.
+func _create_inquisitor() -> void:
+	## INQUISITOR — Anti-heresy tank/healer. Hunts cultists, resists dark magic.
+	## Role: Tank that dispels and heals. High RES. Specializes against dark enemies.
 	
 	var stats := StatBlock.new()
-	stats.max_hp = 140
+	stats.max_hp = 135
 	stats.max_mp = 35
-	stats.atk = 14
-	stats.def_stat = 16
+	stats.atk = 13
+	stats.def_stat = 15
 	stats.mag = 12
-	stats.res_stat = 14
-	stats.spd = 7
+	stats.res_stat = 16
+	stats.spd = 8
 	
-	# Paladin skills
-	var holy_strike := SkillData.new()
-	holy_strike.skill_name = "Holy Strike"
-	holy_strike.description = "A blessed attack that deals physical and light damage."
-	holy_strike.mp_cost = 5
-	holy_strike.target_type = SkillData.TargetType.SINGLE_ENEMY
-	holy_strike.damage_type = SkillData.DamageType.PHYSICAL
-	holy_strike.power_multiplier = 1.4
-	holy_strike.element = "light"
+	var purifying_strike := SkillData.new()
+	purifying_strike.skill_name = "Purifying Strike"
+	purifying_strike.description = "A consecrated blow that burns the unholy."
+	purifying_strike.mp_cost = 5
+	purifying_strike.target_type = SkillData.TargetType.SINGLE_ENEMY
+	purifying_strike.damage_type = SkillData.DamageType.PHYSICAL
+	purifying_strike.power_multiplier = 1.5
+	purifying_strike.element = "light"
 	
-	var divine_shield := SkillData.new()
-	divine_shield.skill_name = "Divine Shield"
-	divine_shield.description = "Blesses an ally, reducing damage taken."
-	divine_shield.mp_cost = 8
-	divine_shield.target_type = SkillData.TargetType.SINGLE_ALLY
-	divine_shield.damage_type = SkillData.DamageType.NONE
-	divine_shield.power_multiplier = 0.0
+	var shield_of_faith := SkillData.new()
+	shield_of_faith.skill_name = "Shield of Faith"
+	shield_of_faith.description = "Ward an ally against dark magic and madness."
+	shield_of_faith.mp_cost = 8
+	shield_of_faith.target_type = SkillData.TargetType.SINGLE_ALLY
+	shield_of_faith.damage_type = SkillData.DamageType.HEALING
+	shield_of_faith.power_multiplier = 1.5
 	
-	var lay_on_hands := SkillData.new()
-	lay_on_hands.skill_name = "Lay on Hands"
-	lay_on_hands.description = "Heals an ally with holy power."
-	lay_on_hands.mp_cost = 10
-	lay_on_hands.target_type = SkillData.TargetType.SINGLE_ALLY
-	lay_on_hands.damage_type = SkillData.DamageType.HEALING
-	lay_on_hands.power_multiplier = 1.8
+	var judgment := SkillData.new()
+	judgment.skill_name = "Judgment"
+	judgment.description = "Pass judgment on all enemies. Holy damage."
+	judgment.mp_cost = 12
+	judgment.target_type = SkillData.TargetType.ALL_ENEMIES
+	judgment.damage_type = SkillData.DamageType.MAGICAL
+	judgment.power_multiplier = 1.1
+	judgment.element = "light"
 	
-	var paladin := ClassData.new()
-	paladin.class_name_text = "Paladin"
-	paladin.description = "A holy knight who protects allies and smites evil."
-	paladin.base_stats = stats
-	paladin.skills = [holy_strike, divine_shield, lay_on_hands]
-	paladin.sprite_color = Color(0.9, 0.85, 0.3)  # Gold
+	var inquisitor := ClassData.new()
+	inquisitor.class_name_text = "Inquisitor"
+	inquisitor.description = "Judge, jury, and executioner. Purges darkness and protects the faithful."
+	inquisitor.base_stats = stats
+	inquisitor.skills = [purifying_strike, shield_of_faith, judgment]
+	inquisitor.sprite_color = Color(0.9, 0.85, 0.3)  # Gold
 	
-	classes["Paladin"] = paladin
+	classes["Inquisitor"] = inquisitor
 
 
-func _create_archer() -> void:
-	## ARCHER — Ranged attacker. High SPD and ATK, low DEF.
-	## Role: Hits hard and fast from range. Multi-target and crit skills.
+func _create_demon_hunter() -> void:
+	## DEMON HUNTER — Specialist in tracking and hunting monsters.
+	## Role: High single-target damage. Bonus against bestiary-known enemies. Fast.
 	
 	var stats := StatBlock.new()
-	stats.max_hp = 95
-	stats.max_mp = 30
-	stats.atk = 17
-	stats.def_stat = 7
-	stats.mag = 6
-	stats.res_stat = 8
-	stats.spd = 16
+	stats.max_hp = 100
+	stats.max_mp = 35
+	stats.atk = 18
+	stats.def_stat = 9
+	stats.mag = 7
+	stats.res_stat = 10
+	stats.spd = 15
 	
-	# Archer skills
-	var precise_shot := SkillData.new()
-	precise_shot.skill_name = "Precise Shot"
-	precise_shot.description = "A carefully aimed shot. High damage to one target."
-	precise_shot.mp_cost = 4
-	precise_shot.target_type = SkillData.TargetType.SINGLE_ENEMY
-	precise_shot.damage_type = SkillData.DamageType.PHYSICAL
-	precise_shot.power_multiplier = 1.7
+	var hunter_mark := SkillData.new()
+	hunter_mark.skill_name = "Hunter's Mark"
+	hunter_mark.description = "Mark a target. Next attacks deal bonus damage."
+	hunter_mark.mp_cost = 5
+	hunter_mark.target_type = SkillData.TargetType.SINGLE_ENEMY
+	hunter_mark.damage_type = SkillData.DamageType.PHYSICAL
+	hunter_mark.power_multiplier = 1.3
 	
-	var volley := SkillData.new()
-	volley.skill_name = "Arrow Volley"
-	volley.description = "Rain arrows on all enemies."
-	volley.mp_cost = 10
-	volley.target_type = SkillData.TargetType.ALL_ENEMIES
-	volley.damage_type = SkillData.DamageType.PHYSICAL
-	volley.power_multiplier = 0.9
+	var silver_bolt := SkillData.new()
+	silver_bolt.skill_name = "Silver Bolt"
+	silver_bolt.description = "A bolt blessed to harm abominations. Extra damage to dark creatures."
+	silver_bolt.mp_cost = 8
+	silver_bolt.target_type = SkillData.TargetType.SINGLE_ENEMY
+	silver_bolt.damage_type = SkillData.DamageType.PHYSICAL
+	silver_bolt.power_multiplier = 2.0
+	silver_bolt.element = "light"
 	
-	var poison_arrow := SkillData.new()
-	poison_arrow.skill_name = "Poison Arrow"
-	poison_arrow.description = "A toxic arrow that poisons the target."
-	poison_arrow.mp_cost = 6
-	poison_arrow.target_type = SkillData.TargetType.SINGLE_ENEMY
-	poison_arrow.damage_type = SkillData.DamageType.PHYSICAL
-	poison_arrow.power_multiplier = 1.1
-	poison_arrow.status_on_hit = {"type": StatusEffect.Type.POISON, "duration": 3, "potency": 12, "chance": 90}
+	var trap_snare := SkillData.new()
+	trap_snare.skill_name = "Binding Snare"
+	trap_snare.description = "Lay a trap that slows all enemies."
+	trap_snare.mp_cost = 10
+	trap_snare.target_type = SkillData.TargetType.ALL_ENEMIES
+	trap_snare.damage_type = SkillData.DamageType.PHYSICAL
+	trap_snare.power_multiplier = 0.7
 	
-	var archer := ClassData.new()
-	archer.class_name_text = "Archer"
-	archer.description = "A swift marksman who strikes from afar."
-	archer.base_stats = stats
-	archer.skills = [precise_shot, volley, poison_arrow]
-	archer.sprite_color = Color(0.2, 0.7, 0.3)  # Forest green
+	var demon_hunter := ClassData.new()
+	demon_hunter.class_name_text = "Demon Hunter"
+	demon_hunter.description = "Trained to track, trap, and kill the things that lurk in the dark."
+	demon_hunter.base_stats = stats
+	demon_hunter.skills = [hunter_mark, silver_bolt, trap_snare]
+	demon_hunter.sprite_color = Color(0.3, 0.2, 0.1)  # Dark brown
 	
-	classes["Archer"] = archer
+	classes["Demon Hunter"] = demon_hunter
 
 
 func _create_necromancer() -> void:
@@ -443,51 +443,52 @@ func _create_blood_mage() -> void:
 	classes["Blood Mage"] = blood_mage
 
 
-func _create_druid() -> void:
-	## DRUID — Nature magic healer/support. Regeneration, barriers, poison.
-	## Role: Sustained healing and nature damage over time.
+func _create_summoner() -> void:
+	## SUMMONER — Summons cute but ferocious creatures to fight alongside them.
+	## Role: Minion-based damage/support. Summons do the fighting.
 	
 	var stats := StatBlock.new()
-	stats.max_hp = 100
-	stats.max_mp = 50
-	stats.atk = 7
-	stats.def_stat = 10
-	stats.mag = 16
-	stats.res_stat = 14
-	stats.spd = 9
+	stats.max_hp = 85
+	stats.max_mp = 55
+	stats.atk = 6
+	stats.def_stat = 8
+	stats.mag = 17
+	stats.res_stat = 13
+	stats.spd = 10
 	
-	var regrowth := SkillData.new()
-	regrowth.skill_name = "Regrowth"
-	regrowth.description = "Nature's embrace mends wounds over time."
-	regrowth.mp_cost = 10
-	regrowth.target_type = SkillData.TargetType.SINGLE_ALLY
-	regrowth.damage_type = SkillData.DamageType.HEALING
-	regrowth.power_multiplier = 2.2
+	var summon_chomper := SkillData.new()
+	summon_chomper.skill_name = "Summon Chomper"
+	summon_chomper.description = "Call a tiny fanged blob that bites an enemy viciously."
+	summon_chomper.mp_cost = 10
+	summon_chomper.target_type = SkillData.TargetType.SINGLE_ENEMY
+	summon_chomper.damage_type = SkillData.DamageType.PHYSICAL
+	summon_chomper.power_multiplier = 1.7
 	
-	var thorn_burst := SkillData.new()
-	thorn_burst.skill_name = "Thorn Burst"
-	thorn_burst.description = "Thorny vines erupt beneath all enemies."
-	thorn_burst.mp_cost = 12
-	thorn_burst.target_type = SkillData.TargetType.ALL_ENEMIES
-	thorn_burst.damage_type = SkillData.DamageType.MAGICAL
-	thorn_burst.power_multiplier = 1.1
+	var summon_spark := SkillData.new()
+	summon_spark.skill_name = "Summon Spark Swarm"
+	summon_spark.description = "Release a swarm of crackling sprites that zap all enemies."
+	summon_spark.mp_cost = 14
+	summon_spark.target_type = SkillData.TargetType.ALL_ENEMIES
+	summon_spark.damage_type = SkillData.DamageType.MAGICAL
+	summon_spark.power_multiplier = 1.2
+	summon_spark.element = "light"
 	
-	var bark_skin := SkillData.new()
-	bark_skin.skill_name = "Bark Skin"
-	bark_skin.description = "Harden an ally's skin like ancient wood. Boosts DEF."
-	bark_skin.mp_cost = 8
-	bark_skin.target_type = SkillData.TargetType.SINGLE_ALLY
-	bark_skin.damage_type = SkillData.DamageType.HEALING
-	bark_skin.power_multiplier = 0.5  # Small heal + buff (buff logic TODO)
+	var summon_shell := SkillData.new()
+	summon_shell.skill_name = "Summon Shell Buddy"
+	summon_shell.description = "A tiny armored creature shields an ally, healing them."
+	summon_shell.mp_cost = 12
+	summon_shell.target_type = SkillData.TargetType.SINGLE_ALLY
+	summon_shell.damage_type = SkillData.DamageType.HEALING
+	summon_shell.power_multiplier = 2.0
 	
-	var druid := ClassData.new()
-	druid.class_name_text = "Druid"
-	druid.description = "Channels the memory of nature in a place that has forgotten it."
-	druid.base_stats = stats
-	druid.skills = [regrowth, thorn_burst, bark_skin]
-	druid.sprite_color = Color(0.2, 0.5, 0.1)  # Forest green
+	var summoner := ClassData.new()
+	summoner.class_name_text = "Summoner"
+	summoner.description = "Calls forth adorable yet deadly creatures. They do the biting so you don't have to."
+	summoner.base_stats = stats
+	summoner.skills = [summon_chomper, summon_spark, summon_shell]
+	summoner.sprite_color = Color(0.5, 0.8, 0.4)  # Lime green
 	
-	classes["Druid"] = druid
+	classes["Summoner"] = summoner
 
 
 func _create_engineer() -> void:
@@ -677,3 +678,50 @@ func _create_psion() -> void:
 	psion.sprite_color = Color(0.6, 0.2, 0.8)  # Purple/magenta
 	
 	classes["Psion"] = psion
+
+
+func _create_knight() -> void:
+	## KNIGHT — Armored frontline protector. Highest DEF, shield skills.
+	## Role: Pure tank. Draws aggro, protects allies, counter-attacks.
+	
+	var stats := StatBlock.new()
+	stats.max_hp = 150
+	stats.max_mp = 20
+	stats.atk = 12
+	stats.def_stat = 20
+	stats.mag = 4
+	stats.res_stat = 10
+	stats.spd = 6
+	
+	var shield_bash := SkillData.new()
+	shield_bash.skill_name = "Shield Bash"
+	shield_bash.description = "Slam your shield into an enemy. Stuns briefly."
+	shield_bash.mp_cost = 5
+	shield_bash.target_type = SkillData.TargetType.SINGLE_ENEMY
+	shield_bash.damage_type = SkillData.DamageType.PHYSICAL
+	shield_bash.power_multiplier = 1.3
+	
+	var iron_wall := SkillData.new()
+	iron_wall.skill_name = "Iron Wall"
+	iron_wall.description = "Brace yourself. Reduces all incoming damage this turn."
+	iron_wall.mp_cost = 8
+	iron_wall.target_type = SkillData.TargetType.SELF
+	iron_wall.damage_type = SkillData.DamageType.HEALING
+	iron_wall.power_multiplier = 1.0  # Self-heal representing damage reduction
+	
+	var rallying_cry := SkillData.new()
+	rallying_cry.skill_name = "Rallying Cry"
+	rallying_cry.description = "Inspire the party. Heals all allies slightly."
+	rallying_cry.mp_cost = 10
+	rallying_cry.target_type = SkillData.TargetType.ALL_ALLIES
+	rallying_cry.damage_type = SkillData.DamageType.HEALING
+	rallying_cry.power_multiplier = 0.8
+	
+	var knight := ClassData.new()
+	knight.class_name_text = "Knight"
+	knight.description = "An immovable wall of steel. Where the Knight stands, none shall pass."
+	knight.base_stats = stats
+	knight.skills = [shield_bash, iron_wall, rallying_cry]
+	knight.sprite_color = Color(0.5, 0.5, 0.6)  # Steel grey
+	
+	classes["Knight"] = knight

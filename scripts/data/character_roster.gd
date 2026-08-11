@@ -151,7 +151,7 @@ func _build_roster() -> void:
 	var eleanor := CharacterProfile.new()
 	eleanor.id = "eleanor"
 	eleanor.character_name = "Eleanor Ashvane"
-	eleanor.class_name_key = "Paladin"
+	eleanor.class_name_key = "Inquisitor"
 	eleanor.age = 41
 	eleanor.personality = "Devout, compassionate, quietly doubting"
 	eleanor.backstory = "A temple knight sent to purge the dungeon of dark influence. Secretly, her faith has been faltering for years. She hopes that facing true evil will restore her conviction — or confirm her doubts."
@@ -177,7 +177,7 @@ func _build_roster() -> void:
 	var wren := CharacterProfile.new()
 	wren.id = "wren"
 	wren.character_name = "Wren"
-	wren.class_name_key = "Archer"
+	wren.class_name_key = "Demon Hunter"
 	wren.age = 19
 	wren.personality = "Quiet, observant, unexpectedly brave"
 	wren.backstory = "Followed their older sibling into the dungeon. The sibling didn't come back out. Wren went in after them with nothing but a bow and stubborn hope."
@@ -255,7 +255,7 @@ func _build_roster() -> void:
 	var moth := CharacterProfile.new()
 	moth.id = "moth"
 	moth.character_name = "Moth"
-	moth.class_name_key = "Druid"
+	moth.class_name_key = "Summoner"
 	moth.age = 33
 	moth.personality = "Eerie, gentle, speaks in half-truths"
 	moth.backstory = "Claims they were 'called' here by dreams. Has been having visions of the dungeon since childhood. Seems to know things they shouldn't. The others find them unsettling but useful."
@@ -381,10 +381,36 @@ func _build_roster() -> void:
 	]
 	profiles["finch"] = finch
 
+	# ─── 13. GARRETT STONE — The Knight (Knight) ─────────────────
+	var garrett := CharacterProfile.new()
+	garrett.id = "garrett"
+	garrett.character_name = "Garrett Stone"
+	garrett.class_name_key = "Knight"
+	garrett.age = 52
+	garrett.personality = "Honorable, tired, stubbornly protective"
+	garrett.backstory = "A retired royal guard who heard rumors of people disappearing into the dungeon. Came out of retirement because nobody else would. He's too old for this. He knows it. He came anyway."
+	garrett.motivation = "Protect the others (because someone has to)"
+	garrett.fear = "Being too slow to save someone"
+	garrett.known_connection = "eleanor"  # Served in the same temple order years ago
+	garrett.dialogue_healthy = [
+		"\"Stay behind me. That's all I ask.\"",
+		"\"I've stood watch at gates for thirty years. This is just... a darker gate.\"",
+		"\"My knees aren't what they were. But my shield arm is still strong.\"",
+	]
+	garrett.dialogue_stressed = [
+		"\"I can't protect all of you. There are too many angles.\"",
+		"\"In the old days, I'd have a squad. Now it's just me and this shield.\"",
+	]
+	garrett.dialogue_breaking = [
+		"\"I failed them. I failed ALL of them. Just like before.\"",
+		"*Garrett plants his shield in the ground and doesn't move.* \"...I'll hold here.\"",
+	]
+	profiles["garrett"] = garrett
+
 	# ─── PARTY COMPOSITION ────────────────────────────────────────
 	# Start with 4, recruit rest during dungeon runs
 	starting_party = ["marcus", "sera", "dagger", "eleanor"]
-	recruitable = ["wren", "valdris", "kira", "moth", "patch", "silas", "echo", "finch"]
+	recruitable = ["wren", "valdris", "kira", "moth", "patch", "silas", "echo", "finch", "garrett"]
 
 
 ## ─── CREATE GAME CHARACTERS ─────────────────────────────────────
