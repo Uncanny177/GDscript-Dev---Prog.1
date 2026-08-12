@@ -147,29 +147,29 @@ func _build_roster() -> void:
 	]
 	profiles["dagger"] = dagger
 
-	# ─── 4. ELEANOR ASHVANE — The Paladin (Paladin) ───────────────
+	# ─── 4. ELEANOR ASHVANE — The Inquisitor (Inquisitor) ────────────
 	var eleanor := CharacterProfile.new()
 	eleanor.id = "eleanor"
 	eleanor.character_name = "Eleanor Ashvane"
 	eleanor.class_name_key = "Inquisitor"
 	eleanor.age = 41
-	eleanor.personality = "Devout, compassionate, quietly doubting"
-	eleanor.backstory = "A temple knight sent to purge the dungeon of dark influence. Secretly, her faith has been faltering for years. She hopes that facing true evil will restore her conviction — or confirm her doubts."
-	eleanor.motivation = "Restore her faith (or confirm its death)"
-	eleanor.fear = "That her god is silent because there IS nothing listening"
-	eleanor.known_connection = ""
+	eleanor.personality = "Jaded, dutiful, quietly losing faith"
+	eleanor.backstory = "Sent by the church to apprehend a supposedly blasphemous revolutionary leader rumored to have traveled to the dungeon searching for something. It's a straightforward mission — find the heretic, bring them back. But Eleanor has seen how the church abuses its power. She's watched them silence dissent and call it holiness. She doesn't see herself as a pawn... but the thought creeps in. And with every prayer that goes unanswered, the thought gets louder: what if her god is false?"
+	eleanor.motivation = "Complete her mission (while questioning everything it stands for)"
+	eleanor.fear = "That her god is false and her entire life has been in service to a lie"
+	eleanor.known_connection = "garrett"
 	eleanor.dialogue_healthy = [
-		"\"Stay strong. The light protects us.\" *She doesn't sound certain.*",
-		"\"I will shield you. That much I can still do.\"",
-		"\"This darkness... it tests us. That is its purpose.\"",
+		"\"I have a job to do. Faith or no faith, I finish what I start.\"",
+		"\"The church sent me. Whether they deserve my loyalty is... another question.\"",
+		"\"Stay close. I won't let anything take you. That much I can promise.\"",
 	]
 	eleanor.dialogue_stressed = [
-		"\"I prayed. Nothing answered. ...It's just the noise down here.\"",
-		"\"The Old Ones are not gods. They CAN'T be. That would mean—\"",
+		"\"I prayed again last night. Silence. Always silence.\"",
+		"\"Am I the church's sword or their dog? Sometimes I can't tell.\"",
 	]
 	eleanor.dialogue_breaking = [
-		"\"There is no light here. There never was. Just things pretending.\"",
-		"*Eleanor removes her holy symbol and drops it.* \"It was always empty.\"",
+		"\"There IS no god. There's just... them. The Old Ones. And they don't care about us at all.\"",
+		"*Eleanor stares at her holy symbol.* \"I've killed people for this. And it means NOTHING.\"",
 	]
 	profiles["eleanor"] = eleanor
 
