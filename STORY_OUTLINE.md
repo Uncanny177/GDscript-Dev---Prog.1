@@ -1,154 +1,169 @@
 # Story Outline (Work in Progress)
 
 ## Tone & Theme
-- Horror mystery / cosmic horror / eldritch
-- Elder gods (12-god pantheon, Cthulhu-inspired)
-- Psychological + existential dread, some body horror
-- Spooky, unsettling atmosphere — player should feel VULNERABLE
-- Power grows over runs but always at a cost
-- Some humor to break tension (dark comedy, gallows humor from NPCs)
-- Not relentless — pacing between dread and relief
+- Cosmic horror / mystery / psychological dread
+- Elder gods (13-god pantheon)
+- The world feels WRONG — familiar but shifted, like a dream you can't wake from
+- Player should feel vulnerable but more powerful after each run
+- Power always comes at a cost — nothing is free in this place
+- Dark humor to break tension (gallows humor, absurd situations)
+- Not relentless — safe zones provide real emotional relief before the next descent
 
 ---
 
-## Core Concept
-- A dungeon that shouldn't exist, built by unknown forces
-- 12 party members arrive for different personal reasons (mostly strangers)
-- They must cooperate to survive
-- Knowledge IS the progression — learning enemy patterns, finding spells, reading forbidden texts
-- The deeper you go, the more you understand... and the more it costs you
+## THE OVERARCHING STORY
+
+### The Scar
+The dungeon is a wound in reality. Nobody knows what caused it — a failed ritual, a dying god, a collision of realities — but something TORE, and this place is what poured through the gap. It's not a building. It's not alive. It's a scar, and like a scar, it grows wrong.
+
+The world above is getting worse. The plague is spreading. People are disappearing. Reality feels thin — walls breathe when you're not looking, shadows move against the light. The dungeon is the source. Or maybe it's the symptom. Nobody knows.
+
+### The Town (Hub)
+The town above the dungeon is a convergence point. It sits at the seam of the scar — a place where realities bleed into each other. It is EXTREMELY difficult to find on purpose. Most people arrive without knowing how. They were walking a road. They turned a corner. And suddenly... here.
+
+Key details:
+- Some residents don't remember how they arrived
+- Some seem to be from different realities or planes entirely
+- They remember the same world but differently — wrong kings, wrong wars, wrong geography
+- No one can agree on basic history (is this a sign of the scar, or were they always different?)
+- The town feels permanent (shops, structures, routines) but nobody can say when it was built
+- Leaving is possible but... you always come back. The road out leads back eventually.
+- Some people have been here for years. Some arrived yesterday. Time is inconsistent.
+
+The town is safe — the scar doesn't reach it directly. But it's close. You can feel it.
+
+### Why Is the Dungeon Important?
+- The scar is growing. The town was quiet once. Now there's a plague, nightmares, disappearances.
+- Something at the bottom is either causing the scar or holding it open.
+- The deeper you go, the more you understand about what happened — but understanding has a cost.
+- Maybe the scar can be healed. Maybe the thing at the bottom needs to be killed. Maybe someone needs to take its place. The answer is down there.
+- The 13 gods are drawn to the scar like moths to a wound. They didn't create it — they INFEST it.
+
+### The Reality Bleed
+People in the town:
+- A merchant who remembers a war that nobody else fought
+- A child who speaks a language that doesn't exist
+- Two characters who remember the same event completely differently
+- Someone who insists they died already and this is what comes after
+- NPCs who seem to flicker — like they're not always fully HERE
+
+This creates paranoia: can you trust what anyone tells you? Can you trust your OWN memories? As sanity drops, the player gets unreliable information. The game itself might lie to you.
 
 ---
 
-## Stats System
-- **HP** — Health (traditional, you die at 0)
-- **MP** — Magic/Mana (for spells and rituals)
-- **Sanity** — Mental health (new stat)
-  - Drops from: witnessing horror, elder god encounters, using forbidden knowledge, certain enemies
-  - At low sanity: hallucinations? Wrong information? Characters act on their own?
-  - At zero: character goes permanently insane (removed from party? Becomes hostile?)
-  - Recovers at: safe zones, certain items, rest, companion interactions
+## Characters (13 total)
+
+### Why They're ALL Here
+Each character arrived at the town through the convergence — some on purpose, some by accident. They go INTO the dungeon for personal reasons. But the deeper truth is: the scar called them. It needs people. Broken people, desperate people, curious people, guilty people. Their emotions are fuel for something.
+
+Whether the scar is sentient, whether the gods are pulling strings, or whether it's pure coincidence — that's one of the central mysteries.
+
+### The Party
+**Starting 4:** Marcus, Sera, Dagger, Eleanor
+**Recruitable 9:** Wren, Valdris, Kira, Moth, Patch, Silas, Echo, Finch, Garrett
+
+(See character_roster.gd for full profiles, dialogue, and connections)
+
+### Relationships & Conflicts
+- Sera/Valdris: Academic rivalry, mutual respect, completely different ethics
+- Sera/Kira: Employer/mercenary — Kira's contract is to extract Sera alive
+- Marcus/Patch: Served in the same military conflict (different sides? Same side?)
+- Eleanor/Garrett: Same temple order, years apart — Garrett retired before Eleanor joined
+- Finch: Former cultist who helped OPEN the scar — does anyone else know?
+- Moth: Was "called" here — are they a pawn of one of the gods?
+- Wren: Hunting a specific demon tied to Xoth'ra/Yith'ael — is it even in the dungeon?
 
 ---
 
-## Characters (12 total)
-- Fixed personalities and backstories
-- Mostly strangers — maybe 2-3 pairs know each other
-- Each at the dungeon for a different personal reason:
-  - (TBD: revenge, curiosity, duty, greed, running from something, summoned, scholar seeking knowledge, hired mercenary, lost family member, religious zealot, thief who stole the wrong thing, etc.)
-- **Permadeath** — characters CAN die permanently
-- **Insanity** — characters can go permanently insane (lost to madness)
-- Party composition matters more since losses are permanent
-- Relationships develop through safe zone conversations
+## The 13 Elder Gods
+
+### What Are They?
+Not creators. Not rulers. They're things that found the scar and moved in — like bacteria in a wound. They existed before. The scar just gave them a place to manifest, to reach into reality, to BE something instead of concepts floating in the void.
+
+They don't care about humans the way humans care about ants. Some are curious. Some are hungry. Some are hostile. None are allies — even the "helpful" ones have agendas that aren't aligned with survival.
+
+### How They Interact
+- Their influence divides the dungeon into domains (loosely — gods overlap and conflict)
+- Each has servants/creatures that enforce their will
+- Altars allow communion — power for a price, always
+- Favor with one god may anger another
+- The dominant god at game's end influences the ending
+- They talk to the player (through whispers, visions, altar text) but never honestly
+
+(See elder_god_pantheon.gd for the full 13 definitions)
 
 ---
 
 ## The Dungeon
-- Not naturally formed — BUILT by something, but it grows and changes
-- Forces inside can control/alter their surroundings (seems alive but isn't traditionally)
-- Impossible environments (non-euclidean, gravity shifts, rooms that shouldn't connect)
-- Each "zone" could be the domain/influence of a specific elder god
-- Format TBD: procedural generation vs hand-crafted sections that shuffle
-  - Leaning toward: set map SECTIONS that rearrange (quality + variety)
-  - Some areas fixed (key story locations), some randomized
 
-### Safe Zones
-- Areas within the dungeon for respite
-- Talk to party members (develop relationships, reveal backstory)
-- Talk to NPCs (other trapped explorers, mad scholars, mysterious figures)
-- Rest to recover sanity/HP
-- "Sudo-safe" zones — mostly safe but something feels off
+### Nature
+- A wound, not a building — but it has structure (someone's thoughts? A god's body? Dreams solidified?)
+- Grows and changes — floors rearrange, rooms appear and disappear
+- The deeper floors are more alien — early floors feel like ruins, deep floors feel like ORGANS
+- It reacts to the party (remembers deaths, remembers choices, adapts)
+- Impossible geometry — non-euclidean spaces, rooms that connect wrong, time inconsistencies
 
----
-
-## Elder God Pantheon (12 Gods)
-- Each god has a domain/theme (TBD: decay, hunger, time, flesh, void, eyes, etc.)
-- Gods are mostly NOT interested in the party directly
-- They have their own designs — their agents/servants interact with the party
-- Some bosses are the gods themselves (or avatars/stand-ins)
-- Gods conflict with each other (can be exploited?)
-
-### Calling on the Gods
-- Players can learn rituals/rites associated with specific gods
-- Performing rites at altars grants power at a COST
-  - Cost could be: sanity, HP, party member corruption, permanent changes
-- Risk/reward: elder god powers are strong but erode your party
+### Structure
+- Procedurally arranged sections (quality hand-crafted pieces shuffled for variety)
+- Each floor can be influenced by a dominant god (affects enemies, visuals, events)
+- Safe zones every 2-3 floors (blue sigils, creatures won't enter)
+- Ritual altars scattered throughout (commune with gods)
+- Boss encounters at key depth thresholds
+- The bottom is... unknown. Nobody has reached it. Or nobody has come back.
 
 ---
 
 ## Enemies
-- Every enemy is meaningful — mini-boss feel, NOT cannon fodder
-- Each enemy has weaknesses and a "solution" to discover
-- First encounter is hard (you're learning the pattern)
-- Once you know the solution, they become manageable
-- Each enemy connected to a specific elder god from the pantheon
-- Enemy design should feel WRONG (not just "goblin with a sword")
 
-### Knowledge-Based Progression
-- Learn enemy weaknesses through:
-  - Fighting them (trial and error)
-  - Finding journals/books in the dungeon
-  - NPC information
-  - Performing research at safe zones
-- Once learned, weaknesses are permanent knowledge (carries across runs/attempts)
-- Bestiary/Journal fills in as you discover things
+### Design Philosophy
+Every enemy is a puzzle, not cannon fodder. First encounter is dangerous. Once you learn the solution, they're manageable. Knowledge IS power — literally.
+
+- Each enemy is tied to an elder god (their patron)
+- Weaknesses are HIDDEN until you master them in the bestiary
+- Finding journal entries or consulting scholars can reveal weaknesses early
+- The enemies feel WRONG — not just monsters but things that shouldn't exist
 
 ---
 
-## Spells & Knowledge
-- Find spell books/journals in the dungeon
-- Learn rituals from altars, NPCs, or boss encounters
-- Some knowledge has a sanity cost to learn
-- Spells can be powerful but tied to specific gods (using them pleases/angers gods)
-- Forbidden knowledge: learn the truth about the dungeon itself?
+## Core Mysteries (Answers TBD — can be revealed gradually or kept ambiguous)
+1. What caused the scar?
+2. Is the town real, or is it part of the dungeon?
+3. Are the party members from the same reality?
+4. What's at the bottom?
+5. Can the scar be healed, or only managed?
+6. Is permadeath REAL death, or do the dead go somewhere else?
+7. Who built the safe zones? (And why do the gods respect them?)
+8. What does Moth hear in their dreams?
+9. What did Finch help open, exactly?
+10. Is the demon Wren hunts a real entity, or a manifestation of his grief?
 
 ---
 
-## Moral Choices
-- Accept a god's gift (power but corruption/sanity loss)
-- Save or sacrifice NPCs/party members
-- Share dangerous knowledge or keep it hidden
-- Perform dark rituals for advantage vs staying "pure"
-- These choices affect which ending you get
+## Moral Choices & Endings (TBD — framework only)
+- Choices accumulate: which gods favored, who lives/dies, what knowledge gained
+- No "good" ending — every resolution has a cost
+- Possible ending axes:
+  - Seal the scar (cost: someone stays behind forever)
+  - Embrace a god (cost: lose yourself, become something else)
+  - Destroy the gods (cost: the scar tears wider without them holding it)
+  - Accept the scar (cost: the world changes permanently, nothing goes back to normal)
+  - The "true" ending: unknown, requires multiple runs of knowledge accumulation
 
 ---
 
-## Endings (Multiple, TBD)
-- Ideas to explore:
-  - Escape the dungeon (but at what cost? Who's left?)
-  - Embrace an elder god (become their champion/vessel)
-  - Destroy the dungeon (seal it? Collapse it?)
-  - Become something new (ascend? Transcend?)
-  - Fail / trapped forever
-- Ending depends on: choices made, gods appeased/angered, party survival, sanity state
+## Game Structure
+- Roguelite: short-to-medium runs, knowledge carries between attempts
+- Death sends you back to town (with whatever you've learned)
+- The dungeon changes each run but key story beats are consistent
+- Permadeath of characters is PERMANENT across runs (in Hard mode)
+- Multiple runs needed to see all story content (different characters, different paths)
+- Each run peels back another layer of the mystery
 
 ---
 
-## Game Structure Questions (Still Deciding)
-- Roguelite (short runs, meta-progression) vs Traditional RPG (longer, limited saves)?
-- Hybrid possible: longer runs, knowledge carries between attempts, limited saves add tension
-- Current systems can support either — the switch is mostly about run length and save frequency
-- "Information gathering" as the core meta-progression fits both models
-- Permadeath + insanity add consequence regardless of format
-
----
-
-## Atmosphere & Presentation
-- Environmental storytelling (inscriptions, murals, remnants of previous explorers who failed)
-- The dungeon reacts to your progress (things change, things remember you)
-- NPCs inside range from helpful to clearly broken to suspiciously calm
-- Audio: whispers, distant wrong sounds, silence where there shouldn't be silence
-- Visual: pixel art but with unsettling elements (things in the background, eyes, movement at edges)
-- Safe zones feel different — warm light, calm music — the contrast makes horror STRONGER
-
----
-
-## Implementation Notes
-- Sanity system: new stat on CharacterData (like HP/MP), tracked and saved
-- Permadeath: character removed from all rosters on death (not just "fainted")
-- Bestiary: new data structure tracking enemy knowledge (unlocks weakness info)
-- Rituals: like skills but with sanity/HP cost instead of MP
-- Altars: new dungeon interactive (like events but specifically for god interaction)
-- Safe zones: new room type in generation (no enemies, special interactions)
-- 12 party members: expand CharacterData definitions, each with unique backstory
-- 12 gods: new data structure defining domains, servants, rites, effects
+## Notes for Future Writing
+- All story text in the codebase is PLACEHOLDER — rewrite freely
+- Character dialogue, god descriptions, journal entries, altar text — all swappable
+- System IDs stay consistent (e.g., "nethzarr", "wren") even if display names change
+- The mystery should have enough hooks for the player to THEORIZE but not enough to be certain
+- Ambiguity is a feature, not a bug — cosmic horror works best when you can't be sure
