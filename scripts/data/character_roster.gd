@@ -180,7 +180,7 @@ func _build_roster() -> void:
 	wren.class_name_key = "Demon Hunter"
 	wren.age = 29
 	wren.personality = "Chaotic good, grief-driven, relentless"
-	wren.backstory = "A demon killed his wife. He tracked it here. The nightmares started after — visions of the thing wearing her face, mocking him from the dark. He doesn't sleep anymore. He hunts."
+	wren.backstory = "A demon killed his wife. She was a scholar researching a cure for the plague sweeping the region — found references to a forbidden rite supposedly used to cure disease in ancient times. She performed the rite. Something went wrong. A demon answered instead of a cure, tormented her, and ultimately killed her. Wren tracked the thing here. The nightmares started after — visions of it wearing her face, mocking him from the dark. He doesn't sleep anymore. He hunts."
 	wren.motivation = "Retribution — kill the specific demon that took everything from him"
 	wren.fear = "That the hallucinations are real, that his wife's killer is toying with him"
 	wren.known_connection = ""
