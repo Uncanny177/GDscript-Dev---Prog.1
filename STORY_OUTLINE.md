@@ -18,6 +18,28 @@ The dungeon is a wound in reality. Nobody knows what caused it — a failed ritu
 
 The world above is getting worse. The plague is spreading. People are disappearing. Reality feels thin — walls breathe when you're not looking, shadows move against the light. The dungeon is the source. Or maybe it's the symptom. Nobody knows.
 
+### The Artifact & The Old Empire
+Before the scar, this continent was ruled by a wealthy empire — powerful, decadent, and rotten at its core. The empire's sorcerers practiced dark arts openly, funded by imperial gold. They believed they could harness the spaces between realities for power.
+
+They built an artifact. Its true name is lost (or forbidden). People call it different things — the Keystone, the Breach-Heart, the Hollow Crown — depending on which fragmented history they remember. It was designed to pierce the veil between worlds, to let the sorcerers draw power from whatever exists on the other side.
+
+They performed a rite with it. The greatest sorcerers of the empire, in their arrogance, activated the artifact at the site where the dungeon now sits. Something answered. Something came through. The rite didn't just open a door — it SHATTERED the boundary. The empire collapsed. The continent fractured. Reality itself tore open.
+
+The artifact is still down there. At the bottom. Maybe it's still active — holding the wound open. Maybe it's the only thing that can close it. Maybe it's changed into something else entirely after centuries soaking in the scar.
+
+**Who's searching for it:**
+- Sera: Knows about it from forbidden texts. The artifact IS her real target (not just "knowledge").
+- Valdris: Believes it can grant power over death itself.
+- Finch: Helped perform a LESSER rite that widened the scar further. Knows the artifact exists. Wants to undo what was done.
+- Silas: Heard rumors of an imperial relic worth kingdoms. Doesn't understand what it really is.
+- Others may learn about it during the descent.
+
+**The question:** If you find it, what do you DO with it?
+- Destroy it (might seal the scar — or tear it wider)
+- Use it (become like the old sorcerers — power at any cost)
+- Return it to a god (which one? They all want it)
+- Leave it alone (the scar stays, but so does the status quo)
+
 ### The Town (Hub)
 The town above the dungeon is a convergence point. It sits at the seam of the scar — a place where realities bleed into each other. It is EXTREMELY difficult to find on purpose. Most people arrive without knowing how. They were walking a road. They turned a corner. And suddenly... here.
 
