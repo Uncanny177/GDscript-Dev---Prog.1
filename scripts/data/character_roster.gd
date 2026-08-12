@@ -257,23 +257,23 @@ func _build_roster() -> void:
 	moth.character_name = "Moth"
 	moth.class_name_key = "Summoner"
 	moth.age = 33
-	moth.personality = "Eerie, gentle, speaks in half-truths"
-	moth.backstory = "Claims they were 'called' here by dreams. Has been having visions of the dungeon since childhood. Seems to know things they shouldn't. The others find them unsettling but useful."
-	moth.motivation = "Answer the call (they don't know what's calling)"
-	moth.fear = "That what's calling them wants something terrible"
+	moth.personality = "Eerie, gentle, lost, hears voices"
+	moth.backstory = "Moth doesn't know why she's here. Not really. She hears voices — has since childhood — and they led her to this place. She followed because what else do you do when something speaks directly into your mind? Someone or something wants to use her as a vessel, a conduit to summon something back into this reality. She doesn't understand this yet. She just knows the voices are louder here, and they seem pleased she came."
+	moth.motivation = "Answer the voices (she doesn't know what they want yet)"
+	moth.fear = "That she's a puppet — that nothing she's done has been her own choice"
 	moth.known_connection = ""
 	moth.dialogue_healthy = [
-		"\"I've seen this room before. In dreams. It was... different then.\"",
-		"\"They're watching us. Not with malice. Curiosity, perhaps.\"",
-		"\"Don't worry. We're exactly where we're supposed to be.\"",
+		"\"The voices are quiet today. That's... unusual.\"",
+		"\"They say we're going the right way. I think that's good.\"",
+		"\"I don't know why I'm here. But it feels like I'm supposed to be.\"",
 	]
 	moth.dialogue_stressed = [
-		"\"The dreams are louder now. I can't tell which is real anymore.\"",
-		"\"It's close. The thing that called me. I can feel it breathing.\"",
+		"\"They're all talking at once. I can't make out the words anymore.\"",
+		"\"Something wants me to go deeper. I don't think it's asking.\"",
 	]
 	moth.dialogue_breaking = [
-		"\"I remember now. I've BEEN here before. I've ALWAYS been here.\"",
-		"*Moth smiles serenely.* \"Oh. I understand. I was never going to leave.\"",
+		"\"I can feel it reaching through me. Using my hands. My mouth. I can't stop it.\"",
+		"*Moth speaks in a language no one recognizes. Her eyes are open but she isn't there.*",
 	]
 	profiles["moth"] = moth
 
