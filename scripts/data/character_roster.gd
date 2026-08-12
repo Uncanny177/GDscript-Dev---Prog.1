@@ -310,9 +310,9 @@ func _build_roster() -> void:
 	silas.class_name_key = "Alchemist"
 	silas.age = 45
 	silas.personality = "Determined, haunted, clinically detached until he isn't"
-	silas.backstory = "A doctor searching for a cure to the plague ravaging the world above. Before this, he was a battlefield medic — saw things that broke something inside him. He left the war but the war didn't leave him. Now the plague is killing people just as surely as swords did, and he refuses to be helpless again. He heard rumors that ancient knowledge in the dungeon holds the key to a cure."
-	silas.motivation = "Find a cure for the plague (refuses to be helpless again)"
-	silas.fear = "That he can't save anyone — not then, not now"
+	silas.backstory = "Started as a battlefield medic whose tinctures actually worked — too well. His superiors noticed. They pulled him off the field and put him in a lab. What started as healing became something else: stimulants that burned soldiers out from the inside, gases that choked entire battalions. He made those things. He told himself it was duty. After the war, he couldn't look at his own hands without seeing what they'd done. The plague gave him purpose again — a chance to use his knowledge to SAVE instead of destroy. He heard that ancient alchemical knowledge in the dungeon might hold the key to a cure."
+	silas.motivation = "Cure the plague — right the wrongs of his past"
+	silas.fear = "That he's only good at making things that hurt people"
 	silas.known_connection = ""
 	silas.dialogue_healthy = [
 		"\"There has to be something here. Some compound, some formula. I'll find it.\"",
