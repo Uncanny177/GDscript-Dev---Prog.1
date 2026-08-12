@@ -303,29 +303,29 @@ func _build_roster() -> void:
 	]
 	profiles["patch"] = patch
 
-	# ─── 10. SILAS CRANE — The Treasure Hunter (Rogue) ────────────
+	# ─── 10. SILAS CRANE — The Plague Doctor (Alchemist) ─────────────
 	var silas := CharacterProfile.new()
 	silas.id = "silas"
-	silas.character_name = "Silas Crane"
+	silas.character_name = "Dr. Silas Crane"
 	silas.class_name_key = "Alchemist"
 	silas.age = 45
-	silas.personality = "Charming, selfish, slowly developing a conscience"
-	silas.backstory = "Professional relic hunter. Has raided tombs across three continents. This was supposed to be the big score — artifacts worth kingdoms. Now he's in too deep and can't find the way out."
-	silas.motivation = "Get rich (transitioning to 'get everyone out alive')"
-	silas.fear = "Dying alone and forgotten"
+	silas.personality = "Determined, haunted, clinically detached until he isn't"
+	silas.backstory = "A doctor searching for a cure to the plague ravaging the world above. Before this, he was a battlefield medic — saw things that broke something inside him. He left the war but the war didn't leave him. Now the plague is killing people just as surely as swords did, and he refuses to be helpless again. He heard rumors that ancient knowledge in the dungeon holds the key to a cure."
+	silas.motivation = "Find a cure for the plague (refuses to be helpless again)"
+	silas.fear = "That he can't save anyone — not then, not now"
 	silas.known_connection = ""
 	silas.dialogue_healthy = [
-		"\"There's gotta be treasure deeper down. There's always treasure.\"",
-		"\"I've been in tighter spots. ...Okay, no I haven't. But still.\"",
-		"\"If I don't make it, tell people I died doing something heroic.\"",
+		"\"There has to be something here. Some compound, some formula. I'll find it.\"",
+		"\"I've seen what the plague does. Every hour I spend down here, people are dying up there.\"",
+		"\"Don't get hurt. I can patch you up but my supplies aren't infinite.\"",
 	]
 	silas.dialogue_stressed = [
-		"\"No artifact is worth this. I just want to see the sky again.\"",
-		"\"Funny thing — I used to think gold was what mattered. Down here it's worthless.\"",
+		"\"I keep seeing their faces. The ones from the war. The ones I couldn't save.\"",
+		"\"What if there IS no cure? What if I came here for nothing?\"",
 	]
 	silas.dialogue_breaking = [
-		"\"Nobody knows I'm here. Nobody's coming for me. For any of us.\"",
-		"*Silas empties his pockets of gold.* \"Take it. I don't want it anymore.\"",
+		"\"I hear them dying. Above us. Right now. And I'm DOWN HERE doing NOTHING.\"",
+		"*Silas stares at his hands.* \"These hands were supposed to heal. All they do is fail.\"",
 	]
 	profiles["silas"] = silas
 
