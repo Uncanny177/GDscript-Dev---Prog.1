@@ -355,29 +355,29 @@ func _build_roster() -> void:
 	]
 	profiles["echo"] = echo
 
-	# ─── 12. DR. FINCH — The Former Cultist (Necromancer) ─────────
+	# ─── 12. FINCH — The Escaped Psion (Psion) ──────────────────────
 	var finch := CharacterProfile.new()
 	finch.id = "finch"
-	finch.character_name = "Dr. Finch"
+	finch.character_name = "Finch"
 	finch.class_name_key = "Psion"
-	finch.age = 48
-	finch.personality = "Nervous, apologetic, trying to atone"
-	finch.backstory = "Was a cultist of Neth'zarr. Participated in the rituals that opened this dungeon. When they saw what came through, they fled. Now they're back to undo what they helped create — if that's even possible."
-	finch.motivation = "Undo the damage they caused"
-	finch.fear = "That their old master (Neth'zarr) will reclaim them"
+	finch.age = 19
+	finch.personality = "Guarded, afraid of herself, desperately wants normalcy"
+	finch.backstory = "A test subject from a government shadow program designed to create controllable super-soldiers. They awakened psionic powers in her through years of experimentation. When her abilities surged out of control, she killed everyone — the other subjects, the scientists, the guards. All of them. She didn't mean to. She was 16. Now she's running, hiding in a place so broken that even a government's reach can't follow. The dungeon's interference masks her psychic signature. She's safe here. Safer than anywhere else."
+	finch.motivation = "Hide from the people hunting her (and learn to control her power)"
+	finch.fear = "Losing control again — killing the people around her"
 	finch.known_connection = ""
 	finch.dialogue_healthy = [
-		"\"I know these symbols. I helped WRITE some of them. I'm so sorry.\"",
-		"\"The wards here — I can modify them. I know how they work.\"",
-		"\"Please don't judge me for what I was. Judge me for what I do now.\"",
+		"\"It's quiet here. In my head. The dungeon... dampens things. I like it.\"",
+		"\"Don't touch me. Please. It's not personal — I just can't always control what happens.\"",
+		"\"I didn't ask for this. I didn't ask for any of this.\"",
 	]
 	finch.dialogue_stressed = [
-		"\"He's calling. Neth'zarr. I can feel him reaching for me.\"",
-		"\"The old words keep coming back. I catch myself almost saying them.\"",
+		"\"I can feel it building. The pressure. Like static behind my eyes.\"",
+		"\"If I start bleeding from my nose, you need to get away from me. Fast.\"",
 	]
 	finch.dialogue_breaking = [
-		"\"Father... I hear you. I'm coming home.\" *Finch's eyes go black.*",
-		"*Finch kneels before a wall, drawing void sigils.* \"It's easier this way.\"",
+		"*The air around Finch vibrates. Objects lift off the ground.* \"RUN. PLEASE.\"",
+		"*Finch grabs her head, screaming.* \"I'M SORRY I'M SORRY I'M SORRY—\"",
 	]
 	profiles["finch"] = finch
 
