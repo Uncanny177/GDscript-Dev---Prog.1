@@ -229,6 +229,7 @@ func _apply_resolution() -> void:
 	
 	# Center window on screen
 	var screen_size: Vector2i = DisplayServer.screen_get_size()
+	@warning_ignore("integer_division")
 	var window_pos: Vector2i = (screen_size - res) / 2
 	DisplayServer.window_set_position(window_pos)
 	

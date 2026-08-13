@@ -60,7 +60,7 @@ static func _make_skill(id: String, skill_name: String, desc: String, mp_cost: i
 	}
 
 
-static func restore_learned_skills_from_save() -> void:
+func restore_learned_skills_from_save() -> void:
 	## Called on game load to re-apply all learned skills to class definitions.
 	var learned: Array = UnlocksManager.unlocks.get("learned_skills", [])
 	if learned.is_empty():

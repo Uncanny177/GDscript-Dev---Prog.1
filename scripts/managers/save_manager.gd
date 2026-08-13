@@ -77,7 +77,7 @@ func load_meta() -> bool:
 		UnlocksManager.from_dict(unlocks_data)
 	
 	# Restore learned skills to class definitions
-	SkillTree.restore_learned_skills_from_save()
+	SkillTree.new().restore_learned_skills_from_save()
 	
 	# Restore party
 	var party_data: Dictionary = data.get("party", {})

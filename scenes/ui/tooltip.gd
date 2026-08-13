@@ -13,7 +13,7 @@
 
 extends CanvasLayer
 
-var is_visible: bool = false
+var tooltip_visible: bool = false
 var panel: PanelContainer = null
 var content_label: Label = null
 var hide_timer: float = 0.0
@@ -54,7 +54,7 @@ func _build_ui() -> void:
 
 
 func _process(delta: float) -> void:
-	if is_visible:
+	if tooltip_visible:
 		hide_timer -= delta
 		if hide_timer <= 0:
 			hide_tooltip()
@@ -136,7 +136,7 @@ func show_text(title: String, body: String, pos: Vector2 = Vector2(50, 50)) -> v
 
 
 func hide_tooltip() -> void:
-	is_visible = false
+	tooltip_visible = false
 	panel.hide()
 
 
@@ -149,7 +149,7 @@ func _show(text: String, pos: Vector2) -> void:
 	panel.offset_right = pos.x + 250
 	panel.offset_bottom = pos.y + 180
 	panel.show()
-	is_visible = true
+	tooltip_visible = true
 	hide_timer = AUTO_HIDE_TIME
 
 

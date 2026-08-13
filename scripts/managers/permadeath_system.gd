@@ -139,23 +139,23 @@ func reset_graveyard() -> void:
 
 func _permanently_remove(character: CharacterData) -> void:
 	## Remove a character from all rosters permanently.
-	var name: String = character.character_name
+	var char_name: String = character.character_name
 	
 	# Add to graveyard
-	if name not in graveyard:
-		graveyard.append(name)
+	if char_name not in graveyard:
+		graveyard.append(char_name)
 	
 	# Remove from active party
 	for i in range(PartyManager.active_party.size() - 1, -1, -1):
-		if PartyManager.active_party[i].character_name == name:
+		if PartyManager.active_party[i].character_name == char_name:
 			PartyManager.active_party.remove_at(i)
 	
 	# Remove from reserve
 	for i in range(PartyManager.reserve.size() - 1, -1, -1):
-		if PartyManager.reserve[i].character_name == name:
+		if PartyManager.reserve[i].character_name == char_name:
 			PartyManager.reserve.remove_at(i)
 	
-	print("[Permadeath] %s permanently removed" % name)
+	print("[Permadeath] %s permanently removed" % char_name)
 
 
 ## ─── QUERIES ────────────────────────────────────────────────────
@@ -164,8 +164,8 @@ func get_graveyard_display() -> String:
 	if graveyard.is_empty():
 		return "No fallen heroes."
 	var text: String = "── Fallen Heroes ──\n"
-	for name in graveyard:
-		text += "  † %s\n" % name
+	for entry in graveyard:
+		text += "  † %s\n" % entry
 	return text
 
 
@@ -180,12 +180,12 @@ func to_dict() -> Dictionary:
 
 
 func from_dict(data: Dictionary) -> void:
-	current_mode = int(data.get("mode", Mode.DISABLED))
+	current_mode = int(data.get("mode", Mode.DISABLED)) as Mode
 	graveyard.clear()
-	for name in data.get("graveyard", []):
-		if name is String:
-			graveyard.append(name)
+	for entry in data.get("graveyard", []):
+		if entry is String:
+			graveyard.append(entry)
 	benched.clear()
-	for name in data.get("benched", []):
-		if name is String:
-			benched.append(name)
+	for entry in data.get("benched", []):
+		if entry is String:
+			benched.append(entry)

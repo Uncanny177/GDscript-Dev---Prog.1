@@ -32,6 +32,11 @@ var training_ground_tier: int = 0  # 0 = not built yet
 
 var unlocked_classes: Array[String] = ["Warrior", "Mage", "Rogue"]
 
+## ─── GENERIC UNLOCKS STORAGE ────────────────────────────────────
+## Flexible dictionary for storing misc unlock data (learned skills, etc.)
+
+var unlocks: Dictionary = {}
+
 ## ─── MILESTONES ─────────────────────────────────────────────────
 ## Track achievements that gate certain unlocks
 
