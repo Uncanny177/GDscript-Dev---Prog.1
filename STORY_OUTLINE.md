@@ -17,7 +17,11 @@
 The dungeon is a wound in reality — the second tear. The first was caused by the empire centuries ago. The second, more recent, widened it further. Reality now bleeds worse than before. The world above is deteriorating — plagues, nightmares, disappearances, monsters pushing further into settled lands. The dungeon is where the bleeding is worst.
 
 ### The Artifact & The Old Empire
-The Apex continent sits in the east of the world — a massive landmass that was once the heart of a powerful empire. The empire's sorcerers practiced dark arts openly, funded by imperial wealth. They built an artifact designed to pierce the veil between realities, to draw power from whatever exists on the other side.
+Before the scar, this continent was ruled by a wealthy empire — powerful, decadent, and rotten at its core. The empire's sorcerers practiced dark arts openly, funded by imperial gold. They believed they could harness the spaces between realities for power.
+
+They built an artifact. Its true name is lost (or forbidden). People call it different things — the Keystone, the Breach-Heart, the Hollow Crown — depending on which fragmented history they remember. It was designed to pierce the veil between worlds, to let the sorcerers draw power from whatever exists on the other side.
+
+The Apex continent sits in the east of the world — a massive landmass that was once the heart of this empire.
 
 They performed a rite with it. The greatest sorcerers of the empire activated the artifact at the site where the dungeon now sits. Something answered. Something came through. The rite didn't just open a door — it TORE reality. This was the **first tear.**
 
