@@ -154,7 +154,7 @@ func _build_roster() -> void:
 	eleanor.class_name_key = "Inquisitor"
 	eleanor.age = 41
 	eleanor.personality = "Jaded, dutiful, quietly losing faith"
-	eleanor.backstory = "Sent by the church to apprehend a supposedly blasphemous revolutionary leader rumored to have traveled to the dungeon searching for something. It's a straightforward mission — find the heretic, bring them back. But Eleanor has seen how the church abuses its power. She's watched them silence dissent and call it holiness. She doesn't see herself as a pawn... but the thought creeps in. And with every prayer that goes unanswered, the thought gets louder: what if her god is false?"
+	eleanor.backstory = "An Inquisitor of the Order of Retribution — a hallowed branch of the Church of the Vestibule. The church operates a theocracy in the nation of Golgatha, west of the Apex continent. She was sent to apprehend a supposedly blasphemous revolutionary leader rumored to have traveled to the dungeon searching for something. It's a straightforward mission — find the heretic, bring them back. But Eleanor has seen how the church abuses its power. She's watched them silence dissent and call it holiness. She doesn't see herself as a pawn... but the thought creeps in. And with every prayer that goes unanswered, the thought gets louder: what if her god is false?"
 	eleanor.motivation = "Complete her mission (while questioning everything it stands for)"
 	eleanor.fear = "That her god is false and her entire life has been in service to a lie"
 	eleanor.known_connection = "garrett"
