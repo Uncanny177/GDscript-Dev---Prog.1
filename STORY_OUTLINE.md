@@ -14,30 +14,43 @@
 ## THE OVERARCHING STORY
 
 ### The Scar
-The dungeon is a wound in reality. Nobody knows what caused it — a failed ritual, a dying god, a collision of realities — but something TORE, and this place is what poured through the gap. It's not a building. It's not alive. It's a scar, and like a scar, it grows wrong.
-
-The world above is getting worse. The plague is spreading. People are disappearing. Reality feels thin — walls breathe when you're not looking, shadows move against the light. The dungeon is the source. Or maybe it's the symptom. Nobody knows.
+The dungeon is a wound in reality — the second tear. The first was caused by the empire centuries ago. The second, more recent, widened it further. Reality now bleeds worse than before. The world above is deteriorating — plagues, nightmares, disappearances, monsters pushing further into settled lands. The dungeon is where the bleeding is worst.
 
 ### The Artifact & The Old Empire
-Before the scar, this continent was ruled by a wealthy empire — powerful, decadent, and rotten at its core. The empire's sorcerers practiced dark arts openly, funded by imperial gold. They believed they could harness the spaces between realities for power.
+The Apex continent sits in the east of the world — a massive landmass that was once the heart of a powerful empire. The empire's sorcerers practiced dark arts openly, funded by imperial wealth. They built an artifact designed to pierce the veil between realities, to draw power from whatever exists on the other side.
 
-They built an artifact. Its true name is lost (or forbidden). People call it different things — the Keystone, the Breach-Heart, the Hollow Crown — depending on which fragmented history they remember. It was designed to pierce the veil between worlds, to let the sorcerers draw power from whatever exists on the other side.
+They performed a rite with it. The greatest sorcerers of the empire activated the artifact at the site where the dungeon now sits. Something answered. Something came through. The rite didn't just open a door — it TORE reality. This was the **first tear.**
 
-They performed a rite with it. The greatest sorcerers of the empire, in their arrogance, activated the artifact at the site where the dungeon now sits. Something answered. Something came through. The rite didn't just open a door — it SHATTERED the boundary. The empire collapsed. The continent fractured. Reality itself tore open.
+The empire collapsed. The continent fractured. Demons and monsters poured through and overran the cities and wilderness. The empire's domain once stretched beyond the Apex continent to surrounding landmasses, but in the collapse, most of those territories fell too.
 
-The artifact is still down there. At the bottom. Maybe it's still active — holding the wound open. Maybe it's the only thing that can close it. Maybe it's changed into something else entirely after centuries soaking in the scar.
+**The Apex continent now:**
+- Ruined cities from the old empire scattered everywhere
+- Wilderness overrun with demons and monsters
+- Other nations still maintain strongholds and cities on the continent, but they require heavy defense and massive resources to keep safe
+- A multinational **cold war** is underway — different nations are vying for control of the Apex continent and its riches/secrets
+- The artifact, the old empire's knowledge, the dungeon's secrets — these are what they're all after
+- Spies, mercenaries, scholars, and soldiers from multiple nations operate on the continent
 
-**Who's searching for it:**
+**The second tear:**
+Someone — recently — performed another rite that widened the original scar further. Reality is bleeding worse than it has in centuries. The town appeared (or became findable) after this second event. The dungeon, which had been dormant or at least stable, is now active and growing again.
+
+Who opened the second tear is one of the central mysteries. It may have been:
+- A nation's black ops team trying to weaponize the scar
+- A cult attempting to bring back the old empire's power
+- An accident by a scholar who didn't understand what they were doing
+- One of the 13 characters (knowingly or unknowingly)
+
+**Who's searching for the artifact:**
 - Sera: Knows about it from forbidden texts. The artifact IS her real target (not just "knowledge").
 - Valdris: Believes it can grant power over death itself.
-- Finch: Helped perform a LESSER rite that widened the scar further. Knows the artifact exists. Wants to undo what was done.
-- Silas: Heard rumors of an imperial relic worth kingdoms. Doesn't understand what it really is.
-- Others may learn about it during the descent.
+- Silas: Heard the dungeon contains ancient alchemical knowledge (doesn't know about the artifact specifically).
+- Multiple nations: Would kill to control it. Some characters may be agents without knowing it.
 
 **The question:** If you find it, what do you DO with it?
 - Destroy it (might seal the scar — or tear it wider)
 - Use it (become like the old sorcerers — power at any cost)
 - Return it to a god (which one? They all want it)
+- Give it to a nation (start a new empire? End the cold war? Make it worse?)
 - Leave it alone (the scar stays, but so does the status quo)
 
 ### The Town (Hub)
