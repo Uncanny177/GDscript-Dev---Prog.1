@@ -101,7 +101,9 @@ static func _get_growth_rates(class_name_text: String) -> Dictionary:
 			return {"hp": 10, "mp": 4, "atk": 2, "def": 3, "mag": 2, "res": 2, "spd": 0}
 		"Archer":
 			return {"hp": 6, "mp": 3, "atk": 3, "def": 1, "mag": 0, "res": 1, "spd": 3}
-		"Necromancer":
-			return {"hp": 4, "mp": 9, "atk": 0, "def": 0, "mag": 4, "res": 3, "spd": 1}
+		"Grimwalker":
+			return {"hp": 6, "mp": 7, "atk": 1, "def": 1, "mag": 4, "res": 3, "spd": 1}
+		"Dancer":
+			return {"hp": 6, "mp": 4, "atk": 2, "def": 2, "mag": 3, "res": 2, "spd": 3}
 		_:
 			return {"hp": 5, "mp": 3, "atk": 2, "def": 2, "mag": 2, "res": 2, "spd": 1}

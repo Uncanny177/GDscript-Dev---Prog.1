@@ -34,6 +34,12 @@ The empire collapsed. The continent fractured. Demons and monsters poured throug
 - A multinational **cold war** is underway — different nations are vying for control of the Apex continent and its riches/secrets
 - The artifact, the old empire's knowledge, the dungeon's secrets — these are what they're all after
 - Spies, mercenaries, scholars, and soldiers from multiple nations operate on the continent
+- **Golgatha** — a theocratic nation to the west, ruled by the **Church of the Vestibule** — is one of these powers. Its **Order of Retribution** deploys Inquisitors (like Eleanor) to hunt heretics and recover the continent's secrets
+- **Illsayad** — a nation to the southwest, home to the coastal city of **Calcifur**. A place of stark wealth and poverty where the slave trade runs openly and **Merchant Lords** hold real power. Dagger was born (and abandoned) here
+- **The Nation of Opportunity** — a realm to the north, across a short sea, with its capital at **Romera**. Torn by revolution: a rebel force led by a **Queen** rises against the ruling Council. Garrett fled here after being framed for treason, and now serves the Queen
+- **The College of Insight** — a scholarly order that rules an archipelago of islands to the **east** and prizes knowledge above all. Its seat is the **White Tower**. The Order of Retribution recently razed the College hunting information about the dungeon — Sera survived and fled to Apex
+- **The Grimwalkers** — a reclusive order of dark priests *native to the Apex continent*, dwelling in the ruins of the **old empire's fallen capital** (south of the dungeon). Reputed to be the most powerful **ether** users alive, practicing the most forbidden magics; few survive their training. They are rumored to sacrifice children to *something* in the dungeon. Valdris is a Grimwalker who failed his ascension and faked his death to escape
+- **The Nation of Ameer** — a realm on the **Eastern continent**, northeast of the dungeon, with its capital at **Lenoire**. Its royal family was wiped out in an unsolved assassination plot; unknown hardliners now hold the capital while a council of surviving Lords backs Kira — the widowed queen and mother of the last heir — from hiding
 
 **The second tear:**
 Someone — recently — performed another rite that widened the original scar further. Reality is bleeding worse than it has in centuries. The town appeared (or became findable) after this second event. The dungeon, which had been dormant or at least stable, is now active and growing again.
@@ -43,11 +49,13 @@ Who opened the second tear is one of the central mysteries. It may have been:
 - A cult attempting to bring back the old empire's power
 - An accident by a scholar who didn't understand what they were doing
 - One of the 13 characters (knowingly or unknowingly)
+- The blasphemous revolutionary Eleanor was sent to apprehend — what were they really doing down here, and did it widen the scar?
 
 **Who's searching for the artifact:**
-- Sera: Knows about it from forbidden texts. The artifact IS her real target (not just "knowledge").
-- Valdris: Believes it can grant power over death itself.
+- Sera: Fled to Apex after the Order of Retribution razed her College hunting dungeon secrets. She's chasing whatever they were after — the artifact may be exactly that, and she means to reach it first.
+- Valdris: A Grimwalker who faked his death; came seeking "something" he won't name. Whether it's the artifact, forbidden knowledge, or whatever his order feeds in the dark, he'll do anything to reach it.
 - Silas: Heard the dungeon contains ancient alchemical knowledge (doesn't know about the artifact specifically).
+- Dagger: Needs it as ransom — a Calcifur Merchant Lord will only free his friend Mycella in exchange for it. He doesn't care what it does, only what it buys.
 - Multiple nations: Would kill to control it. Some characters may be agents without knowing it.
 
 **The question:** If you find it, what do you DO with it?
@@ -85,12 +93,54 @@ People in the town:
 - Two characters who remember the same event completely differently
 - Someone who insists they died already and this is what comes after
 - NPCs who seem to flicker — like they're not always fully HERE
+- An exiled queen (Kira) certain the missing princess Garrett hunts is her own infant child — though the girl is older, and from a nation across the world
 
 This creates paranoia: can you trust what anyone tells you? Can you trust your OWN memories? As sanity drops, the player gets unreliable information. The game itself might lie to you.
 
 ---
 
 ## Characters (13 total)
+
+- Character # 2: Sera Brighthollow
+- Class: Occultist 
+- Character Backstory: Sera Brighthollow is a Scholor from the white tower. The white Tower to to the east of the dungeon on an island. It is controlled by the college of insight. They control an archapeligo of isalnds to the east and value knowledge above all. She is a prominent scholor from the college who has dedicated her life to the pursuit of knowledge. The college has tasked her with teaching the next generation of mages. She had to flee the college when the order of retribution invaded the college burning the school and killing her students. She fled to the Apex continent. She learned that the order was looking for information at the white tower. Information about the dungeon. She intends to find out what. 
+
+- Character # 3: Dagger
+- Class: Rogue
+- Character Backstory: Dagger grew up in the nation of Illsayad. In the coastal city of Calcifur. Southwest of the dungeon. He grew up in poverty, the son of rich slavers who abandoned him to the city's overpopulated orphanages at birth. They did this because of a scar he had at birth over the right side of his face that looks like a tear from a dagger. It just wouldn't do for the second born son of a rich family to have a deformed child. So he grew up in orphanages and on the streets. Living however he could. He had only one real childhood friend growing up, Mycella, however she ended up being picked up by slavers from the street and now he needs a favor to pay for her freedom. She is currently owned by one of the prominent Merchant lords of the city, and he will not part with her without compensation. Compensation in the form of an ancient artifact rumored to be within the dungeon.
+
+
+- Character # 4: Eleanor Ashville
+- Class: Inquisitor 
+- Character Backstory: An Inquisitor of the Order of Retribution — a hallowed branch of the Church of the Vestibule. The church operates a theocracy in the nation of Golgatha, west of the Apex continent. She was sent to apprehend a supposedly blasphemous revolutionary leader rumored to have traveled to the dungeon searching for something. It's a straightforward mission — find the heretic, bring them back. But Eleanor has seen how the church abuses its power. She's watched them silence dissent and call it holiness. She doesn't see herself as a pawn... but the thought creeps in. And with every prayer that goes unanswered, the thought gets louder: what if her god is false?"
+
+- Character # 5: Wren
+- class: Demon Hunter
+- Character Backstory: A demon killed his wife. She was a scholar researching a cure for the plague sweeping the region — found references to a forbidden rite supposedly used to cure disease in ancient times. She performed the rite. Something went wrong. A demon answered instead of a cure, tormented her, and ultimately killed her. Wren tracked the thing here. The nightmares started after — visions of it wearing her face, mocking him from the dark. He doesn't sleep anymore. He hunts.
+
+- Character # 6: Valdris
+- Class: Grimwalker
+- Character Backstory: Valdris was actually born on the Apex continent to the south of the dungeon. He was born into a reclusive enclave of dark priests that live on the apex continent itself.  The reclusive Grimwalker live in the ruins of the capital of the old empire. Grimwalkers are legendary across the world for being the most powerful ether users. Valdris was subjugated to intense torture like training to get where he is today. He is an expert in blood magic and necromancy. Grimwalkers  practce the most forbidden and reclusive types of magic. However few live to adulthood. Valdris himself has failed his graduation into the order. He was tasked with severing his humanity in order to complete his training. He is mentally unstable from his tramatic upbringing. However he seems detatched and calm. He is willing to do anything for knowledge. The dark priests have been rumored to have been sacrificing children to something in the dungeon. Valdris now thought to be dead by the other dark priests. Has faked his death after his failure to ascend to become a true Grimwalker. Ha come to the Dungeon in search of... Something...
+
+- Character # 7: Kira Ozan
+- Class: Dancer
+- Character Backstory: Kira was born North-east of the dungeon to a noble family in the city of Lenoire, capital of the Nation of Ameer on the Eastern continent. She was living in the royal caital all of her life. Her father was the monarch of coin within the palace. The monarch of coin directley serves the King of Ameer on his council. She grew up with the prince of Ameer, first in line to the throne. Eventually they grew close and were set to be bethroved. She was to be the new queen. However the prince, the king and the queen were all assisinated in an unresolved plot. Kira was whisked away in the night by her supporters. She ended up pregnant with the Princes child shortley after marriage.  She gave birth to the only remaining member of the royal family other than herself by marriage and has been set up as Queen by a council of the remaining Lords of Ameer. However unknown hardliners control the capital now. She is in hiding from enemies she thinks she doesn't even know. She woke up here, and is eager to get back to serve her nation and be with her child. 
+
+- Character # 8: Moth
+- Class: Summoner
+- Character backstory: Moth doesn't know why she's here. Not really. She hears voices — has since childhood — and they led her to this place. She followed because what else do you do when something speaks directly into your mind? Someone or something wants to use her as a vessel, a conduit to summon something back into this reality. She doesn't understand this yet. She just knows the voices are louder here, and they seem pleased she came.
+
+- Character # 10: Silas Crane
+- Class: Alchemist
+- Character Backstory: Started as a battlefield medic whose tinctures actually worked — too well. His superiors noticed. They pulled him off the field and put him in a lab. What started as healing became something else: stimulants that burned soldiers out from the inside, gases that choked entire battalions. He made those things. He told himself it was duty. After the war, he couldn't look at his own hands without seeing what they'd done. The plague gave him purpose again — a chance to use his knowledge to SAVE instead of destroy. He heard that ancient alchemical knowledge in the dungeon might hold the key to a cure.
+
+- Character # 12: Finch
+- Class: Psion
+- Character Backstory: A test subject from a government shadow program designed to create controllable super-soldiers. They awakened psionic powers in her through years of experimentation. When her abilities surged out of control, she killed everyone — the other subjects, the scientists, the guards. All of them. She didn't mean to. She was 16. Now she's running, hiding in a place so broken that even a government's reach can't follow. The dungeon's interference masks her psychic signature. She's safe here. Safer than anywhere else.
+
+- Character # 13: Garrett Stone
+- Class: Knight
+- Character Backstory: A disgraced Kingsguard who had to flee the Capital of Romera. Within the nation of Opportunity to the North, across a short sea from the dungeon. He was wrongly blamed for treason. The Council plotted against him because he would not agree with helping them in their schemes. However Garrett was not entirely blameless, he did in fact grow too ambitious for his already elevated position. While he never did the treason he was blamed for. He regrets letting power blind him. He fears how he acted in the past. He wonders if he truly is repentant or if he feels this way only because of his current situation. After fleeing the capital he has aligned himself with a rebel force of Revolutionaries. Rebelling against the Nation of Opportunity. He became one of the Queen's closest confidants. He came to the dungeon in search for the princess — the rebel Queen's own daughter — who was kidnapped and is rumored to have been taken to the dungeon. It is unknown who took her and why. Just that a young blond man with pale green eyes was last seen with her. He has vowed to his new queen that he will get her back.
 
 ### Why They're ALL Here
 Each character arrived at the town through the convergence — some on purpose, some by accident. They go INTO the dungeon for personal reasons. But the deeper truth is: the scar called them. It needs people. Broken people, desperate people, curious people, guilty people. Their emotions are fuel for something.
@@ -104,13 +154,19 @@ Whether the scar is sentient, whether the gods are pulling strings, or whether i
 (See character_roster.gd for full profiles, dialogue, and connections)
 
 ### Relationships & Conflicts
-- Sera/Valdris: Academic rivalry, mutual respect, completely different ethics
-- Sera/Kira: Employer/mercenary — Kira's contract is to extract Sera alive
+- Sera/Valdris: Bound by forbidden knowledge. Sera is desperate to learn what Valdris knows — Grimwalker secrets, the deep magic her College (and the Order that razed it) was hunting. Valdris is evasive and elusive, giving nothing away. A one-sided pursuit: her relentless curiosity against his walls.
+- Sera/Eleanor: **Mutual hatred, surfacing gradually.** Eleanor serves the Order of Retribution — the order that burned Sera's College of Insight and murdered her students. Sera hates the Order to her core; Eleanor regards the College's scholars as heretics. They start as personal strangers and don't clock each other right away — the enmity builds over the run as each realizes what the other is. Both are in the starting party, so it's a slow-burning powderkeg from turn one.
+- Sera's drive: Survivor of the White Tower massacre; chasing what the Order sought in the dungeon — part scholarship, part reckoning
+- Dagger: Grew up abandoned on the streets of Calcifur (Illsayad); needs the dungeon's artifact to buy his childhood friend Mycella out of slavery. His whole run is a ransom job — what happens if the artifact is too dangerous to hand over?
 - Marcus/Patch: Served in the same military conflict (different sides? Same side?)
-- Eleanor/Garrett: Same temple order, years apart — Garrett retired before Eleanor joined
-- Finch: Former cultist who helped OPEN the scar — does anyone else know?
-- Moth: Was "called" here — are they a pawn of one of the gods?
-- Wren: Hunting a specific demon tied to Xoth'ra/Yith'ael — is it even in the dungeon?
+- Eleanor's mission: Sent by the Church of the Vestibule (Golgatha) to apprehend a revolutionary heretic who fled into the dungeon — even as her own faith crumbles
+- Garrett's quest: Sworn to the rebel Queen to recover her kidnapped daughter, the princess, rumored dragged into the dungeon. Last seen with her — a young blond man with pale green eyes, identity unknown
+- Kira's plight: The *reluctant* exiled Queen of Ameer — she never chose the crown, the marriage, or (she'll confess in dark moments) even the child; it was all decided for her. Now separated from her infant heir and hunted by hardliners who seized Lenoire, she woke in the town with no memory of arriving. She doesn't want the throne. She wants her baby.
+- **Two royal storylines, linked by the bleed:** Garrett hunts the rebel Queen of *Opportunity's* kidnapped daughter; Kira is the exiled Queen of *Ameer*, torn from her infant heir. Different nations, different children — yet Kira swears the princess Garrett describes looks like *her* child, and their plights rhyme too closely for comfort. Working theory: the scar is bleeding two realities together, and the two lost children may be echoes of the same one. Keep it ambiguous — cosmic truth, or a grieving mother's fraying mind reaching for her baby?
+- Wren/Silas: Both bound to the plague — Wren's wife died performing a rite seeking a cure; Silas hunts alchemical knowledge to cure the same plague (do they ever realize the connection?)
+- Finch: An escaped government test subject — a psion who lost control and killed everyone in the program at 16. The dungeon masks her from her hunters. Does anyone suspect what she really is?
+- Moth: "Called" here by voices she's heard since childhood — something wants to use her as a vessel to summon itself back into reality. She doesn't understand this yet.
+- Wren: Hunting the specific demon that killed his wife — is it really down here, or is his grief (and the nightmares) leading him nowhere?
 
 ---
 
@@ -172,9 +228,15 @@ Every enemy is a puzzle, not cannon fodder. First encounter is dangerous. Once y
 5. Can the scar be healed, or only managed?
 6. Is permadeath REAL death, or do the dead go somewhere else?
 7. Who built the safe zones? (And why do the gods respect them?)
-8. What does Moth hear in their dreams?
-9. What did Finch help open, exactly?
+8. Who speaks to Moth — and what do they intend to summon through her?
+9. Can Finch control her power before it kills the party — and can her government hunters reach her here?
 10. Is the demon Wren hunts a real entity, or a manifestation of his grief?
+11. Is the plague ravaging the world tied to the scar — and can it actually be cured?
+12. Who took the princess (the rebel Queen's daughter) into the dungeon — and who is the young blond man with pale green eyes last seen with her?
+13. What have the Grimwalkers been sacrificing children to in the dungeon — and is it the scar, one of the gods, or the thing at the bottom?
+14. Who assassinated the royal family of Ameer — and are the hardliners who seized Lenoire connected to the dungeon, or to how Kira woke up here?
+15. Are Garrett's lost princess and Kira's lost child echoes of the same soul across bleeding realities — or is it just grief and a fraying mind?
+    - *Payoff planned (stubbed in banter_system.gd, dormant):* once the princess is a real in-game entity and is recovered, a branch fires — she either recognizes Kira ("Mother") or sees a stranger. Requires flags `kira_garrett_bleed` + `princess_found` (+ `princess_knows_kira` for the recognition branch). Keep the outcome ambiguous either way — recognition shouldn't hard-confirm the bleed; a terrified child clings to any kind face.
 
 ---
 

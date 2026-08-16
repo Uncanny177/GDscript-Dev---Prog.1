@@ -23,15 +23,15 @@ func _ready() -> void:
 	_create_rogue()
 	_create_inquisitor()
 	_create_demon_hunter()
-	_create_necromancer()
+	_create_grimwalker()
 	_create_occultist()
-	_create_blood_mage()
 	_create_summoner()
 	_create_engineer()
 	_create_alchemist()
 	_create_monk()
 	_create_psion()
 	_create_knight()
+	_create_dancer()
 	print("[ClassDatabase] Loaded %d classes" % classes.size())
 
 
@@ -281,20 +281,22 @@ func _create_demon_hunter() -> void:
 	classes["Demon Hunter"] = demon_hunter
 
 
-func _create_necromancer() -> void:
-	## NECROMANCER — Dark magic caster. High MAG, debuffs enemies.
-	## Role: Deals magic damage and weakens enemies with status effects.
+func _create_grimwalker() -> void:
+	## GRIMWALKER — Forbidden hybrid of necromancy and blood magic.
+	## Merges the former Necromancer and Blood Mage classes. Casts dark magic
+	## with MP, then bleeds HP for burst power when the mana runs dry.
+	## Role: Elite high-MAG dark caster with flexible MP/HP resources.
 	
 	var stats := StatBlock.new()
-	stats.max_hp = 75
-	stats.max_mp = 65
-	stats.atk = 5
-	stats.def_stat = 6
+	stats.max_hp = 100
+	stats.max_mp = 50
+	stats.atk = 6
+	stats.def_stat = 7
 	stats.mag = 22
-	stats.res_stat = 16
-	stats.spd = 9
+	stats.res_stat = 15
+	stats.spd = 10
 	
-	# Necromancer skills
+	# ── Necromancy (MP-based dark magic) ──
 	var shadow_bolt := SkillData.new()
 	shadow_bolt.skill_name = "Shadow Bolt"
 	shadow_bolt.description = "A bolt of dark energy strikes one enemy."
@@ -322,24 +324,35 @@ func _create_necromancer() -> void:
 	drain_life.power_multiplier = 1.3
 	drain_life.element = "dark"
 	
-	var soul_fire := SkillData.new()
-	soul_fire.skill_name = "Soul Fire"
-	soul_fire.description = "Burns all enemies with ghostly flames."
-	soul_fire.mp_cost = 15
-	soul_fire.target_type = SkillData.TargetType.ALL_ENEMIES
-	soul_fire.damage_type = SkillData.DamageType.MAGICAL
-	soul_fire.power_multiplier = 1.2
-	soul_fire.element = "dark"
-	soul_fire.status_on_hit = {"type": StatusEffect.Type.BURN, "duration": 2, "potency": 8, "chance": 60}
+	# ── Blood magic (HP-cost burst, used when MP is spent) ──
+	var blood_lance := SkillData.new()
+	blood_lance.skill_name = "Blood Lance"
+	blood_lance.description = "Crystallize your blood into a piercing lance. Costs HP."
+	blood_lance.mp_cost = 0
+	blood_lance.hp_cost = 15
+	blood_lance.target_type = SkillData.TargetType.SINGLE_ENEMY
+	blood_lance.damage_type = SkillData.DamageType.MAGICAL
+	blood_lance.power_multiplier = 2.0
+	blood_lance.element = "dark"
 	
-	var necromancer := ClassData.new()
-	necromancer.class_name_text = "Necromancer"
-	necromancer.description = "A dark mage who drains life and curses foes."
-	necromancer.base_stats = stats
-	necromancer.skills = [shadow_bolt, curse, drain_life, soul_fire]
-	necromancer.sprite_color = Color(0.4, 0.1, 0.5)  # Dark purple
+	var crimson_wave := SkillData.new()
+	crimson_wave.skill_name = "Crimson Wave"
+	crimson_wave.description = "Spray blood-fire across all enemies. Costs HP."
+	crimson_wave.mp_cost = 0
+	crimson_wave.hp_cost = 25
+	crimson_wave.target_type = SkillData.TargetType.ALL_ENEMIES
+	crimson_wave.damage_type = SkillData.DamageType.MAGICAL
+	crimson_wave.power_multiplier = 1.5
+	crimson_wave.element = "fire"
 	
-	classes["Necromancer"] = necromancer
+	var grimwalker := ClassData.new()
+	grimwalker.class_name_text = "Grimwalker"
+	grimwalker.description = "A dark priest who fuses necromancy and blood magic — casting with mana, then with lifeblood when the mana fails."
+	grimwalker.base_stats = stats
+	grimwalker.skills = [shadow_bolt, curse, drain_life, blood_lance, crimson_wave]
+	grimwalker.sprite_color = Color(0.5, 0.05, 0.3)  # Crimson-violet
+	
+	classes["Grimwalker"] = grimwalker
 
 
 func _create_occultist() -> void:
@@ -389,58 +402,6 @@ func _create_occultist() -> void:
 	occultist.sprite_color = Color(0.3, 0.0, 0.4)  # Deep violet
 	
 	classes["Occultist"] = occultist
-
-
-func _create_blood_mage() -> void:
-	## BLOOD MAGE — Spells cost HP instead of MP. High power, self-destructive.
-	## Role: Burst damage dealer who sacrifices health. Synergizes with healers.
-	
-	var stats := StatBlock.new()
-	stats.max_hp = 110
-	stats.max_mp = 20
-	stats.atk = 8
-	stats.def_stat = 8
-	stats.mag = 18
-	stats.res_stat = 10
-	stats.spd = 11
-	
-	var blood_lance := SkillData.new()
-	blood_lance.skill_name = "Blood Lance"
-	blood_lance.description = "Crystallize your blood into a piercing lance. Costs HP."
-	blood_lance.mp_cost = 0
-	blood_lance.hp_cost = 15
-	blood_lance.target_type = SkillData.TargetType.SINGLE_ENEMY
-	blood_lance.damage_type = SkillData.DamageType.MAGICAL
-	blood_lance.power_multiplier = 2.0
-	blood_lance.element = "dark"
-	
-	var crimson_wave := SkillData.new()
-	crimson_wave.skill_name = "Crimson Wave"
-	crimson_wave.description = "Spray blood-fire across all enemies. Costs HP."
-	crimson_wave.mp_cost = 0
-	crimson_wave.hp_cost = 25
-	crimson_wave.target_type = SkillData.TargetType.ALL_ENEMIES
-	crimson_wave.damage_type = SkillData.DamageType.MAGICAL
-	crimson_wave.power_multiplier = 1.5
-	crimson_wave.element = "fire"
-	
-	var life_tap := SkillData.new()
-	life_tap.skill_name = "Life Tap"
-	life_tap.description = "Convert HP to MP for the party."
-	life_tap.mp_cost = 0
-	life_tap.hp_cost = 20
-	life_tap.target_type = SkillData.TargetType.ALL_ALLIES
-	life_tap.damage_type = SkillData.DamageType.HEALING
-	life_tap.power_multiplier = 1.0
-	
-	var blood_mage := ClassData.new()
-	blood_mage.class_name_text = "Blood Mage"
-	blood_mage.description = "Fuels devastating magic with their own lifeforce. Power demands sacrifice."
-	blood_mage.base_stats = stats
-	blood_mage.skills = [blood_lance, crimson_wave, life_tap]
-	blood_mage.sprite_color = Color(0.6, 0.0, 0.0)  # Dark red
-	
-	classes["Blood Mage"] = blood_mage
 
 
 func _create_summoner() -> void:
@@ -725,3 +686,61 @@ func _create_knight() -> void:
 	knight.sprite_color = Color(0.5, 0.5, 0.6)  # Steel grey
 	
 	classes["Knight"] = knight
+
+
+func _create_dancer() -> void:
+	## DANCER — Graceful support skirmisher. Buffs allies, weakens foes, heals.
+	## Fills the class slot the old Blood Mage vacated. High SPD, courtly and agile.
+	## Role: Force multiplier — rally the party, mesmerize enemies, mend wounds.
+	
+	var stats := StatBlock.new()
+	stats.max_hp = 95
+	stats.max_mp = 45
+	stats.atk = 10
+	stats.def_stat = 9
+	stats.mag = 14
+	stats.res_stat = 12
+	stats.spd = 16
+	
+	var inspiring_waltz := SkillData.new()
+	inspiring_waltz.skill_name = "Inspiring Waltz"
+	inspiring_waltz.description = "A rallying dance that raises all allies' ATK."
+	inspiring_waltz.mp_cost = 12
+	inspiring_waltz.target_type = SkillData.TargetType.ALL_ALLIES
+	inspiring_waltz.damage_type = SkillData.DamageType.NONE
+	inspiring_waltz.power_multiplier = 0.0
+	inspiring_waltz.status_on_hit = {"type": StatusEffect.Type.ATK_UP, "duration": 3, "potency": 25, "chance": 100}
+	
+	var beguiling_dance := SkillData.new()
+	beguiling_dance.skill_name = "Beguiling Dance"
+	beguiling_dance.description = "A mesmerizing sway that lowers all enemies' defense."
+	beguiling_dance.mp_cost = 12
+	beguiling_dance.target_type = SkillData.TargetType.ALL_ENEMIES
+	beguiling_dance.damage_type = SkillData.DamageType.NONE
+	beguiling_dance.power_multiplier = 0.0
+	beguiling_dance.status_on_hit = {"type": StatusEffect.Type.DEF_DOWN, "duration": 3, "potency": 25, "chance": 90}
+	
+	var mending_rhythm := SkillData.new()
+	mending_rhythm.skill_name = "Mending Rhythm"
+	mending_rhythm.description = "A soothing measure that restores an ally's HP."
+	mending_rhythm.mp_cost = 9
+	mending_rhythm.target_type = SkillData.TargetType.SINGLE_ALLY
+	mending_rhythm.damage_type = SkillData.DamageType.HEALING
+	mending_rhythm.power_multiplier = 1.8
+	
+	var cutting_pirouette := SkillData.new()
+	cutting_pirouette.skill_name = "Cutting Pirouette"
+	cutting_pirouette.description = "A whirling blade dance that slashes one enemy."
+	cutting_pirouette.mp_cost = 6
+	cutting_pirouette.target_type = SkillData.TargetType.SINGLE_ENEMY
+	cutting_pirouette.damage_type = SkillData.DamageType.PHYSICAL
+	cutting_pirouette.power_multiplier = 1.5
+	
+	var dancer := ClassData.new()
+	dancer.class_name_text = "Dancer"
+	dancer.description = "A courtly dancer whose every step turns the battle — rallying allies, beguiling foes, and mending wounds."
+	dancer.base_stats = stats
+	dancer.skills = [inspiring_waltz, beguiling_dance, mending_rhythm, cutting_pirouette]
+	dancer.sprite_color = Color(0.9, 0.45, 0.7)  # Rose
+	
+	classes["Dancer"] = dancer

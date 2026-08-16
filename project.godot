@@ -47,6 +47,7 @@ SafeZone="*res://scripts/systems/safe_zone.gd"
 CharacterRoster="*res://scripts/data/character_roster.gd"
 ElderGodPantheon="*res://scripts/data/elder_god_pantheon.gd"
 WeaknessSystem="*res://scripts/systems/weakness_system.gd"
+BanterSystem="*res://scripts/systems/banter_system.gd"
 StatsScreen="*res://scenes/ui/stats_screen.gd"
 
 [display]

@@ -29,6 +29,10 @@ var continue_label: Label = null
 ## The lines of dialogue to display
 var lines: Array = []
 
+## Parallel to `lines`: per-line speaker names for multi-speaker banter.
+## Empty means single-speaker mode (name is set once in start_dialogue).
+var speakers: Array = []
+
 ## Which line we're currently showing
 var current_line: int = 0
 
@@ -111,6 +115,7 @@ func start_dialogue(npc_name: String, dialogue_lines: Array) -> void:
 	## The box takes over input until all lines are dismissed.
 	
 	lines = dialogue_lines
+	speakers = []          # single-speaker mode
 	current_line = 0
 	is_active = true
 	
@@ -119,10 +124,30 @@ func start_dialogue(npc_name: String, dialogue_lines: Array) -> void:
 	panel.show()
 
 
+func start_conversation(entries: Array) -> void:
+	## Show a multi-speaker exchange (party banter). Each entry is a Dictionary
+	## {"speaker": display_name, "text": line}. The name label updates per line.
+	## Pairs with BanterSystem.format_lines(convo).
+	lines = []
+	speakers = []
+	for entry in entries:
+		lines.append(entry.get("text", ""))
+		speakers.append(entry.get("speaker", ""))
+	current_line = 0
+	is_active = true
+	
+	_show_current_line()
+	panel.show()
+
+
 func _show_current_line() -> void:
 	## Display the current line of dialogue.
 	if current_line < lines.size():
 		text_label.text = lines[current_line]
+		
+		# Multi-speaker mode: swap the name label to the current speaker.
+		if current_line < speakers.size() and speakers[current_line] != "":
+			name_label.text = speakers[current_line]
 		
 		# Show "continue" or "close" depending on if there are more lines
 		if current_line < lines.size() - 1:
@@ -169,5 +194,6 @@ func _close() -> void:
 	panel.hide()
 	is_active = false
 	lines = []
+	speakers = []
 	current_line = 0
 	dialogue_finished.emit()

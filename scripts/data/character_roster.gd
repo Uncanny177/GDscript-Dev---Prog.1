@@ -1,4 +1,4 @@
-## CharacterRoster — Defines the 12 unique party members.
+## CharacterRoster — Defines the 13 unique party members.
 ##
 ## Each character has:
 ##   - A fixed personality and backstory
@@ -31,7 +31,7 @@ class CharacterProfile:
 	var dialogue_breaking: Array[String] = []
 
 
-## All 12 characters
+## All 13 characters
 var profiles: Dictionary = {}
 
 ## Recruitment order (which ones you start with vs find later)
@@ -95,29 +95,30 @@ func _build_roster() -> void:
 	]
 	profiles["marcus"] = marcus
 
-	# ─── 2. SERA BRIGHTHOLLOW — The Scholar (Mage) ────────────────
+	# ─── 2. SERA BRIGHTHOLLOW — The Scholar (Occultist) ────────────────
 	var sera := CharacterProfile.new()
 	sera.id = "sera"
 	sera.character_name = "Sera Brighthollow"
 	sera.class_name_key = "Occultist"
 	sera.age = 28
-	sera.personality = "Curious, reckless, brilliant"
-	sera.backstory = "University researcher who found references to this place in forbidden texts. She funded an expedition with stolen grant money. Knowledge is worth any price — she believes that absolutely."
-	sera.motivation = "Forbidden knowledge at any cost"
-	sera.fear = "Ignorance, losing her mind before understanding"
+	sera.personality = "Curious, brilliant, grief-driven"
+	sera.backstory = "A prominent scholar of the White Tower — seat of the College of Insight, which rules an archipelago of islands east of the dungeon and prizes knowledge above all else. Sera devoted her life to study and was entrusted with teaching the next generation of mages. Then the Order of Retribution came: they invaded the College, burned the school, and slaughtered her students. She fled to the Apex continent carrying one burning question — she had learned the Order came hunting information about the dungeon. She means to find out what they wanted, and why it was worth her students' lives."
+	sera.motivation = "Uncover what the Order of Retribution sought in the dungeon — and reckon with what it cost her"
+	sera.fear = "Dying ignorant — and the guilt that she survived when her students did not"
 	sera.known_connection = ""
 	sera.dialogue_healthy = [
-		"\"Fascinating! The architecture here shouldn't be possible.\"",
-		"\"I need to document everything. Hand me that journal.\"",
-		"\"This is exactly what I came for. Isn't it wonderful?\"",
+		"\"Fascinating — the College spent centuries theorizing about places like this. They had no idea.\"",
+		"\"My students should be seeing this, not me. They earned it more than I did.\"",
+		"\"Whatever the Order burned my home to find, it's down here. I'll reach it first.\"",
 	]
 	sera.dialogue_stressed = [
-		"\"The symbols are changing. They weren't like that yesterday.\"",
-		"\"I can almost understand them. Almost. It's maddening.\"",
+		"\"The symbols keep shifting. My own notes contradict each other. I HAVE to understand this.\"",
+		"\"I hear my students sometimes. Reciting their lessons. Then the screaming starts.\"",
 	]
 	sera.dialogue_breaking = [
 		"\"I understand now. I understand EVERYTHING and I wish I didn't.\"",
 		"*Sera writes furiously in her notebook, but the pages are blank.*",
+		"\"I should have burned with them. Scholars don't run. I ran.\"",
 	]
 	profiles["sera"] = sera
 
@@ -128,13 +129,13 @@ func _build_roster() -> void:
 	dagger.class_name_key = "Rogue"
 	dagger.age = 22
 	dagger.personality = "Sarcastic, street-smart, hiding fear with humor"
-	dagger.backstory = "Real name unknown. Grew up on the streets, took a job to steal something from the dungeon's first floor. The door locked behind them. Humor is the only thing keeping the fear at bay."
-	dagger.motivation = "Survival (and maybe the score of a lifetime)"
+	dagger.backstory = "Dagger isn't his real name — it's what the streets called him, after the scar down the right side of his face that looks like a blade's tear. Born the second son of a wealthy slaver family in Calcifur, a coastal city in the nation of Illsayad, southwest of the dungeon. They abandoned him to the city's overcrowded orphanages at birth; a deformed child wouldn't do for a family of their standing. He grew up in those orphanages and on the streets, surviving however he could. His one real friend was a girl named Mycella — until slavers took her too. Now she's owned by one of Calcifur's Merchant Lords, who won't free her for anything less than an ancient artifact rumored to lie deep within the dungeon. So Dagger came to steal it."
+	dagger.motivation = "Buy Mycella's freedom by retrieving the artifact the Merchant Lord demands"
 	dagger.fear = "Being trapped, no escape"
 	dagger.known_connection = ""
 	dagger.dialogue_healthy = [
 		"\"So this is what rock bottom looks like. Literally.\"",
-		"\"If I die here, nobody's gonna miss me. ...That's fine.\"",
+		"\"I'm not doing this for me. Someone's counting on that shiny prize down there.\"",
 		"\"Dibs on anything shiny.\"",
 	]
 	dagger.dialogue_stressed = [
@@ -147,17 +148,17 @@ func _build_roster() -> void:
 	]
 	profiles["dagger"] = dagger
 
-	# ─── 4. ELEANOR ASHVANE — The Inquisitor (Inquisitor) ────────────
+	# ─── 4. ELEANOR ASHVILLE — The Inquisitor (Inquisitor) ────────────
 	var eleanor := CharacterProfile.new()
 	eleanor.id = "eleanor"
-	eleanor.character_name = "Eleanor Ashvane"
+	eleanor.character_name = "Eleanor Ashville"
 	eleanor.class_name_key = "Inquisitor"
-	eleanor.age = 41
+	eleanor.age = 26
 	eleanor.personality = "Jaded, dutiful, quietly losing faith"
 	eleanor.backstory = "An Inquisitor of the Order of Retribution — a hallowed branch of the Church of the Vestibule. The church operates a theocracy in the nation of Golgatha, west of the Apex continent. She was sent to apprehend a supposedly blasphemous revolutionary leader rumored to have traveled to the dungeon searching for something. It's a straightforward mission — find the heretic, bring them back. But Eleanor has seen how the church abuses its power. She's watched them silence dissent and call it holiness. She doesn't see herself as a pawn... but the thought creeps in. And with every prayer that goes unanswered, the thought gets louder: what if her god is false?"
 	eleanor.motivation = "Complete her mission (while questioning everything it stands for)"
 	eleanor.fear = "That her god is false and her entire life has been in service to a lie"
-	eleanor.known_connection = "garrett"
+	eleanor.known_connection = ""
 	eleanor.dialogue_healthy = [
 		"\"I have a job to do. Faith or no faith, I finish what I start.\"",
 		"\"The church sent me. Whether they deserve my loyalty is... another question.\"",
@@ -199,17 +200,17 @@ func _build_roster() -> void:
 	]
 	profiles["wren"] = wren
 
-	# ─── 6. VALDRIS — The Heretic (Necromancer) ───────────────────
+	# ─── 6. VALDRIS — The Grimwalker ───────────────────
 	var valdris := CharacterProfile.new()
 	valdris.id = "valdris"
 	valdris.character_name = "Valdris"
-	valdris.class_name_key = "Necromancer"
+	valdris.class_name_key = "Grimwalker"
 	valdris.age = 55
-	valdris.personality = "Calm, amoral, academically detached"
-	valdris.backstory = "Excommunicated scholar of death magic. He came here because the boundary between life and death is thin in this place. He wants to cross it — and come back."
-	valdris.motivation = "Conquer death itself"
-	valdris.fear = "Dying as a mortal, all research wasted"
-	valdris.known_connection = "sera"  # Knows Sera from academic circles
+	valdris.personality = "Serene on the surface, deeply unstable beneath"
+	valdris.backstory = "Born on the Apex continent, south of the dungeon, into the Grimwalkers — a reclusive enclave of dark priests who dwell in the ruins of the old empire's fallen capital. Grimwalkers are whispered of across the world as the most powerful ether users alive, masters of the most forbidden magics; few survive the training to adulthood. Valdris endured an upbringing closer to torture than tutelage and emerged an expert in blood magic and necromancy — but he failed his final ascension. To become a true Grimwalker he was to sever his own humanity, and he could not. He faked his death and fled; the order believes him gone. His enclave has long been rumored to sacrifice children to something waiting in the dungeon. Valdris appears calm, detached, unshakable — but the trauma runs bone-deep. He will do anything for knowledge. He came to the dungeon searching for... something he will not name."
+	valdris.motivation = "Anything for knowledge — and something in the dungeon he keeps to himself"
+	valdris.fear = "That the humanity he failed to sever will resurface and unmake his composure"
+	valdris.known_connection = "sera"  # Linked by forbidden knowledge: Sera wants what he knows; he stays elusive
 	valdris.dialogue_healthy = [
 		"\"Death is not an ending here. It's barely an inconvenience.\"",
 		"\"The creatures here are fascinating specimens. May I keep one?\"",
@@ -225,33 +226,35 @@ func _build_roster() -> void:
 	]
 	profiles["valdris"] = valdris
 
-	# ─── 7. KIRA OZAN — The Mercenary (Warrior) ───────────────────
+	# ─── 7. KIRA OZAN — The Queen in Exile (Dancer) ───────────────────
 	var kira := CharacterProfile.new()
 	kira.id = "kira"
 	kira.character_name = "Kira Ozan"
-	kira.class_name_key = "Blood Mage"
-	kira.age = 29
-	kira.personality = "Professional, pragmatic, unexpectedly kind"
-	kira.backstory = "Hired to escort the scholar (Sera) into the dungeon. The money was too good to question. Now the client is deeper in and Kira's contract says 'alive extraction.' Professional pride won't let her quit."
-	kira.motivation = "Complete the job (and survive to spend the gold)"
-	kira.fear = "Failing a contract — her reputation is everything"
-	kira.known_connection = "sera"  # Hired by Sera
+	kira.class_name_key = "Dancer"
+	kira.age = 24
+	kira.personality = "Reluctant and dutiful — grace worn like armor over a life she never chose"
+	kira.backstory = "Born to nobility in Lenoire, capital of the Nation of Ameer on the Eastern continent, northeast of the dungeon. Her father served as the King's Monarch of Coin, and Kira grew up alongside the crown prince. Nothing about her life was ever hers to choose: the betrothal was arranged, the crown was simply assumed, and even the child she would bear was expected of her long before anyone thought to ask. Then the king, the queen, and her new husband were all murdered in a plot no one has unraveled. Loyalists spirited her away in the night — carrying, though she didn't yet know it, the prince's child. She bore the last of Ameer's royal blood and was crowned queen by a council of surviving Lords, even as unknown hardliners seized the capital. She never wanted the throne. She wants her child. Then she woke, inexplicably, here — and every hour away from her baby is agony."
+	kira.motivation = "Get back to her child — the throne is a burden she never wanted"
+	kira.fear = "That her child's fate, like everything else, will be decided without her — and she'll be powerless to stop it"
+	kira.known_connection = ""  # Woke here alone; no prior tie to the party
 	kira.dialogue_healthy = [
-		"\"I'm getting paid for this. That's what I keep telling myself.\"",
-		"\"Stay behind me. I didn't survive three wars to die in a hole.\"",
-		"\"The scholar better have my gold ready when we get out.\"",
+		"\"I have a child waiting for me. That is reason enough to survive this place.\"",
+		"\"They crowned me. They never once asked if I wanted it. I only want my child back.\"",
+		"\"Stay close. I have lost one family already — I will not lose another.\"",
 	]
 	kira.dialogue_stressed = [
-		"\"No amount of money is worth this. ...But I said I'd finish the job.\"",
-		"\"I've never retreated. I'm not starting now.\"",
+		"\"My child is a world away, and I am trapped HERE. I feel every hour of it.\"",
+		"\"They killed the king, the queen, my husband — and I still do not know who.\"",
+		"\"I keep seeing my child's face in the dark down here. That... cannot be right.\"",
 	]
 	kira.dialogue_breaking = [
-		"\"There's no client to protect anymore. There's nothing to protect.\"",
-		"*Kira grips her sword so tight her knuckles whiten.* \"Just point me at something.\"",
+		"\"Is my child even still alive? Would I know? Would I FEEL it if they weren't?\"",
+		"*Kira clutches a small locket, whispering a lullaby to no one.*",
+		"\"I never chose ANY of this. Not the crown. Not the child. Not this pit. None of it.\"",
 	]
 	profiles["kira"] = kira
 
-	# ─── 8. MOTH — The Occultist (Mage) ──────────────────────────
+	# ─── 8. MOTH — The Occultist (Summoner) ──────────────────────────
 	var moth := CharacterProfile.new()
 	moth.id = "moth"
 	moth.character_name = "Moth"
@@ -387,11 +390,11 @@ func _build_roster() -> void:
 	garrett.character_name = "Garrett Stone"
 	garrett.class_name_key = "Knight"
 	garrett.age = 52
-	garrett.personality = "Honorable, tired, stubbornly protective"
-	garrett.backstory = "A retired royal guard who heard rumors of people disappearing into the dungeon. Came out of retirement because nobody else would. He's too old for this. He knows it. He came anyway."
-	garrett.motivation = "Protect the others (because someone has to)"
-	garrett.fear = "Being too slow to save someone"
-	garrett.known_connection = "eleanor"  # Served in the same temple order years ago
+	garrett.personality = "Honorable but haunted — reformed ambition, quiet self-doubt"
+	garrett.backstory = "A disgraced Kingsguard who fled Romera, capital of the Nation of Opportunity — a realm across a short sea to the north of the dungeon. He was framed for treason by a Council he refused to serve, but he isn't blameless: he'd grown too ambitious for his already elevated station, and though he never betrayed the crown, he despises the man that ambition made him. He wonders, constantly, whether his remorse is genuine or just the shape regret takes when you've lost everything. After fleeing, he threw in with a revolutionary force rising against the Nation of Opportunity and became one of the rebel Queen's closest confidants. He came to the dungeon chasing the kidnapped princess — the rebel Queen's own daughter — rumored to have been dragged down into it. No one knows who took her or why. Only that a young blond man with pale green eyes was the last person seen at her side. Garrett swore to his Queen he would bring her daughter home."
+	garrett.motivation = "Rescue the kidnapped princess and honor his vow to the rebel Queen"
+	garrett.fear = "That his repentance isn't real — that he only regrets his ambition because it cost him everything"
+	garrett.known_connection = ""  # Stranger to the party
 	garrett.dialogue_healthy = [
 		"\"Stay behind me. That's all I ask.\"",
 		"\"I've stood watch at gates for thirty years. This is just... a darker gate.\"",

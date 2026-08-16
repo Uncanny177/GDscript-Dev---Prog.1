@@ -33,9 +33,12 @@ static func get_learnable_skills(class_name_text: String) -> Array[Dictionary]:
 		"Archer":
 			skills.append(_make_skill("archer_cripple", "Crippling Shot", "Slows and weakens enemy DEF.", 5, SkillData.TargetType.SINGLE_ENEMY, SkillData.DamageType.PHYSICAL, 1.0, "none", {"type": StatusEffect.Type.DEF_DOWN, "duration": 3, "potency": 25, "chance": 85}, 8, 3))
 			skills.append(_make_skill("archer_snipe", "Snipe", "Devastating single-target shot.", 8, SkillData.TargetType.SINGLE_ENEMY, SkillData.DamageType.PHYSICAL, 2.2, "none", {}, 12, 5))
-		"Necromancer":
-			skills.append(_make_skill("necro_weaken", "Weaken", "Reduces all enemies' ATK.", 10, SkillData.TargetType.ALL_ENEMIES, SkillData.DamageType.NONE, 0.0, "dark", {"type": StatusEffect.Type.DEF_DOWN, "duration": 2, "potency": 20, "chance": 100}, 10, 4))
-			skills.append(_make_skill("necro_doom", "Doom", "Massive dark damage + burn.", 18, SkillData.TargetType.SINGLE_ENEMY, SkillData.DamageType.MAGICAL, 2.0, "dark", {"type": StatusEffect.Type.BURN, "duration": 3, "potency": 12, "chance": 80}, 16, 7))
+		"Grimwalker":
+			skills.append(_make_skill("grim_weaken", "Weaken", "Reduces all enemies' ATK.", 10, SkillData.TargetType.ALL_ENEMIES, SkillData.DamageType.NONE, 0.0, "dark", {"type": StatusEffect.Type.DEF_DOWN, "duration": 2, "potency": 20, "chance": 100}, 10, 4))
+			skills.append(_make_skill("grim_doom", "Doom", "Massive dark damage + burn.", 18, SkillData.TargetType.SINGLE_ENEMY, SkillData.DamageType.MAGICAL, 2.0, "dark", {"type": StatusEffect.Type.BURN, "duration": 3, "potency": 12, "chance": 80}, 16, 7))
+		"Dancer":
+			skills.append(_make_skill("dancer_lullaby", "Lullaby", "A hypnotic dance that may stun all enemies.", 12, SkillData.TargetType.ALL_ENEMIES, SkillData.DamageType.NONE, 0.0, "none", {"type": StatusEffect.Type.STUN, "duration": 1, "potency": 0, "chance": 50}, 12, 5))
+			skills.append(_make_skill("dancer_ovation", "Ovation", "An uplifting finale granting all allies regeneration.", 14, SkillData.TargetType.ALL_ALLIES, SkillData.DamageType.NONE, 0.0, "none", {"type": StatusEffect.Type.REGEN, "duration": 3, "potency": 12, "chance": 100}, 14, 6))
 	
 	return skills
 
