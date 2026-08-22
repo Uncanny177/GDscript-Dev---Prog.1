@@ -5,13 +5,66 @@ Record bugs, regressions, and fixes here. Check error_screenshots/ for visual ev
 ## Workflow
 When you fix an issue, add a short entry with: Date, Area, Problem, Fix, Status, Notes.
 
----
+
 
 ## Open Issues
 - Untested: Tasks 9-32 not fully tested in Godot 4.7 (built from code, needs runtime verification)
 - Screenshots pending from home machine testing session
 
 ## Bailey Here 
+
+- 8-21-26: More errors Here's a list of about 8. 
+
+W 0:00:00:982   GDScript::reload: The local variable "name" is shadowing an already-declared property in the base class "Node".
+  <GDScript Error>SHADOWED_VARIABLE_BASE_CLASS
+  <GDScript Source>permadeath_system.gd:142 @ GDScript::reload()
+
+  var name: String = character.character_name
+
+W 0:00:00:982   GDScript::reload: The local "for" iterator variable "name" is shadowing an already-declared property in the base class "Node".
+  <GDScript Error>SHADOWED_VARIABLE_BASE_CLASS
+  <GDScript Source>permadeath_system.gd:167 @ GDScript::reload()
+
+  for name in graveyard:
+
+W 0:00:00:982   GDScript::reload: Integer used when an enum value is expected. If this is intended, cast the integer to the enum type using the "as" keyword.
+  <GDScript Error>INT_AS_ENUM_WITHOUT_CAST
+  <GDScript Source>permadeath_system.gd:183 @ GDScript::reload()
+
+  	current_mode = int(data.get("mode", Mode.DISABLED))
+
+W 0:00:00:982   GDScript::reload: The local "for" iterator variable "name" is shadowing an already-declared property in the base class "Node".
+  <GDScript Error>SHADOWED_VARIABLE_BASE_CLASS
+  <GDScript Source>permadeath_system.gd:185 @ GDScript::reload()
+
+  for name in data.get("graveyard", []):
+
+W 0:00:00:982   GDScript::reload: The local "for" iterator variable "name" is shadowing an already-declared property in the base class "Node".
+  <GDScript Error>SHADOWED_VARIABLE_BASE_CLASS
+  <GDScript Source>permadeath_system.gd:189 @ GDScript::reload()
+
+  for name in data.get("benched", []):
+
+W 0:00:01:156   GDScript::reload: Integer division. Decimal part will be discarded.
+  <GDScript Error>INTEGER_DIVISION
+  <GDScript Source>settings_menu.gd:232 @ GDScript::reload()
+
+  var window_pos: Vector2i = (screen_size - res) / 2
+
+W 0:00:01:228   GDScript::reload: The local variable "is_visible" is shadowing an already-declared method in the base class "CanvasLayer".
+  <GDScript Error>SHADOWED_VARIABLE_BASE_CLASS
+  <GDScript Source>tooltip.gd:16 @ GDScript::reload()
+
+  var is_visible: bool = false
+
+E 0:00:01:450   restore_learned_skills_from_save: Invalid access to property or key 'unlocks' on a base object of type 'Node (unlocks_manager.gd)'.
+  <GDScript Source>skill_tree.gd:65 @ restore_learned_skills_from_save()
+  <Stack Trace> skill_tree.gd:65 @ restore_learned_skills_from_save()
+                save_manager.gd:80 @ load_meta()
+                game_manager.gd:70 @ _ready()
+
+  var learned: Array = UnlocksManager.unlocks.get("learned_skills", [])
+
 - Got some errors for ya here. it's a couple so imma copy the error log and right below it put the line in the program.
  W 0:00:00:807   GDScript::reload: The local variable "name" is shadowing an already-declared property in the base class "Node".
   <GDScript Error>SHADOWED_VARIABLE_BASE_CLASS
