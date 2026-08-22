@@ -9,7 +9,7 @@ extends CanvasLayer
 
 var turn_order: Array = []  # Array of Combatant (set by combat.gd)
 var current_index: int = 0
-var is_visible: bool = true
+var display_visible: bool = true
 
 var draw_node: Control = null
 
@@ -47,6 +47,6 @@ func update_order(order: Array, active_index: int) -> void:
 
 
 func set_display_visible(visible: bool) -> void:
-	is_visible = visible
+	display_visible = visible
 	if draw_node:
 		draw_node.visible = visible

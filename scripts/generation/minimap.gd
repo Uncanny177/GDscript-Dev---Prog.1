@@ -8,7 +8,7 @@
 
 extends CanvasLayer
 
-var is_visible: bool = true
+var minimap_visible: bool = true
 var generator: FloorGenerator = null
 var player_node: Node2D = null
 
@@ -65,7 +65,7 @@ var _last_draw_tile: Vector2i = Vector2i(-1, -1)
 
 func _process(_delta: float) -> void:
 	## Refresh minimap only when player moves to a new tile.
-	if not is_visible or not draw_node or not player_node:
+	if not minimap_visible or not draw_node or not player_node:
 		return
 	var current_tile := Vector2i(
 		floori(player_node.position.x / 32.0),
@@ -83,5 +83,5 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event.keycode == KEY_TAB:
 		if SettingsMenu.is_active:
 			return
-		is_visible = not is_visible
-		draw_node.visible = is_visible
+		minimap_visible = not minimap_visible
+		draw_node.visible = minimap_visible

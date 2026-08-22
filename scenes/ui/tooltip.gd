@@ -62,7 +62,7 @@ func _process(delta: float) -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	## Any input hides the tooltip.
-	if is_visible and event.is_pressed():
+	if tooltip_visible and event.is_pressed():
 		hide_tooltip()
 
 
