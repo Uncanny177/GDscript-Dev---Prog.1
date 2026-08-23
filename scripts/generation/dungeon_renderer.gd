@@ -5,11 +5,11 @@ extends Node2D
 const TILE_SIZE: int = 32
 
 ## Biome-specific colors (set from dungeon.gd based on floor)
-var floor_color: Color = Color(0.14, 0.12, 0.2)
-var floor_alt_color: Color = Color(0.16, 0.13, 0.22)
-var wall_color: Color = Color(0.3, 0.22, 0.14)
-var wall_top_color: Color = Color(0.36, 0.27, 0.17)
-var wall_dark_color: Color = Color(0.2, 0.14, 0.08)
+var floor_color: Color = Color(0.26, 0.24, 0.32)
+var floor_alt_color: Color = Color(0.30, 0.27, 0.36)
+var wall_color: Color = Color(0.42, 0.36, 0.30)
+var wall_top_color: Color = Color(0.50, 0.43, 0.36)
+var wall_dark_color: Color = Color(0.30, 0.24, 0.18)
 var door_color: Color = Color(0.45, 0.35, 0.2)
 
 var generator: FloorGenerator = null

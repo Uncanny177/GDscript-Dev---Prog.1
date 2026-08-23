@@ -27,11 +27,11 @@ var town_map: Array = []
 
 ## Colors for each tile type — warmer, more vibrant palette
 const COLORS := {
-	Tile.FLOOR: Color(0.25, 0.45, 0.2),     # Rich green (grass)
-	Tile.WALL: Color(0.4, 0.3, 0.18),       # Warm brown (fences/walls)
-	Tile.BUILDING: Color(0.35, 0.32, 0.38), # Cool gray (stone buildings)
-	Tile.PATH: Color(0.5, 0.42, 0.3),       # Sandy tan (dirt path)
-	Tile.DOOR: Color(0.55, 0.35, 0.15),     # Orange-brown (wooden doors)
+	Tile.FLOOR: Color(0.38, 0.62, 0.32),    # Brighter grass green
+	Tile.WALL: Color(0.55, 0.42, 0.26),     # Warm brown (fences/walls)
+	Tile.BUILDING: Color(0.52, 0.48, 0.56), # Lighter stone gray
+	Tile.PATH: Color(0.68, 0.58, 0.42),     # Sandy tan (dirt path)
+	Tile.DOOR: Color(0.72, 0.48, 0.22),     # Orange-brown (wooden doors)
 }
 
 

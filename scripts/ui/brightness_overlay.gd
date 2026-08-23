@@ -77,5 +77,5 @@ func set_brightness(value: int) -> void:
 		# Brighten with ADDITIVE blend — adds light instead of a gray film
 		if mat:
 			mat.blend_mode = CanvasItemMaterial.BLEND_MODE_ADD
-		var lightness: float = float(brightness - 100) / 50.0 * 0.25  # subtle add
-		overlay.color = Color(0.5, 0.5, 0.5, clampf(lightness, 0.0, 0.25))
+		var lightness: float = float(brightness - 100) / 50.0 * 0.5  # stronger add
+		overlay.color = Color(0.6, 0.6, 0.6, clampf(lightness, 0.0, 0.5))
