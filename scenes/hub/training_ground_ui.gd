@@ -166,7 +166,7 @@ func _try_learn_skill(index: int) -> void:
 
 func _apply_skill_to_class(class_name_text: String, skill: SkillData) -> void:
 	## Add the skill to the class definition so all characters of that class have it.
-	var class_data: ClassData = ClassDatabase.get_class(class_name_text)
+	var class_data: ClassData = ClassDatabase.get_class_data(class_name_text)
 	if class_data and skill not in class_data.skills:
 		class_data.skills.append(skill)
 
