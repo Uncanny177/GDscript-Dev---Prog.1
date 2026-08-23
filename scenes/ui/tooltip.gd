@@ -21,7 +21,7 @@ const AUTO_HIDE_TIME: float = 5.0  # Hide after 5 seconds if no input
 
 
 func _ready() -> void:
-	layer = 95  # Above most UI, below transition
+	layer = 98  # Tooltips float above all menus, below transitions (100)
 	_build_ui()
 	panel.hide()
 

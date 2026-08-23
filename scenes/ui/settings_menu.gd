@@ -30,20 +30,18 @@ var settings: Dictionary = {
 	"show_damage_numbers": true,
 }
 
-## Available resolution presets (window sizes)
+## Available resolution presets (window sizes) — all 16:9 to match viewport
 const RESOLUTIONS: Array[Vector2i] = [
-	Vector2i(640, 480),    # 1x (native)
-	Vector2i(960, 720),    # 1.5x
-	Vector2i(1280, 960),   # 2x
-	Vector2i(1600, 1200),  # 2.5x
-	Vector2i(1920, 1440),  # 3x
+	Vector2i(1280, 720),   # 720p (native viewport)
+	Vector2i(1600, 900),   # 900p
+	Vector2i(1920, 1080),  # 1080p
+	Vector2i(2560, 1440),  # 1440p
 ]
 const RESOLUTION_NAMES: Array[String] = [
-	"640x480 (1x)",
-	"960x720 (1.5x)",
-	"1280x960 (2x)",
-	"1600x1200 (2.5x)",
-	"1920x1440 (3x)",
+	"1280x720 (720p)",
+	"1600x900 (900p)",
+	"1920x1080 (1080p)",
+	"2560x1440 (1440p)",
 ]
 
 ## Which setting is currently selected (for keyboard navigation)
@@ -61,6 +59,8 @@ const SAVE_PATH: String = "user://settings.json"
 
 
 func _ready() -> void:
+	layer = 95  # Above pause menu (90), below transitions (100)
+	process_mode = Node.PROCESS_MODE_ALWAYS  # Works even when game is paused
 	_build_ui()
 	panel.hide()
 	_load_settings()
@@ -208,8 +208,9 @@ func _percent_to_db(percent: int) -> float:
 
 func _apply_fullscreen() -> void:
 	## Toggle fullscreen mode.
+	## EXCLUSIVE_FULLSCREEN is more reliable than FULLSCREEN across drivers/OSes.
 	if settings["fullscreen"]:
-		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
+		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN)
 	else:
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
 		# When leaving fullscreen, apply the selected resolution

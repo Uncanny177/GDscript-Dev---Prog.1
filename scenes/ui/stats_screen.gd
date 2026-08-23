@@ -12,6 +12,7 @@ var mode: int = 0  # 0 = lifetime, 1 = history
 
 
 func _ready() -> void:
+	layer = 85  # Below pause menu (90) and settings (95)
 	_build_ui()
 	panel.hide()
 
