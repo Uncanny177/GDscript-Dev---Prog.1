@@ -67,24 +67,37 @@ func _ready() -> void:
 
 
 func _build_ui() -> void:
+	# Dark overlay behind the settings panel
+	var overlay := ColorRect.new()
+	overlay.name = "SettingsOverlay"
+	overlay.color = UITheme.make_overlay_style()
+	overlay.anchor_right = 1.0
+	overlay.anchor_bottom = 1.0
+	overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(overlay)
+	
+	# Centered panel (narrower so it doesn't sprawl across the screen)
 	panel = PanelContainer.new()
 	panel.name = "SettingsPanel"
-	panel.anchor_left = 0.1
-	panel.anchor_right = 0.9
-	panel.anchor_top = 0.05
-	panel.anchor_bottom = 0.95
+	panel.anchor_left = 0.28
+	panel.anchor_right = 0.72
+	panel.anchor_top = 0.12
+	panel.anchor_bottom = 0.88
+	UITheme.apply_to(panel)
 	add_child(panel)
 	
 	var margin := MarginContainer.new()
-	margin.add_theme_constant_override("margin_left", 24)
-	margin.add_theme_constant_override("margin_right", 24)
-	margin.add_theme_constant_override("margin_top", 16)
-	margin.add_theme_constant_override("margin_bottom", 16)
+	margin.add_theme_constant_override("margin_left", 28)
+	margin.add_theme_constant_override("margin_right", 28)
+	margin.add_theme_constant_override("margin_top", 22)
+	margin.add_theme_constant_override("margin_bottom", 22)
 	panel.add_child(margin)
 	
 	content_label = Label.new()
 	content_label.name = "ContentLabel"
 	content_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	content_label.add_theme_color_override("font_color", UITheme.TEXT_MAIN)
+	content_label.add_theme_font_size_override("font_size", 18)
 	margin.add_child(content_label)
 	
 	panel.hide()

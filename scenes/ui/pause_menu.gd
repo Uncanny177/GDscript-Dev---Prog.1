@@ -28,7 +28,7 @@ func _build_ui() -> void:
 	# Dark overlay behind the menu
 	overlay = ColorRect.new()
 	overlay.name = "PauseOverlay"
-	overlay.color = Color(0.0, 0.0, 0.0, 0.6)
+	overlay.color = UITheme.make_overlay_style()
 	overlay.anchor_right = 1.0
 	overlay.anchor_bottom = 1.0
 	overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -36,22 +36,25 @@ func _build_ui() -> void:
 	
 	panel = PanelContainer.new()
 	panel.name = "PausePanel"
-	panel.anchor_left = 0.25
-	panel.anchor_right = 0.75
-	panel.anchor_top = 0.2
-	panel.anchor_bottom = 0.8
+	panel.anchor_left = 0.32
+	panel.anchor_right = 0.68
+	panel.anchor_top = 0.25
+	panel.anchor_bottom = 0.75
+	UITheme.apply_to(panel)
 	add_child(panel)
 	
 	var margin := MarginContainer.new()
 	margin.add_theme_constant_override("margin_left", 30)
 	margin.add_theme_constant_override("margin_right", 30)
-	margin.add_theme_constant_override("margin_top", 20)
-	margin.add_theme_constant_override("margin_bottom", 20)
+	margin.add_theme_constant_override("margin_top", 24)
+	margin.add_theme_constant_override("margin_bottom", 24)
 	panel.add_child(margin)
 	
 	content_label = Label.new()
 	content_label.name = "ContentLabel"
 	content_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	content_label.add_theme_color_override("font_color", UITheme.TEXT_MAIN)
+	content_label.add_theme_font_size_override("font_size", 20)
 	margin.add_child(content_label)
 	
 	panel.hide()

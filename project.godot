@@ -21,6 +21,7 @@ config/features=PackedStringArray("4.7", "GL Compatibility")
 [autoload]
 
 GameManager="*res://scripts/managers/game_manager.gd"
+UITheme="*res://scripts/ui/ui_theme.gd"
 UnlocksManager="*res://scripts/managers/unlocks_manager.gd"
 SaveManager="*res://scripts/managers/save_manager.gd"
 ClassDatabase="*res://scripts/data/class_database.gd"
