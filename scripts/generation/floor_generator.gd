@@ -210,9 +210,38 @@ func _build_floor_tiles() -> void:
 		var offset: Vector2i = start_room["world_offset"]
 		var template: RoomTemplate = start_room["template"]
 		@warning_ignore("integer_division")
-		player_start = Vector2i(offset.x + template.width / 2, offset.y + template.height / 2)  # Integer division intentional
+		var desired := Vector2i(offset.x + template.width / 2, offset.y + template.height / 2)
+		# Ensure the spawn is actually on a FLOOR tile (not a wall/feature).
+		player_start = _find_nearest_floor(desired)
 	
 	_connect_rooms()
+
+
+func _find_nearest_floor(from: Vector2i) -> Vector2i:
+	## Find the closest FLOOR tile to a target position using expanding rings.
+	## Prevents spawning inside walls when a room's center isn't walkable.
+	if _is_floor_tile(from):
+		return from
+	# Expand outward in rings until we hit a floor tile
+	for radius in range(1, 20):
+		for dy in range(-radius, radius + 1):
+			for dx in range(-radius, radius + 1):
+				# Only check the ring edge, not the filled interior
+				if abs(dx) != radius and abs(dy) != radius:
+					continue
+				var check := Vector2i(from.x + dx, from.y + dy)
+				if _is_floor_tile(check):
+					return check
+	return from  # Fallback (shouldn't happen)
+
+
+func _is_floor_tile(pos: Vector2i) -> bool:
+	## True if the tile at pos is a walkable FLOOR tile within bounds.
+	if pos.y < 0 or pos.y >= floor_tiles.size():
+		return false
+	if pos.x < 0 or pos.x >= floor_tiles[pos.y].size():
+		return false
+	return floor_tiles[pos.y][pos.x] == RoomTemplate.FLOOR
 
 
 func _connect_rooms() -> void:

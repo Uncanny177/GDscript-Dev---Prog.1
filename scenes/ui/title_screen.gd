@@ -48,10 +48,10 @@ func _draw() -> void:
 	var screen_h: float = vp.y
 	var cx: float = screen_w / 2.0  # Horizontal center
 	
-	# Background — dark but not pitch black (deep indigo, readable)
-	draw_rect(Rect2(0, 0, screen_w, screen_h), Color(0.08, 0.07, 0.13), true)
-	# Subtle vignette-ish inner tone
-	draw_rect(Rect2(0, 0, screen_w, screen_h * 0.5), Color(0.11, 0.09, 0.17), true)
+	# Background — moody indigo but clearly visible
+	draw_rect(Rect2(0, 0, screen_w, screen_h), Color(0.16, 0.14, 0.24), true)
+	# Lighter upper tone for depth
+	draw_rect(Rect2(0, 0, screen_w, screen_h * 0.5), Color(0.20, 0.17, 0.29), true)
 	
 	# Decorative border
 	var border_color := Color(0.4, 0.28, 0.6, 0.5)
