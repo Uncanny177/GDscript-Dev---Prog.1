@@ -61,33 +61,12 @@ func make_overlay_style() -> Color:
 ## ─── THEME CONSTRUCTION ─────────────────────────────────────────
 
 func _build_theme() -> Theme:
+	## NOTE: This theme is applied SELECTIVELY via apply_to() on specific
+	## menu panels only — NOT globally. It does not restyle gameplay UI.
 	var t := Theme.new()
-	
-	# ── Default font sizes ──
 	t.default_font_size = 16
 	
-	# ── Label styling ──
-	t.set_color("font_color", "Label", TEXT_MAIN)
-	t.set_font_size("font_size", "Label", 16)
-	
-	# ── PanelContainer styling ──
-	var panel_sb := StyleBoxFlat.new()
-	panel_sb.bg_color = BG_PANEL
-	panel_sb.border_color = ACCENT_DIM
-	panel_sb.set_border_width_all(2)
-	panel_sb.set_corner_radius_all(6)
-	panel_sb.set_content_margin_all(14)
-	panel_sb.shadow_color = Color(0.0, 0.0, 0.0, 0.5)
-	panel_sb.shadow_size = 10
-	t.set_stylebox("panel", "PanelContainer", panel_sb)
-	
-	# ── Panel (generic) ──
-	var plain_panel := StyleBoxFlat.new()
-	plain_panel.bg_color = BG_DEEP
-	plain_panel.set_corner_radius_all(4)
-	t.set_stylebox("panel", "Panel", plain_panel)
-	
-	# ── Button styling ──
+	# ── Button styling (safe to theme — buttons look better everywhere) ──
 	_style_buttons(t)
 	
 	# ── Progress bars (HP/MP/Sanity) ──

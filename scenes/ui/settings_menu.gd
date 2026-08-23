@@ -24,8 +24,9 @@ var settings: Dictionary = {
 	"master_volume": 100,
 	"music_volume": 80,
 	"sfx_volume": 100,
+	"brightness": 100,     # 50-150, 100 = neutral
 	"fullscreen": false,
-	"resolution_index": 1,  # Index into RESOLUTIONS array
+	"resolution_index": 0,  # Index into RESOLUTIONS array
 	"screen_shake": true,
 	"show_damage_numbers": true,
 }
@@ -47,11 +48,11 @@ const RESOLUTION_NAMES: Array[String] = [
 ## Which setting is currently selected (for keyboard navigation)
 var selected_index: int = 0
 const SETTING_KEYS: Array[String] = [
-	"master_volume", "music_volume", "sfx_volume",
+	"master_volume", "music_volume", "sfx_volume", "brightness",
 	"fullscreen", "resolution_index", "screen_shake", "show_damage_numbers"
 ]
 const SETTING_NAMES: Array[String] = [
-	"Master Volume", "Music Volume", "SFX Volume",
+	"Master Volume", "Music Volume", "SFX Volume", "Brightness",
 	"Window Mode", "Resolution", "Screen Shake", "Damage Numbers"
 ]
 
@@ -83,7 +84,7 @@ func _build_ui() -> void:
 	panel.anchor_right = 0.72
 	panel.anchor_top = 0.12
 	panel.anchor_bottom = 0.88
-	UITheme.apply_to(panel)
+	panel.add_theme_stylebox_override("panel", UITheme.make_panel_style())
 	add_child(panel)
 	
 	var margin := MarginContainer.new()
@@ -133,6 +134,9 @@ func _get_value_display(key: String) -> String:
 	match key:
 		"master_volume", "music_volume", "sfx_volume":
 			var bar: String = _make_bar(value, 100)
+			return "%s %d%%" % [bar, value]
+		"brightness":
+			var bar: String = _make_bar(value - 50, 100)  # Map 50-150 to 0-100 for bar
 			return "%s %d%%" % [bar, value]
 		"fullscreen":
 			return "Fullscreen" if value else "Windowed"
@@ -191,6 +195,9 @@ func _adjust_setting(direction: int) -> void:
 		"master_volume", "music_volume", "sfx_volume":
 			settings[key] = clampi(settings[key] + direction * 10, 0, 100)
 			_apply_volume()
+		"brightness":
+			settings[key] = clampi(settings[key] + direction * 10, 50, 150)
+			BrightnessOverlay.set_brightness(settings[key])
 		"fullscreen":
 			settings[key] = not settings[key]
 			_apply_fullscreen()
@@ -220,12 +227,13 @@ func _percent_to_db(percent: int) -> float:
 
 
 func _apply_fullscreen() -> void:
-	## Toggle fullscreen mode.
-	## EXCLUSIVE_FULLSCREEN is more reliable than FULLSCREEN across drivers/OSes.
+	## Toggle fullscreen mode (borderless — most reliable across systems).
 	if settings["fullscreen"]:
-		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN)
+		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
+		print("[Settings] Fullscreen ON")
 	else:
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
+		print("[Settings] Fullscreen OFF")
 		# When leaving fullscreen, apply the selected resolution
 		_apply_resolution()
 
@@ -291,8 +299,10 @@ func _load_settings() -> void:
 			settings["master_volume"] = int(settings["master_volume"])
 			settings["music_volume"] = int(settings["music_volume"])
 			settings["sfx_volume"] = int(settings["sfx_volume"])
+			settings["brightness"] = int(settings["brightness"])
 			settings["resolution_index"] = int(settings["resolution_index"])
 			_apply_volume()
+			BrightnessOverlay.set_brightness(settings["brightness"])
 			if settings["fullscreen"]:
 				_apply_fullscreen()
 			else:

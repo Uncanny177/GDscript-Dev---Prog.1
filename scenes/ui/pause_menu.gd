@@ -40,7 +40,7 @@ func _build_ui() -> void:
 	panel.anchor_right = 0.68
 	panel.anchor_top = 0.25
 	panel.anchor_bottom = 0.75
-	UITheme.apply_to(panel)
+	panel.add_theme_stylebox_override("panel", UITheme.make_panel_style())
 	add_child(panel)
 	
 	var margin := MarginContainer.new()
