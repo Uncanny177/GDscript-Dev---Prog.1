@@ -27,12 +27,12 @@ func _create_biomes() -> void:
 		"Cave",
 		"Damp stone corridors drip with moisture. Faint growls echo in the dark.",
 		{
-			"floor": Color(0.42, 0.40, 0.48),
-			"floor_alt": Color(0.47, 0.44, 0.53),
-			"wall": Color(0.56, 0.48, 0.40),
-			"wall_top": Color(0.66, 0.57, 0.47),
-			"wall_dark": Color(0.42, 0.34, 0.26),
-			"door": Color(0.70, 0.56, 0.36),
+			"floor": Color(0.52, 0.50, 0.58),
+			"floor_alt": Color(0.57, 0.54, 0.63),
+			"wall": Color(0.40, 0.34, 0.30),
+			"wall_top": Color(0.50, 0.43, 0.37),
+			"wall_dark": Color(0.30, 0.25, 0.21),
+			"door": Color(0.75, 0.60, 0.38),
 		},
 		["Slime", "Goblin", "Cave Bat", "Mushroom"]
 	)
@@ -42,12 +42,12 @@ func _create_biomes() -> void:
 		"Crypt",
 		"Ancient tombs line the walls. The air is cold and carries whispers of the dead.",
 		{
-			"floor": Color(0.38, 0.38, 0.47),
-			"floor_alt": Color(0.43, 0.42, 0.52),
-			"wall": Color(0.50, 0.50, 0.58),
-			"wall_top": Color(0.60, 0.60, 0.68),
-			"wall_dark": Color(0.36, 0.36, 0.44),
-			"door": Color(0.56, 0.54, 0.62),
+			"floor": Color(0.50, 0.50, 0.60),
+			"floor_alt": Color(0.55, 0.54, 0.65),
+			"wall": Color(0.34, 0.34, 0.42),
+			"wall_top": Color(0.44, 0.44, 0.52),
+			"wall_dark": Color(0.26, 0.26, 0.34),
+			"door": Color(0.58, 0.56, 0.66),
 		},
 		["Skeleton", "Ghost", "Zombie", "Bone Mage"]
 	)
@@ -57,11 +57,11 @@ func _create_biomes() -> void:
 		"Inferno",
 		"Lava flows beneath cracked stone. Demonic energy pulses through the walls.",
 		{
-			"floor": Color(0.44, 0.26, 0.20),
-			"floor_alt": Color(0.50, 0.30, 0.22),
-			"wall": Color(0.68, 0.34, 0.20),
-			"wall_top": Color(0.78, 0.42, 0.24),
-			"wall_dark": Color(0.48, 0.24, 0.14),
+			"floor": Color(0.56, 0.38, 0.30),
+			"floor_alt": Color(0.62, 0.42, 0.32),
+			"wall": Color(0.44, 0.22, 0.16),
+			"wall_top": Color(0.56, 0.30, 0.20),
+			"wall_dark": Color(0.32, 0.16, 0.11),
 			"door": Color(0.82, 0.48, 0.24),
 		},
 		["Dark Knight", "Fire Imp", "Lava Hound", "Demon"]
