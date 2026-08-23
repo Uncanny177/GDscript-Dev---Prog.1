@@ -1,12 +1,8 @@
-## BrightnessOverlay — Global screen brightness control.
+## BrightnessOverlay — Global screen brightness + F11 fullscreen toggle.
 ##
-## Draws a full-screen overlay on the topmost layer that lightens or
-## darkens everything. Controlled by a 0-200 brightness setting where:
-##   100 = neutral (no overlay)
-##   > 100 = brighter (white overlay, additive-ish via low alpha)
-##   < 100 = darker (black overlay)
-##
-## The setting is stored/loaded by SettingsMenu and applied here.
+## Full-screen ColorRect on the top layer. At 100 (default) it's fully
+## transparent (no effect). Below 100 it darkens; above 100 it brightens
+## using additive blend.
 
 extends CanvasLayer
 
@@ -17,7 +13,7 @@ var brightness: int = 100
 
 
 func _ready() -> void:
-	layer = 128  # Absolute top — above everything including transitions
+	layer = 120
 	_build_overlay()
 	set_brightness(brightness)
 
@@ -27,15 +23,11 @@ func _build_overlay() -> void:
 	overlay.name = "BrightnessRect"
 	overlay.anchor_right = 1.0
 	overlay.anchor_bottom = 1.0
-	overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE  # Never blocks clicks
-	overlay.color = Color(0, 0, 0, 0)  # Start transparent
-	
-	# Use additive/multiply blend so brightness looks natural, not foggy.
-	# A CanvasItemMaterial with ADD blend brightens without washing to gray.
+	overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	overlay.color = Color(0, 0, 0, 0)
 	var mat := CanvasItemMaterial.new()
-	mat.blend_mode = CanvasItemMaterial.BLEND_MODE_MIX
+	mat.blend_mode = CanvasItemMaterial.BLEND_MODE_ADD
 	overlay.material = mat
-	
 	add_child(overlay)
 
 
@@ -51,10 +43,8 @@ func _toggle_fullscreen() -> void:
 	var mode: int = DisplayServer.window_get_mode()
 	if mode == DisplayServer.WINDOW_MODE_FULLSCREEN or mode == DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN:
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
-		print("[Brightness] Fullscreen OFF")
 	else:
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
-		print("[Brightness] Fullscreen ON")
 
 
 func set_brightness(value: int) -> void:
@@ -62,20 +52,16 @@ func set_brightness(value: int) -> void:
 	brightness = clampi(value, 50, 150)
 	if not overlay:
 		return
-	
 	var mat := overlay.material as CanvasItemMaterial
-	
-	if brightness == 100:
-		overlay.color = Color(0, 0, 0, 0)  # Neutral — no effect
-	elif brightness < 100:
-		# Darken with a normal black film (MIX blend)
+	if brightness <= 100:
+		# Darken (or neutral): black film with MIX blend
 		if mat:
 			mat.blend_mode = CanvasItemMaterial.BLEND_MODE_MIX
-		var darkness: float = float(100 - brightness) / 50.0 * 0.6  # up to 0.6 alpha
-		overlay.color = Color(0, 0, 0, clampf(darkness, 0.0, 0.6))
+		var darkness: float = float(100 - brightness) / 50.0 * 0.5
+		overlay.color = Color(0, 0, 0, clampf(darkness, 0.0, 0.5))
 	else:
-		# Brighten with ADDITIVE blend — adds light instead of a gray film
+		# Brighten: additive white
 		if mat:
 			mat.blend_mode = CanvasItemMaterial.BLEND_MODE_ADD
-		var lightness: float = float(brightness - 100) / 50.0 * 0.5  # stronger add
-		overlay.color = Color(0.6, 0.6, 0.6, clampf(lightness, 0.0, 0.5))
+		var lightness: float = float(brightness - 100) / 50.0 * 0.4
+		overlay.color = Color(0.7, 0.7, 0.7, clampf(lightness, 0.0, 0.4))

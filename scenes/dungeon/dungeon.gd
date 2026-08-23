@@ -104,12 +104,25 @@ func _spawn_player() -> void:
 	
 	player_node = player_scene.instantiate()
 	var start_pos: Vector2i = GameManager.get_dungeon_player_position_for_floor(GameManager.current_floor)
-	if start_pos == Vector2i(-1, -1):
+	# Validate the saved position against the CURRENT floor — it may be stale
+	# (floors regenerate) which would spawn the player in a wall or outside the map.
+	if start_pos == Vector2i(-1, -1) or not _is_valid_spawn(start_pos):
 		start_pos = floor_gen.player_start if floor_gen else Vector2i(5, 5)
 	player_node.position = Vector2(start_pos.x * 32 + 16, start_pos.y * 32 + 16)
 	add_child(player_node)
 	last_player_tile = start_pos
 	GameManager.set_dungeon_player_position(start_pos)
+
+
+func _is_valid_spawn(tile: Vector2i) -> bool:
+	## True if the tile is a walkable FLOOR tile in the current generated floor.
+	if not floor_gen:
+		return false
+	if tile.y < 0 or tile.y >= floor_gen.floor_tiles.size():
+		return false
+	if tile.x < 0 or tile.x >= floor_gen.floor_tiles[tile.y].size():
+		return false
+	return floor_gen.floor_tiles[tile.y][tile.x] == RoomTemplate.FLOOR
 
 
 func _spawn_visible_enemies() -> void:
