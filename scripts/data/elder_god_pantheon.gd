@@ -40,6 +40,7 @@ var gods: Dictionary = {}  # id → ElderGod
 var player_favor: Dictionary = {}  # id → int (favor score, pos = liked, neg = angered)
 
 signal favor_changed(god_id: String, new_favor: int)
+@warning_ignore("unused_signal")
 signal god_event(god_id: String, event_type: String, message: String)
 
 
@@ -72,11 +73,11 @@ func change_favor(god_id: String, amount: int) -> void:
 	favor_changed.emit(god_id, player_favor[god_id])
 	
 	var god: ElderGod = get_god(god_id)
-	var name: String = god.god_name if god else god_id
+	var god_display: String = god.god_name if god else god_id
 	if amount > 0:
-		print("[Pantheon] %s is pleased (+%d favor)" % [name, amount])
+		print("[Pantheon] %s is pleased (+%d favor)" % [god_display, amount])
 	else:
-		print("[Pantheon] %s is displeased (%d favor)" % [name, amount])
+		print("[Pantheon] %s is displeased (%d favor)" % [god_display, amount])
 
 
 func get_favor(god_id: String) -> int:

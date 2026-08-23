@@ -182,7 +182,7 @@ func _mark_skill_learned(skill_id: String) -> void:
 	UnlocksManager.unlocks["learned_skills"].append(skill_id)
 
 
-func _count_learned(class_name_text: String, learnable: Array) -> int:
+func _count_learned(_class_name_text: String, learnable: Array) -> int:
 	var count: int = 0
 	for entry in learnable:
 		if _is_skill_learned(entry["id"]):

@@ -50,7 +50,7 @@ func _ready() -> void:
 
 ## ─── DAMAGE MODIFICATION ────────────────────────────────────────
 
-func get_damage_multiplier(attacker_enemy_id: String, skill: SkillData, target_enemy_id: String) -> float:
+func get_damage_multiplier(_attacker_enemy_id: String, skill: SkillData, target_enemy_id: String) -> float:
 	## Returns the damage multiplier when attacking a specific enemy.
 	## Called by DamageCalculator after base damage is computed.
 	##

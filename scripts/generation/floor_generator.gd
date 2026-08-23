@@ -56,6 +56,7 @@ func _place_rooms(count: int, floor_number: int) -> void:
 	var exit_rooms: Array = RoomTemplatesData.get_exit_rooms()
 	var boss_rooms: Array = RoomTemplatesData.get_boss_rooms()
 	
+	@warning_ignore("integer_division")
 	var center := Vector2i(grid_size / 2, grid_size / 2)  # Integer division intentional
 	var start_template: RoomTemplate = start_rooms[rng.randi() % start_rooms.size()]
 	_place_room_at(start_template, center)
@@ -208,6 +209,7 @@ func _build_floor_tiles() -> void:
 		var start_room: Dictionary = placed_rooms[0]
 		var offset: Vector2i = start_room["world_offset"]
 		var template: RoomTemplate = start_room["template"]
+		@warning_ignore("integer_division")
 		player_start = Vector2i(offset.x + template.width / 2, offset.y + template.height / 2)  # Integer division intentional
 	
 	_connect_rooms()
@@ -382,6 +384,7 @@ func _force_exit_position() -> void:
 	var last_room: Dictionary = placed_rooms[placed_rooms.size() - 1]
 	var offset: Vector2i = last_room["world_offset"]
 	var template: RoomTemplate = last_room["template"]
+	@warning_ignore("integer_division")
 	exit_position = Vector2i(offset.x + template.width / 2, offset.y + template.height / 2)  # Integer division intentional
 	
 	# Ensure exit tile is floor
