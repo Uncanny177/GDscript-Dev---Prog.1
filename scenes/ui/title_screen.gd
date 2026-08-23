@@ -42,52 +42,55 @@ func _process(delta: float) -> void:
 
 
 func _draw() -> void:
-	var screen_w: float = 640.0
-	var screen_h: float = 480.0
+	# Use the ACTUAL viewport size so everything fills the screen properly
+	var vp: Vector2 = get_viewport_rect().size
+	var screen_w: float = vp.x
+	var screen_h: float = vp.y
+	var cx: float = screen_w / 2.0  # Horizontal center
 	
-	# Background gradient (dark blue to black)
-	draw_rect(Rect2(0, 0, screen_w, screen_h), Color(0.02, 0.02, 0.08), true)
+	# Background — dark but not pitch black (deep indigo, readable)
+	draw_rect(Rect2(0, 0, screen_w, screen_h), Color(0.08, 0.07, 0.13), true)
+	# Subtle vignette-ish inner tone
+	draw_rect(Rect2(0, 0, screen_w, screen_h * 0.5), Color(0.11, 0.09, 0.17), true)
 	
 	# Decorative border
-	var border_color := Color(0.3, 0.2, 0.5, 0.4)
-	draw_rect(Rect2(20, 20, screen_w - 40, screen_h - 40), border_color, false, 2.0)
-	draw_rect(Rect2(24, 24, screen_w - 48, screen_h - 48), Color(0.2, 0.15, 0.35, 0.3), false, 1.0)
+	var border_color := Color(0.4, 0.28, 0.6, 0.5)
+	draw_rect(Rect2(30, 30, screen_w - 60, screen_h - 60), border_color, false, 2.0)
 	
 	# Title
 	var font: Font = ThemeDB.fallback_font
-	var title_y: float = 120.0 + sin(title_pulse) * 3.0  # Gentle bob
+	var title_y: float = screen_h * 0.22 + sin(title_pulse) * 3.0  # Gentle bob
 	var title_color := Color(0.9, 0.75, 0.3)  # Gold
-	draw_string(font, Vector2(screen_w / 2.0 - 120, title_y), "ROGUELITE RPG", HORIZONTAL_ALIGNMENT_CENTER, 240, 32, title_color)
+	draw_string(font, Vector2(0, title_y), "ROGUELITE RPG", HORIZONTAL_ALIGNMENT_CENTER, screen_w, 56, title_color)
 	
 	# Subtitle
-	draw_string(font, Vector2(screen_w / 2.0 - 100, title_y + 35), "~ Descent into Darkness ~", HORIZONTAL_ALIGNMENT_CENTER, 200, 14, Color(0.6, 0.5, 0.7))
+	draw_string(font, Vector2(0, title_y + 48), "~ Descent into Darkness ~", HORIZONTAL_ALIGNMENT_CENTER, screen_w, 22, Color(0.6, 0.5, 0.75))
 	
-	# Menu items
-	var menu_start_y: float = 240.0
-	var spacing: float = 40.0
+	# Menu items — centered, generously spaced
+	var menu_start_y: float = screen_h * 0.45
+	var spacing: float = 52.0
 	
 	for i in range(menu_items.size()):
 		var item: String = menu_items[i]
 		var y_pos: float = menu_start_y + i * spacing
 		var is_selected: bool = i == selected_index
 		
-		var text_color: Color = Color(1.0, 0.9, 0.5) if is_selected else Color(0.6, 0.6, 0.65)
-		var font_size: int = 20 if is_selected else 16
+		var text_color: Color = Color(1.0, 0.9, 0.5) if is_selected else Color(0.65, 0.63, 0.7)
+		var font_size: int = 28 if is_selected else 22
 		
 		# Selection indicator
 		if is_selected:
 			# Highlight bar behind selected item
-			draw_rect(Rect2(screen_w / 2.0 - 80, y_pos - 18, 160, 26), Color(0.3, 0.2, 0.5, 0.3), true)
-			# Arrow
-			draw_string(font, Vector2(screen_w / 2.0 - 90, y_pos), ">", HORIZONTAL_ALIGNMENT_LEFT, -1, 18, Color(0.9, 0.7, 0.2))
+			draw_rect(Rect2(cx - 160, y_pos - 30, 320, 42), Color(0.35, 0.22, 0.55, 0.35), true)
+			draw_rect(Rect2(cx - 160, y_pos - 30, 320, 42), Color(0.6, 0.4, 0.8, 0.5), false, 1.0)
 		
-		draw_string(font, Vector2(screen_w / 2.0 - 50, y_pos), item, HORIZONTAL_ALIGNMENT_LEFT, 120, font_size, text_color)
+		draw_string(font, Vector2(0, y_pos), item, HORIZONTAL_ALIGNMENT_CENTER, screen_w, font_size, text_color)
 	
 	# Footer
-	draw_string(font, Vector2(screen_w / 2.0 - 80, screen_h - 50), "[UP/DOWN] Select  [ENTER] Confirm", HORIZONTAL_ALIGNMENT_CENTER, 160, 10, Color(0.4, 0.4, 0.45))
+	draw_string(font, Vector2(0, screen_h - 60), "[UP/DOWN] Select   [ENTER] Confirm", HORIZONTAL_ALIGNMENT_CENTER, screen_w, 16, Color(0.45, 0.45, 0.5))
 	
 	# Version
-	draw_string(font, Vector2(screen_w - 80, screen_h - 30), "v0.15", HORIZONTAL_ALIGNMENT_LEFT, -1, 10, Color(0.3, 0.3, 0.35))
+	draw_string(font, Vector2(screen_w - 90, screen_h - 24), "v0.15", HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color(0.35, 0.35, 0.4))
 
 
 func _unhandled_input(event: InputEvent) -> void:

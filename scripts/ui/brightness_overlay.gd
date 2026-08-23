@@ -29,6 +29,13 @@ func _build_overlay() -> void:
 	overlay.anchor_bottom = 1.0
 	overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE  # Never blocks clicks
 	overlay.color = Color(0, 0, 0, 0)  # Start transparent
+	
+	# Use additive/multiply blend so brightness looks natural, not foggy.
+	# A CanvasItemMaterial with ADD blend brightens without washing to gray.
+	var mat := CanvasItemMaterial.new()
+	mat.blend_mode = CanvasItemMaterial.BLEND_MODE_MIX
+	overlay.material = mat
+	
 	add_child(overlay)
 
 
@@ -56,13 +63,19 @@ func set_brightness(value: int) -> void:
 	if not overlay:
 		return
 	
+	var mat := overlay.material as CanvasItemMaterial
+	
 	if brightness == 100:
-		overlay.color = Color(0, 0, 0, 0)  # Fully transparent
+		overlay.color = Color(0, 0, 0, 0)  # Neutral — no effect
 	elif brightness < 100:
-		# Darken: black overlay, alpha scales with how far below 100
-		var darkness: float = float(100 - brightness) / 100.0  # 0.0 .. 0.5
-		overlay.color = Color(0, 0, 0, darkness)
+		# Darken with a normal black film (MIX blend)
+		if mat:
+			mat.blend_mode = CanvasItemMaterial.BLEND_MODE_MIX
+		var darkness: float = float(100 - brightness) / 50.0 * 0.6  # up to 0.6 alpha
+		overlay.color = Color(0, 0, 0, clampf(darkness, 0.0, 0.6))
 	else:
-		# Brighten: white overlay, alpha scales with how far above 100
-		var lightness: float = float(brightness - 100) / 100.0  # 0.0 .. 0.5
-		overlay.color = Color(1, 1, 1, lightness)
+		# Brighten with ADDITIVE blend — adds light instead of a gray film
+		if mat:
+			mat.blend_mode = CanvasItemMaterial.BLEND_MODE_ADD
+		var lightness: float = float(brightness - 100) / 50.0 * 0.25  # subtle add
+		overlay.color = Color(0.5, 0.5, 0.5, clampf(lightness, 0.0, 0.25))
