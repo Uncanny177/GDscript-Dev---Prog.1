@@ -25,11 +25,12 @@ var status_manager: StatusManager = null  # Set by combat.gd for status icon dis
 ## Which enemy is currently targeted? -1 = none
 var highlighted_target: int = -1
 
-## Layout constants
-const PARTY_X: float = 80.0      # X position for party column
-const ENEMY_X: float = 440.0     # X position for enemy column
-const START_Y: float = 60.0      # Y start for first combatant
-const SPACING_Y: float = 80.0    # Y gap between combatants
+## Layout constants — positioned to fill the 1280x720 screen without
+## overlapping the text panels (InfoLabel left-bottom, LogLabel right).
+const PARTY_X: float = 180.0     # X position for party column
+const ENEMY_X: float = 400.0     # X position for enemy column
+const START_Y: float = 80.0      # Y start for first combatant
+const SPACING_Y: float = 90.0    # Y gap between combatants
 const SPRITE_SIZE: float = 40.0  # Size of placeholder sprite squares
 const BAR_WIDTH: float = 80.0    # HP/MP bar width
 const BAR_HEIGHT: float = 8.0    # HP/MP bar height
